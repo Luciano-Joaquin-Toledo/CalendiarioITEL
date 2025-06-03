@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=320, initial-scale=1.0" />
+    <title>Calendario</title>
+    <link rel="stylesheet" href="css/panel.css" />
+    <link rel="stylesheet" href="css/calendario.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="panel-container">
+      <nav class="top-navbar">
+        <i class="fa fa-chevron-down nav-icon" id="open-menu"></i>
+        <span class="navbar-title"></span>
+        <i class="fa fa-search nav-icon"></i>
+      </nav>
+      <div class="side-menu-overlay" id="sideMenuOverlay"></div>
+      <aside class="side-menu" id="sideMenu">
+        <button
+          class="side-menu-close"
+          id="sideMenuClose"
+          aria-label="Cerrar menú"
+        >
+          <i class="fa fa-times"></i>
+        </button>
+        <ul>
+          <li><i class="fa fa-house"></i> <span>Inicio</span></li>
+          <li>
+            <i class="fa-regular fa-calendar"></i> <span>Calendario</span>
+          </li>
+          <li>
+            <i class="fa-regular fa-square-check"></i> <span>Tareas</span>
+          </li>
+          <li><i class="fa-regular fa-book"></i> <span>Materias</span></li>
+          <li><i class="fa-regular fa-clock"></i> <span>Pendientes</span></li>
+          <li>
+            <i class="fa-solid fa-chart-simple"></i> <span>Estadísticas</span>
+          </li>
+          <li><i class="fa-regular fa-user"></i> <span>Perfil</span></li>
+          <li class="menu-divider"></li>
+          <li>
+            <i class="fa-regular fa-circle-question"></i> <span>Acerca de</span>
+          </li>
+        </ul>
+      </aside>
+      <!-- Contenido principal vacío aquí -->
+      <div class="calendario-widget" id="calendarioWidget">
+        <div class="calendario-header">
+          <button class="cal-btn" id="prevMonthBtn">&lt;</button>
+          <span class="calendario-mes" id="calMes"></span>
+          <button class="cal-btn" id="nextMonthBtn">&gt;</button>
+        </div>
+        <div class="calendario-grid">
+          <div class="cal-row cal-header-row">
+            <div class="cal-cell">Lun</div>
+            <div class="cal-cell">Mar</div>
+            <div class="cal-cell">Mié</div>
+            <div class="cal-cell">Jue</div>
+            <div class="cal-cell">Vie</div>
+            <div class="cal-cell">Sáb</div>
+            <div class="cal-cell">Dom</div>
+          </div>
+          <div id="calBody"></div>
+        </div>
+      </div>
+    </div>
+    <script src="js/pages/calendario.js"></script>
+  </body>
+</html>

@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=320, initial-scale=1.0" />
+    <title>Panel</title>
+    <link rel="stylesheet" href="css/panel.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="panel-container">
+      <nav class="top-navbar">
+        <i class="fa fa-chevron-down nav-icon" id="open-menu"></i>
+        <span class="navbar-title"></span>
+        <i class="fa fa-search nav-icon"></i>
+      </nav>
+      <div class="side-menu-overlay" id="sideMenuOverlay"></div>
+      <aside class="side-menu" id="sideMenu">
+        <button
+          class="side-menu-close"
+          id="sideMenuClose"
+          aria-label="Cerrar menú"
+        >
+          <i class="fa fa-times"></i>
+        </button>
+        <ul>
+          <li><i class="fa fa-house"></i> <span>Inicio</span></li>
+          <li>
+            <a href="./calendario.html"><i class="fa-regular fa-calendar"></i> <span>Calendario</span></a>
+          </li>
+          <li>
+            <i class="fa-regular fa-square-check"></i> <span>Tareas</span>
+          </li>
+          <li><i class="fa-regular fa-book"></i> <span>Materias</span></li>
+          <li><i class="fa-regular fa-clock"></i> <span>Pendientes</span></li>
+          <li>
+            <i class="fa-solid fa-chart-simple"></i> <span>Estadísticas</span>
+          </li>
+          <li><i class="fa-regular fa-user"></i> <span>Perfil</span></li>
+          <li class="menu-divider"></li>
+          <li>
+            <i class="fa-regular fa-circle-question"></i> <span>Acerca de</span>
+          </li>
+        </ul>
+      </aside>
+      <div class="panel-section">
+        <div class="panel-date-title">Hoy - 24 de Mayo</div>
+        <div class="panel-subtitle">Anotaciones</div>
+        <div class="panel-notas">
+          <div
+            class="nota"
+            data-title="Nota 1"
+            data-content="Contenido de la nota 1"
+          >
+            Nota 1
+          </div>
+          <div
+            class="nota"
+            data-title="Nota 2"
+            data-content="Contenido de la nota 2"
+          >
+            Nota 2
+          </div>
+          <div
+            class="nota"
+            data-title="Nota 3"
+            data-content="Contenido de la nota 3"
+          >
+            Nota 3
+          </div>
+        </div>
+      </div>
+      <hr class="panel-divider" />
+      <div class="panel-section">
+        <div class="panel-date-title">25 de Mayo</div>
+        <div class="panel-subtitle">Anotaciones</div>
+        <div class="panel-notas">
+          <div
+            class="nota"
+            data-title="Nota 1"
+            data-content="Contenido de la nota 1"
+          >
+            Nota 1
+          </div>
+          <div
+            class="nota nota-activa"
+            data-title="Nota 2"
+            data-content="Contenido de la nota 2"
+          >
+            Nota 2
+          </div>
+        </div>
+      </div>
+      <button class="btn-fab" title="Agregar nota" id="open-fab-menu">
+        <i class="fa fa-plus"></i>
+      </button>
+      <div class="fab-menu-overlay" id="fabMenuOverlay"></div>
+      <div class="fab-menu" id="fabMenu">
+        <ul>
+          <li>
+            <button class="fab-action-btn" type="button" id="openMateriaModal">
+              <span>Materia</span>
+              <i class="fa-regular fa-book"></i>
+            </button>
+          </li>
+          <li>
+            <button class="fab-action-btn" type="button" id="openTareaModal">
+              <span>Tarea</span>
+              <i class="fa-regular fa-square-check"></i>
+            </button>
+          </li>
+          <li>
+            <button
+              class="fab-action-btn"
+              type="button"
+              id="openCrearNotaModal"
+            >
+              <span>Nota</span>
+              <i class="fa-regular fa-clipboard"></i>
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div class="modal-overlay" id="notaModalOverlay"></div>
+      <div class="nota-modal" id="notaModal">
+        <div class="nota-modal-content">
+          <button
+            class="nota-modal-close"
+            id="notaModalClose"
+            aria-label="Cerrar"
+          >
+            <i class="fa fa-times"></i>
+          </button>
+          <h3 id="notaModalTitle"></h3>
+          <div id="notaModalBody"></div>
+        </div>
+      </div>
+    </div>
+    <div class="materia-modal-overlay" id="materiaModalOverlay"></div>
+    <div class="materia-modal" id="materiaModal">
+      <div class="materia-modal-content">
+        <button
+          class="materia-modal-close"
+          id="materiaModalClose"
+          aria-label="Cerrar"
+        >
+          <i class="fa fa-times"></i>
+        </button>
+        <h2 class="materia-modal-title">Crear de Materia</h2>
+        <form class="materia-form">
+          <input
+            type="text"
+            class="materia-input nombre-materia"
+            placeholder="Nombre de Materia ..."
+          />
+          <hr class="materia-divider" />
+          <textarea
+            class="materia-input materia-desc"
+            placeholder="Descripción..."
+          ></textarea>
+          <div class="materia-form-row">
+            <label>Imagen:</label>
+            <button type="button" class="materia-btn materia-btn-sm">
+              ...
+            </button>
+          </div>
+          <div class="materia-form-row">
+            <label>Ubicación:</label>
+            <button type="button" class="materia-btn materia-btn-sm">
+              ...
+            </button>
+          </div>
+          <div class="materia-form-row">
+            <label>Tipo de Color:</label>
+            <select class="materia-input materia-color-type">
+              <option value="">Seleccionar...</option>
+              <option value="frio">Frío</option>
+              <option value="calido">Cálido</option>
+            </select>
+          </div>
+          <div class="materia-form-row">
+            <label>Color de la Materia:</label>
+            <input
+              type="hidden"
+              id="materiaColorPicker"
+              name="materiaColor"
+              value="#c7d2f7"
+            />
+            <div
+              class="color-palette-popup"
+              id="colorPalettePopup"
+              style="display: none"
+            >
+              <!-- Paleta Frío -->
+              <div class="palette-frio">
+                <div class="color-palette-row">
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#c7d2f7"
+                    style="background: #c7d2f7"
+                  ></button>
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#9cc2f4"
+                    style="background: #9cc2f4"
+                  ></button>
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#86a8f0"
+                    style="background: #86a8f0"
+                  ></button>
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#a480f0"
+                    style="background: #a480f0"
+                  ></button>
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#cf6bed"
+                    style="background: #cf6bed"
+                  ></button>
+                </div>
+                <div class="color-palette-row">
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#ec4fe4"
+                    style="background: #ec4fe4"
+                  ></button>
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#6f80d8"
+                    style="background: #6f80d8"
+                  ></button>
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#4f62e1"
+                    style="background: #4f62e1"
+                  ></button>
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#51b7dd"
+                    style="background: #51b7dd"
+                  ></button>
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#3bd87b"
+                    style="background: #3bd87b"
+                  ></button>
+                </div>
+                <div class="color-palette-row">
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#7d6fcb"
+                    style="background: #7d6fcb"
+                  ></button>
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#5f49a8"
+                    style="background: #5f49a8"
+                  ></button>
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#362f88"
+                    style="background: #362f88"
+                  ></button>
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#547f8c"
+                    style="background: #547f8c"
+                  ></button>
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#3c6763"
+                    style="background: #3c6763"
+                  ></button>
+                </div>
+              </div>
+              <!-- Paleta Cálido -->
+              <div class="palette-calido" style="display: none">
+                <div class="color-palette-row">
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#ffe7b3"
+                    style="background: #ffe7b3"
+                  ></button>
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#ffe07a"
+                    style="background: #ffe07a"
+                  ></button>
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#ffcb2d"
+                    style="background: #ffcb2d"
+                  ></button>
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#ffc101"
+                    style="background: #ffc101"
+                  ></button>
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#f8a527"
+                    style="background: #f8a527"
+                  ></button>
+                </div>
+                <div class="color-palette-row">
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#f28500"
+                    style="background: #f28500"
+                  ></button>
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#ff5e3a"
+                    style="background: #ff5e3a"
+                  ></button>
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#e63b2e"
+                    style="background: #e63b2e"
+                  ></button>
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#c3221f"
+                    style="background: #c3221f"
+                  ></button>
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#911c1d"
+                    style="background: #911c1d"
+                  ></button>
+                </div>
+                <div class="color-palette-row">
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#ab4f33"
+                    style="background: #ab4f33"
+                  ></button>
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#9c6236"
+                    style="background: #9c6236"
+                  ></button>
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#a4a93c"
+                    style="background: #a4a93c"
+                  ></button>
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#718942"
+                    style="background: #718942"
+                  ></button>
+                  <button
+                    type="button"
+                    class="color-palette-btn"
+                    data-color="#7e9453"
+                    style="background: #7e9453"
+                  ></button>
+                </div>
+              </div>
+            </div>
+            <button
+              type="button"
+              id="showPaletteBtn"
+              class="color-preview-btn"
+              style="background: #c7d2f7"
+            ></button>
+          </div>
+          <div class="materia-form-actions">
+            <button type="button" class="materia-btn materia-btn-cancel">
+              Cancelar
+            </button>
+            <button type="submit" class="materia-btn materia-btn-save">
+              Guardar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="tarea-modal-overlay" id="tareaModalOverlay"></div>
+    <div class="tarea-modal" id="tareaModal">
+      <div class="tarea-modal-content">
+        <button
+          class="tarea-modal-close"
+          id="tareaModalClose"
+          aria-label="Cerrar"
+        >
+          <i class="fa fa-times"></i>
+        </button>
+        <h2 class="tarea-modal-title">Crear Tarea</h2>
+        <form class="tarea-form">
+          <input
+            type="text"
+            class="tarea-input nombre-tarea"
+            placeholder="Nombre de tarea..."
+          />
+          <button type="button" class="tarea-btn tarea-btn-sub">
+            + Sub Tarea
+          </button>
+          <textarea
+            class="tarea-input tarea-desc"
+            placeholder="Descripción..."
+          ></textarea>
+          <div class="tarea-form-row">
+            <label>Fecha:</label>
+            <i class="fa-regular fa-calendar"></i>
+            <input type="date" class="tarea-input tarea-fecha" />
+          </div>
+          <div class="tarea-form-row">
+            <label>Hora:</label>
+            <i class="fa-regular fa-clock"></i>
+            <input type="time" class="tarea-input tarea-hora" />
+          </div>
+          <div class="tarea-form-row">
+            <label>Ubicación:</label>
+            <button type="button" class="tarea-btn tarea-btn-ubicacion">
+              ...
+            </button>
+          </div>
+          <div class="tarea-form-row">
+            <label>Tipo de Color:</label>
+            <select class="tarea-input tarea-color-type" id="tareaColorType">
+              <option value="">Seleccionar...</option>
+              <option value="frio">Frío</option>
+              <option value="calido">Cálido</option>
+            </select>
+          </div>
+          <div class="tarea-form-row">
+            <label>Color de la Tarea:</label>
+            <input
+              type="hidden"
+              id="tareaColorPicker"
+              name="tareaColor"
+              value="#cccccc"
+            />
+            <div
+              class="tarea-color-palette-popup"
+              id="tareaColorPalettePopup"
+              style="display: none"
+            >
+              <div class="tarea-palette-frio">
+                <div class="tarea-color-palette-row">
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#c7d2f7"
+                    style="background: #c7d2f7"
+                  ></button>
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#9cc2f4"
+                    style="background: #9cc2f4"
+                  ></button>
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#86a8f0"
+                    style="background: #86a8f0"
+                  ></button>
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#a480f0"
+                    style="background: #a480f0"
+                  ></button>
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#cf6bed"
+                    style="background: #cf6bed"
+                  ></button>
+                </div>
+                <div class="tarea-color-palette-row">
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#ec4fe4"
+                    style="background: #ec4fe4"
+                  ></button>
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#6f80d8"
+                    style="background: #6f80d8"
+                  ></button>
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#4f62e1"
+                    style="background: #4f62e1"
+                  ></button>
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#51b7dd"
+                    style="background: #51b7dd"
+                  ></button>
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#3bd87b"
+                    style="background: #3bd87b"
+                  ></button>
+                </div>
+                <div class="tarea-color-palette-row">
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#7d6fcb"
+                    style="background: #7d6fcb"
+                  ></button>
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#5f49a8"
+                    style="background: #5f49a8"
+                  ></button>
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#362f88"
+                    style="background: #362f88"
+                  ></button>
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#547f8c"
+                    style="background: #547f8c"
+                  ></button>
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#3c6763"
+                    style="background: #3c6763"
+                  ></button>
+                </div>
+              </div>
+              <div class="tarea-palette-calido" style="display: none">
+                <div class="tarea-color-palette-row">
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#ffe7b3"
+                    style="background: #ffe7b3"
+                  ></button>
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#ffe07a"
+                    style="background: #ffe07a"
+                  ></button>
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#ffcb2d"
+                    style="background: #ffcb2d"
+                  ></button>
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#ffc101"
+                    style="background: #ffc101"
+                  ></button>
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#f8a527"
+                    style="background: #f8a527"
+                  ></button>
+                </div>
+                <div class="tarea-color-palette-row">
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#f28500"
+                    style="background: #f28500"
+                  ></button>
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#ff5e3a"
+                    style="background: #ff5e3a"
+                  ></button>
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#e63b2e"
+                    style="background: #e63b2e"
+                  ></button>
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#c3221f"
+                    style="background: #c3221f"
+                  ></button>
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#911c1d"
+                    style="background: #911c1d"
+                  ></button>
+                </div>
+                <div class="tarea-color-palette-row">
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#ab4f33"
+                    style="background: #ab4f33"
+                  ></button>
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#9c6236"
+                    style="background: #9c6236"
+                  ></button>
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#a4a93c"
+                    style="background: #a4a93c"
+                  ></button>
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#718942"
+                    style="background: #718942"
+                  ></button>
+                  <button
+                    type="button"
+                    class="tarea-color-palette-btn"
+                    data-color="#7e9453"
+                    style="background: #7e9453"
+                  ></button>
+                </div>
+              </div>
+            </div>
+            <button
+              type="button"
+              id="showTareaPaletteBtn"
+              class="tarea-color-preview-btn"
+              style="background: #cccccc"
+            ></button>
+          </div>
+          <div class="tarea-form-actions">
+            <button type="button" class="tarea-btn tarea-btn-cancel">
+              Cancelar
+            </button>
+            <button type="submit" class="tarea-btn tarea-btn-save">
+              Guardar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- Agrega el modal para crear nota antes del cierre de </body> -->
+    <div class="crear-nota-modal-overlay" id="crearNotaModalOverlay"></div>
+    <div class="crear-nota-modal" id="crearNotaModal">
+      <div class="crear-nota-modal-content">
+        <button
+          class="crear-nota-modal-close"
+          id="crearNotaModalClose"
+          aria-label="Cerrar"
+        >
+          <i class="fa fa-times"></i>
+        </button>
+        <h2 class="crear-nota-modal-title">Crear Nota</h2>
+        <form class="crear-nota-form">
+          <input
+            type="text"
+            class="crear-nota-input nombre-nota"
+            placeholder="Título de la nota..."
+          />
+          <div class="crear-nota-form-row">
+            <label>Materia:</label>
+            <select class="crear-nota-input select-materia">
+              <option value="">Seleccionar...</option>
+              <!-- Opciones dinámicas -->
+            </select>
+          </div>
+          <textarea
+            class="crear-nota-input nota-desc"
+            placeholder="Nota..."
+          ></textarea>
+          <div class="crear-nota-form-actions">
+            <button type="button" class="crear-nota-btn crear-nota-btn-cancel">
+              Cancelar
+            </button>
+            <button type="submit" class="crear-nota-btn crear-nota-btn-save">
+              Guardar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script src="js/pages/panel.js"></script>
+  </body>
+</html>

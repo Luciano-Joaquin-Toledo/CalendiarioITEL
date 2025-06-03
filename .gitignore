@@ -1,0 +1,50 @@
+# Ignorar archivos de sistema y OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Ignorar dependencias / node_modules (por si usás npm para Bootstrap o JS)
+node_modules/
+
+# Ignorar archivos de logs y temporales
+*.log
+*.cache
+*.tmp
+*.temp
+*.swp
+
+# Ignorar archivos de configuración local sensibles
+.env
+.env.local
+.env.*.local
+
+# Ignorar archivos de bases de datos locales
+*.sqlite
+*.sqlite3
+
+# Ignorar archivos de sesiones PHP y caché
+sessions/
+cache/
+*.session
+
+# Ignorar archivos de compilación (por si usás alguna herramienta de build)
+dist/
+build/
+
+# Ignorar vendor si alguna vez usás Composer (aunque en PHP puro puede que no)
+vendor/
+
+# Ignorar archivos de IDE / editores comunes
+.vscode/
+.idea/
+*.iml
+*.sublime-project
+*.sublime-workspace
+
+# Ignorar archivos de backup
+*~
+*.bak
+*.backup
+
+# Ignorar imágenes o assets que no quieras versionar (opcional)
+# frontend/assets/img/tmp/

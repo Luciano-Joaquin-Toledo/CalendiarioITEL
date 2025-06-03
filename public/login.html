@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=320, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo-section">
+            <div class="logo-img">
+                <i class="fa-regular fa-image"></i>
+            </div>
+            <div class="logo-text">LOGO</div>
+        </div>
+        <h2 class="login-title">Iniciar sesión</h2>
+        <p class="login-subtitle">Ingresa tu usuario y contraseña<br>para acceder</p>
+        <form class="login-form" id="loginForm" action="./panel.html">
+            <div class="input-group">
+                <input type="text" id="username" placeholder="Usuario" required>
+                <a href="#" class="forgot-link" id="forgot-username">¿Olvidaste tu usuario?</a>
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Contraseña" required>
+                <a href="#" class="forgot-link" id="forgot-password">¿Olvidaste tu contraseña?</a>
+            </div>
+               <button type="submit" class="login-btn">Ingresar</button>
+        </form>
+        <div class="or-divider">O ingresa con</div>
+        <div class="social-login">
+            <button class="social-btn google-btn">
+                <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" class="google-icon">
+                Iniciar sesión con Google
+            </button>
+        </div>
+        <div class="register-section">
+            ¿No tienes una cuenta? <a href="#" class="register-link">Regístrate</a>
+        </div>
+        <div class="help-section">
+            ¿Necesitas ayuda? Visita nuestro <a href="#" class="help-link">centro de ayuda</a>
+        </div>
+    </div>
+    <script src="js/pages/login.js"></script>
+</body>
+</html>
