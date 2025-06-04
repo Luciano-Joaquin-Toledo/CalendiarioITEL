@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=320, initial-scale=1.0" />
+    <title>Materias</title>
+    <link rel="stylesheet" href="css/panel.css" />
+    <link rel="stylesheet" href="css/materias.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="panel-container">
+      <nav class="top-navbar">
+        <i class="fa fa-chevron-down nav-icon" id="open-menu"></i>
+        <span class="navbar-title"></span>
+        <i class="fa fa-search nav-icon"></i>
+      </nav>
+      <div class="side-menu-overlay" id="sideMenuOverlay"></div>
+      <aside class="side-menu" id="sideMenu">
+        <button
+          class="side-menu-close"
+          id="sideMenuClose"
+          aria-label="Cerrar menú"
+        >
+          <i class="fa fa-times"></i>
+        </button>
+        <ul>
+          <li><i class="fa fa-house"></i> <span>Inicio</span></li>
+          <li>
+            <i class="fa-regular fa-calendar"></i> <span>Calendario</span>
+          </li>
+          <li>
+            <i class="fa-regular fa-square-check"></i> <span>Tareas</span>
+          </li>
+          <li><i class="fa-regular fa-book"></i> <span>Materias</span></li>
+          <li><i class="fa-regular fa-clock"></i> <span>Pendientes</span></li>
+          <li>
+            <i class="fa-solid fa-chart-simple"></i> <span>Estadísticas</span>
+          </li>
+          <li><i class="fa-regular fa-user"></i> <span>Perfil</span></li>
+          <li class="menu-divider"></li>
+          <li>
+            <i class="fa-regular fa-circle-question"></i> <span>Acerca de</span>
+          </li>
+        </ul>
+      </aside>
+      <div class="panel-header">
+        <h1>Materias</h1>
+      </div>
+      <div class="panel-section">
+        <div id="materiasLista" class="materias-lista">
+          <!-- Renderizado por JS -->
+        </div>
+        <button class="btn-fab" id="agregarMateriaBtn" aria-label="Agregar materia">
+          <i class="fa fa-plus"></i>
+        </button>
+      </div>
+      <!-- Modal para agregar/editar materia -->
+      <div class="materia-modal" id="materiaModal" style="display:none">
+        <div class="materia-modal-content">
+          <button
+            class="materia-modal-close"
+            id="materiaModalClose"
+            aria-label="Cerrar"
+          >
+            <i class="fa fa-times"></i>
+          </button>
+          <h2 class="materia-modal-title">Nueva Materia</h2>
+          <form class="materia-form">
+            <input
+              type="text"
+              class="materia-input nombre-materia"
+              placeholder="Nombre de la materia..."
+              required
+            />
+            <div class="materia-form-group">
+              <label>Color:</label>
+              <div class="materia-color-picker" id="colorPickerWrapper">
+                <input
+                  type="color"
+                  class="materia-input materia-color-type"
+                  id="materiaColor"
+                  value="#8e44ad"
+                  required
+                />
+                <div class="color-palette-popup" id="colorPalettePopup">
+                  <div class="color-palette-row">
+                    <button
+                      type="button"
+                      class="color-palette-btn"
+                      data-color="#c7d2f7"
+                      style="background: #c7d2f7"
+                    ></button>
+                    <button
+                      type="button"
+                      class="color-palette-btn"
+                      data-color="#9cc2f4"
+                      style="background: #9cc2f4"
+                    ></button>
+                    <button
+                      type="button"
+                      class="color-palette-btn"
+                      data-color="#86a8f0"
+                      style="background: #86a8f0"
+                    ></button>
+                    <button
+                      type="button"
+                      class="color-palette-btn"
+                      data-color="#a480f0"
+                      style="background: #a480f0"
+                    ></button>
+                    <button
+                      type="button"
+                      class="color-palette-btn"
+                      data-color="#cf6bed"
+                      style="background: #cf6bed"
+                    ></button>
+                  </div>
+                  <div class="color-palette-row">
+                    <button
+                      type="button"
+                      class="color-palette-btn"
+                      data-color="#ec4fe4"
+                      style="background: #ec4fe4"
+                    ></button>
+                    <button
+                      type="button"
+                      class="color-palette-btn"
+                      data-color="#6f80d8"
+                      style="background: #6f80d8"
+                    ></button>
+                    <button
+                      type="button"
+                      class="color-palette-btn"
+                      data-color="#4f62e1"
+                      style="background: #4f62e1"
+                    ></button>
+                    <button
+                      type="button"
+                      class="color-palette-btn"
+                      data-color="#51b7dd"
+                      style="background: #51b7dd"
+                    ></button>
+                    <button
+                      type="button"
+                      class="color-palette-btn"
+                      data-color="#3bd87b"
+                      style="background: #3bd87b"
+                    ></button>
+                  </div>
+                  <div class="color-palette-row">
+                    <button
+                      type="button"
+                      class="color-palette-btn"
+                      data-color="#7d6fcb"
+                      style="background: #7d6fcb"
+                    ></button>
+                    <button
+                      type="button"
+                      class="color-palette-btn"
+                      data-color="#5f49a8"
+                      style="background: #5f49a8"
+                    ></button>
+                    <button
+                      type="button"
+                      class="color-palette-btn"
+                      data-color="#362f88"
+                      style="background: #362f88"
+                    ></button>
+                    <button
+                      type="button"
+                      class="color-palette-btn"
+                      data-color="#547f8c"
+                      style="background: #547f8c"
+                    ></button>
+                    <button
+                      type="button"
+                      class="color-palette-btn"
+                      data-color="#3c6763"
+                      style="background: #3c6763"
+                    ></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="materia-form-actions">
+              <button type="button" class="materia-btn materia-btn-cancelar">
+                Cancelar
+              </button>
+              <button type="submit" class="materia-btn materia-btn-guardar">
+                Guardar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="js/pages/materias.js"></script>
+  </body>
+</html>

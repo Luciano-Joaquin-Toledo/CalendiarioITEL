@@ -70,92 +70,34 @@ document.addEventListener('DOMContentLoaded', function() {
     let mesActual = fechaActual.getMonth();
     let anioActual = fechaActual.getFullYear();
 
-    function renderCalendario(mes, anio) {
-        calMes.textContent = `${meses[mes]} ${anio}`;
-        calBody.innerHTML = "";
-
-        const primerDia = new Date(anio, mes, 1);
-        const primerDiaSemana = (primerDia.getDay() + 6) % 7; // Lunes=0, Domingo=6
-        const diasEnMes = new Date(anio, mes + 1, 0).getDate();
-
-        let row = document.createElement('div');
-        row.className = 'cal-row';
-
-        // Celdas vacías antes del primer día
-        for (let i = 0; i < primerDiaSemana; i++) {
-            let cell = document.createElement('div');
-            cell.className = 'cal-cell empty';
-            row.appendChild(cell);
-        }
-
-        for (let dia = 1; dia <= diasEnMes; dia++) {
-            if ((primerDiaSemana + dia - 1) % 7 === 0 && dia !== 1) {
-                calBody.appendChild(row);
-                row = document.createElement('div');
-                row.className = 'cal-row';
-            }
-            let cell = document.createElement('div');
-            cell.className = 'cal-cell';
-            cell.textContent = dia;
-
-            // Hoy
-            const hoy = new Date();
-            if (
-                dia === hoy.getDate() &&
-                mes === hoy.getMonth() &&
-                anio === hoy.getFullYear()
-            ) {
-                cell.classList.add('today');
-            }
-
-            // Puedes agregar aquí lógica para eventos, tareas, etc.
-            // if (tieneEvento(dia, mes, anio)) cell.classList.add('event');
-
-            row.appendChild(cell);
-        }
-
-        // Celdas vacías al final
-        while (row.children.length < 7) {
-            let cell = document.createElement('div');
-            cell.className = 'cal-cell empty';
-            row.appendChild(cell);
-        }
-        calBody.appendChild(row);
-    }
-
-    function cambiarMes(delta) {
-        mesActual += delta;
-        if (mesActual < 0) {
-            mesActual = 11;
-            anioActual--;
-        } else if (mesActual > 11) {
-            mesActual = 0;
-            anioActual++;
-        }
-        renderCalendario(mesActual, anioActual);
-    }
-
-    if (prevMonthBtn) prevMonthBtn.addEventListener('click', function() {
-        cambiarMes(-1);
-    });
-    if (nextMonthBtn) nextMonthBtn.addEventListener('click', function() {
-        cambiarMes(1);
-    });
-
     // --- Notas por día ---
     // Estructura simple en memoria: { 'YYYY-MM-DD': [ {titulo, contenido} ] }
     const notasPorDia = {};
 
     // Referencias para el panel de notas y modal de nota
     let panelNotas = null;
+    let panelNotasOverlay = null;
     let notaModal = null;
     let notaModalOverlay = null;
     let notaModalTitle = null;
     let notaModalBody = null;
 
+    // Crear overlay para el panel de notas
+    function crearPanelNotasOverlay() {
+        if (document.getElementById('panelNotasDiaOverlay')) return;
+        panelNotasOverlay = document.createElement('div');
+        panelNotasOverlay.className = 'panel-notas-dia-overlay';
+        panelNotasOverlay.id = 'panelNotasDiaOverlay';
+        document.body.appendChild(panelNotasOverlay);
+        panelNotasOverlay.onclick = function() {
+            cerrarPanelNotas();
+        };
+    }
+
     // Crear panel de notas si no existe
     function crearPanelNotas() {
         if (document.getElementById('panelNotasDia')) return;
+        crearPanelNotasOverlay();
         panelNotas = document.createElement('div');
         panelNotas.id = 'panelNotasDia';
         panelNotas.className = 'panel-notas-dia';
@@ -170,13 +112,16 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.appendChild(panelNotas);
 
         // Cerrar panel
-        document.getElementById('cerrarPanelNotasDia').onclick = function() {
-            panelNotas.style.display = 'none';
-        };
+        document.getElementById('cerrarPanelNotasDia').onclick = cerrarPanelNotas;
         // Agregar nota
         document.getElementById('agregarNotaDiaBtn').onclick = function() {
             mostrarFormularioNota();
         };
+    }
+
+    function cerrarPanelNotas() {
+        if (panelNotas) panelNotas.style.display = 'none';
+        if (panelNotasOverlay) panelNotasOverlay.classList.remove('active');
     }
 
     // Crear modal de nota si no existe
@@ -218,9 +163,13 @@ document.addEventListener('DOMContentLoaded', function() {
         notaModalOverlay.style.display = 'block';
     }
 
-    // Mostrar formulario para agregar nota
-    function mostrarFormularioNota(fechaStr) {
-        const fecha = document.getElementById('panelNotasDiaFecha').textContent;
+    // Mostrar formulario para agregar nota (en el modal de notas)
+    function mostrarFormularioNota() {
+        const lista = document.getElementById('panelNotasDiaLista');
+        // Eliminar formularios previos si existen
+        const prevForm = lista.querySelector('.form-agregar-nota-dia');
+        if (prevForm) prevForm.remove();
+
         const form = document.createElement('form');
         form.className = 'form-agregar-nota-dia';
         form.innerHTML = `
@@ -231,7 +180,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 <button type="button" class="btn-cancelar-nota-dia">Cancelar</button>
             </div>
         `;
-        const lista = document.getElementById('panelNotasDiaLista');
         lista.insertBefore(form, lista.firstChild);
 
         form.querySelector('.btn-cancelar-nota-dia').onclick = function() {
@@ -246,6 +194,7 @@ document.addEventListener('DOMContentLoaded', function() {
             notasPorDia[fechaKey].push({ titulo, contenido });
             form.remove();
             renderNotasDia(fechaKey);
+            renderCalendario(mesActual, anioActual); // Actualiza los puntitos
         };
     }
 
@@ -253,6 +202,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function renderNotasDia(fechaKey) {
         crearPanelNotas();
         panelNotas.style.display = 'block';
+        if (panelNotasOverlay) panelNotasOverlay.classList.add('active');
         panelNotas.dataset.fecha = fechaKey;
         document.getElementById('panelNotasDiaFecha').textContent = fechaKey;
         const lista = document.getElementById('panelNotasDiaLista');
@@ -287,6 +237,83 @@ document.addEventListener('DOMContentLoaded', function() {
             renderNotasDia(fechaKey);
         }
     });
+
+    // Cambiar de mes y año
+    function cambiarMes(delta) {
+        mesActual += delta;
+        if (mesActual < 0) {
+            mesActual = 11;
+            anioActual--;
+        } else if (mesActual > 11) {
+            mesActual = 0;
+            anioActual++;
+        }
+        renderCalendario(mesActual, anioActual);
+    }
+
+    if (prevMonthBtn) prevMonthBtn.addEventListener('click', function() {
+        cambiarMes(-1);
+    });
+    if (nextMonthBtn) nextMonthBtn.addEventListener('click', function() {
+        cambiarMes(1);
+    });
+
+    // Modificar renderCalendario para marcar días con notas
+    function renderCalendario(mes, anio) {
+        calMes.textContent = `${meses[mes]} ${anio}`;
+        calBody.innerHTML = "";
+
+        const primerDia = new Date(anio, mes, 1);
+        const primerDiaSemana = (primerDia.getDay() + 6) % 7; // Lunes=0, Domingo=6
+        const diasEnMes = new Date(anio, mes + 1, 0).getDate();
+
+        let row = document.createElement('div');
+        row.className = 'cal-row';
+
+        // Celdas vacías antes del primer día
+        for (let i = 0; i < primerDiaSemana; i++) {
+            let cell = document.createElement('div');
+            cell.className = 'cal-cell empty';
+            row.appendChild(cell);
+        }
+
+        for (let dia = 1; dia <= diasEnMes; dia++) {
+            if ((primerDiaSemana + dia - 1) % 7 === 0 && dia !== 1) {
+                calBody.appendChild(row);
+                row = document.createElement('div');
+                row.className = 'cal-row';
+            }
+            let cell = document.createElement('div');
+            cell.className = 'cal-cell';
+            cell.textContent = dia;
+
+            // Hoy
+            const hoy = new Date();
+            if (
+                dia === hoy.getDate() &&
+                mes === hoy.getMonth() &&
+                anio === hoy.getFullYear()
+            ) {
+                cell.classList.add('today');
+            }
+
+            // Marcar días con notas
+            const fechaKey = `${anio}-${(mes+1).toString().padStart(2, '0')}-${dia.toString().padStart(2, '0')}`;
+            if (notasPorDia[fechaKey] && notasPorDia[fechaKey].length > 0) {
+                cell.classList.add('has-notes');
+            }
+
+            row.appendChild(cell);
+        }
+
+        // Celdas vacías al final
+        while (row.children.length < 7) {
+            let cell = document.createElement('div');
+            cell.className = 'cal-cell empty';
+            row.appendChild(cell);
+        }
+        calBody.appendChild(row);
+    }
 
     renderCalendario(mesActual, anioActual);
 });

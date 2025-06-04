@@ -292,19 +292,23 @@ body {
 
 .side-menu {
     position: fixed;
-    top: 12px;
-    left: 12px;
-    width: 78vw;
-    max-width: 220px;
-    min-width: 170px;
-    background: rgba(142,68,173,0.92); /* Violeta más opaco */
-    border-radius: 16px;
+    top: 32px;
+    left: 24px;
+    transform: none;
+    width: 370px;
+    max-width: 96vw;
+    min-width: 220px;
+    height: auto;
+    max-height: calc(100vh - 64px);
+    background: rgba(142,68,173,0.96);
+    border-radius: 24px;
     box-shadow: 0 0 0 2px #4e2e8e, 0 4px 24px rgba(66,68,76,0.10);
     z-index: 101;
-    padding: 18px 0 12px 0;
+    padding: 24px 0 18px 0;
     display: none;
     flex-direction: column;
     animation: menuFadeIn 0.18s;
+    overflow-y: auto;
 }
 
 @keyframes menuFadeIn {

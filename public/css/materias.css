@@ -1,14 +1,245 @@
-/* --- CONTENEDOR PRINCIPAL PANEL --- */
-.panel-container {
-    border: 4px solid #7de3f7;
-    border-radius: 8px;
-    background: #eafffb;
-    min-height: 100vh;
-    box-sizing: border-box;
-    /* Puedes ajustar el padding si lo necesitas */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #c4c7d4; /* color original */
+    margin: 0;
+    padding: 0;
+    color: #42444c;
 }
 
-/* --- NAVBAR SUPERIOR --- */
+.panel-container {
+    width: 100vw;
+    min-height: 100vh;
+    margin: 0 auto;
+    border-radius: 0;
+    padding: 0 0 80px 0;
+    box-shadow: none;
+    background: #fff; /* panel blanco */
+    max-width: 100vw;
+}
+
+.panel-header {
+    width: 100%;
+    padding: 20px 0 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.panel-select-search {
+    width: 92%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+}
+
+.select-icon-wrapper {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.select-icon-wrapper .icon-right {
+    position: static;
+    color: #8e44ad;
+    font-size: 22px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.panel-select {
+    width: 100%;
+    max-width: 100%;
+    border: none;
+    border-radius: 16px;
+    background: #c4c7d4;
+    color: #42444c;
+    font-size: 18px;
+    padding: 10px 32px 10px 16px; /* solo espacio a la derecha */
+    font-family: inherit;
+    appearance: none;
+    outline: none;
+    box-shadow: none;
+    position: relative;
+    z-index: 1;
+}
+
+.panel-search {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    margin-left: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.panel-search input {
+    display: block;
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-radius: 16px;
+    background: #c4c7d4;
+    color: #42444c;
+    font-size: 16px;
+    padding: 0 36px 0 12px;
+    font-family: inherit;
+    outline: none;
+    box-shadow: none;
+}
+
+.panel-search i {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #8e44ad;
+    background: transparent;
+    border-radius: 50%;
+    font-size: 18px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.panel-section {
+    margin-bottom: 18px;
+    padding: 0 16px;
+}
+
+.panel-date-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 2px;
+    margin-top: 18px;
+}
+
+.panel-subtitle {
+    font-size: 13px;
+    color: #8e44ad;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.panel-notas {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.nota {
+    background: #c4c7d4;
+    border-radius: 14px;
+    padding: 10px 14px;
+    font-size: 15px;
+    color: #42444c;
+    box-shadow: 0 2px 6px rgba(66,68,76,0.08);
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+}
+
+.nota-activa {
+    border: 2px solid #8e44ad;
+    background: #f6f6fa;
+    position: relative;
+}
+
+.nota.selected {
+    border: 2px solid #4e2e8e;
+    background: #e9ddfa;
+    box-shadow: 0 0 0 2px #b9a5e2;
+    color: #4e2e8e;
+}
+
+.panel-divider {
+    border: none;
+    border-top: 1px solid #42444c;
+    margin: 18px 0 12px 0;
+    width: 92%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-fab {
+    position: fixed;
+    right: 24px;
+    bottom: 24px; /* Cambia de 80px a 24px para que quede más abajo */
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2.5px solid #8e44ad;
+    color: #8e44ad;
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(142,68,173,0.10);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    z-index: 11;
+}
+
+.btn-fab:hover, .btn-fab:focus {
+    background: #f3eaff;
+    color: #6d368d;
+}
+
+/* Barra de navegación inferior */
+.bottom-navbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-width: 340px;
+    margin: 0 auto;
+    height: 56px;
+    background: #c4c7d4;
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -2px 12px rgba(66,68,76,0.10);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 10;
+    padding: 0 4px;
+}
+
+.nav-item {
+    flex: 1;
+    text-align: center;
+    color: #42444c;
+    text-decoration: none;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    transition: color 0.2s;
+    padding-top: 4px;
+    padding-bottom: 2px;
+}
+
+.nav-item i {
+    font-size: 20px;
+    margin-bottom: 2px;
+}
+
+.nav-item.active,
+.nav-item:active,
+.nav-item:focus {
+    color: #8e44ad;
+}
+
+/* Barra de navegación superior */
 .top-navbar {
     width: 100%;
     height: 56px;
@@ -20,22 +251,25 @@
     box-sizing: border-box;
     border-radius: 0 0 16px 16px;
     box-shadow: 0 2px 8px rgba(66,68,76,0.06);
-    margin-bottom: 16px;
+    margin-bottom: 16px; /* Aumenta el margen inferior para separar el contenido */
     position: sticky;
     top: 0;
     left: 0;
     z-index: 20;
 }
+
 .top-navbar .nav-icon {
     color: #8e44ad;
     font-size: 22px;
     cursor: pointer;
     transition: color 0.2s;
 }
+
 .top-navbar .nav-icon:active,
 .top-navbar .nav-icon:focus {
     color: #6d368d;
 }
+
 .navbar-title {
     flex: 1;
     text-align: center;
@@ -45,20 +279,7 @@
     letter-spacing: 1px;
 }
 
-/* --- MENÚ LATERAL --- */
-.side-menu-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(30, 30, 40, 0.75);
-    z-index: 100;
-}
-.side-menu-overlay.active {
-    display: block;
-}
+/* Menú lateral */
 .side-menu {
     position: fixed;
     top: 32px;
@@ -136,102 +357,23 @@
     color: #fff;
 }
 
-/* --- FAB MENÚ FLOTANTE --- */
-.btn-fab {
-    position: fixed;
-    right: 24px;
-    bottom: 24px;
-    width: 54px;
-    height: 54px;
-    border-radius: 50%;
-    background: #fff;
-    border: 2.5px solid #8e44ad;
-    color: #8e44ad;
-    font-size: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 8px rgba(142,68,173,0.10);
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
-    z-index: 11;
-}
-.btn-fab:hover, .btn-fab:focus {
-    background: #f3eaff;
-    color: #6d368d;
-}
-.fab-menu-overlay {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background: transparent;
-    z-index: 120;
-}
-.fab-menu-overlay.active {
-    display: block;
-}
-.fab-menu {
-    display: none;
-    flex-direction: column;
-    position: fixed;
-    right: 16px;
-    bottom: 90px;
-    background: rgba(142,68,173,0.92);
-    border-radius: 18px;
-    box-shadow: 0 2px 16px rgba(66,68,76,0.18);
-    padding: 18px 0 12px 0;
-    z-index: 130;
-    min-width: 150px;
-    max-width: 210px;
-    animation: menuFadeIn 0.18s;
-}
-.fab-menu.active {
-    display: flex;
-}
-.fab-menu ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-.fab-menu li {
-    padding: 0;
-    margin: 0;
-}
-.fab-action-btn {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 14px;
-    padding: 10px 22px 10px 18px;
-    font-size: 16px;
-    color: #ede7f6;
-    background: none;
-    border: none;
-    border-radius: 8px;
-    font-family: inherit;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.15s, color 0.15s;
-    outline: none;
-}
-.fab-action-btn i {
-    font-size: 20px;
-    min-width: 22px;
-    color: #ede7f6;
-}
-.fab-action-btn:hover,
-.fab-action-btn:focus {
-    background: rgba(255,255,255,0.22);
-    color: #fff;
-}
-.fab-action-btn:active {
-    background: rgba(255,255,255,0.32);
-    color: #fff;
+@media (max-width: 480px) {
+    .side-menu {
+        left: 2vw;
+        top: 2vw;
+        transform: none;
+        width: 98vw;
+        max-width: 99vw;
+        min-width: 0;
+        height: auto;
+        max-height: calc(100vh - 4vw);
+        border-radius: 18px;
+        padding-left: 0;
+        padding-right: 0;
+    }
 }
 
-/* --- CALENDARIO WIDGET --- */
+/* Barra de calendario */
 .calendario-widget {
     background: #fafafa;
     border-radius: 18px;
@@ -246,6 +388,7 @@
     flex-direction: column;
     align-items: center;
 }
+
 .calendario-header {
     background: #c4c7d4;
     border-radius: 18px;
@@ -260,6 +403,7 @@
     margin-left: auto;
     margin-right: auto;
 }
+
 .cal-btn {
     background: transparent;
     color: #42444c;
@@ -274,10 +418,12 @@
     align-items: center;
     justify-content: center;
 }
+
 .cal-btn:hover, .cal-btn:focus {
     background: #b9a5e2;
     color: #fff;
 }
+
 .calendario-mes {
     font-size: 20px;
     font-weight: 700;
@@ -657,5 +803,88 @@
         padding-right: 2vw;
         padding-top: 4vw;
         padding-bottom: 4vw;
+    }
+}
+
+/* Estilos para la lista de materias */
+.materias-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 18px;
+}
+
+.materia-card {
+    display: flex;
+    align-items: center;
+    background: #ededf6;
+    border-radius: 14px;
+    padding: 10px 14px;
+    box-shadow: 0 1px 4px rgba(66,68,76,0.07);
+    position: relative;
+    gap: 10px;
+}
+
+.materia-nombre {
+    flex: 1;
+    background: #c4c7d4;
+    border-radius: 10px;
+    padding: 8px 0;
+    text-align: center;
+    font-size: 17px;
+    font-weight: 500;
+    color: #222;
+    letter-spacing: 0.5px;
+    font-family: inherit;
+    user-select: none;
+}
+
+.materia-eliminar {
+    background: none;
+    border: none;
+    color: #8e44ad;
+    font-size: 22px;
+    cursor: pointer;
+    margin-left: 8px;
+    transition: color 0.18s;
+}
+.materia-eliminar:hover,
+.materia-eliminar:focus {
+    color: #6d368d;
+}
+
+/* Overlay para el modal de materia (oscurece fondo) */
+#materiaModalOverlay,
+.materia-modal-overlay {
+    display: block;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(30, 30, 40, 0.32);
+    z-index: 2100;
+}
+
+/* Oculta el overlay por defecto */
+#materiaModalOverlay:not(.active),
+.materia-modal-overlay:not(.active) {
+    display: none;
+}
+
+/* Asegura que el modal esté por encima del overlay */
+#materiaModal {
+    z-index: 2110;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .materias-lista {
+        gap: 12px;
+    }
+    .materia-card {
+        padding: 8px 6px;
+    }
+    .materia-nombre {
+        font-size: 15px;
+        padding: 8px 0;
     }
 }

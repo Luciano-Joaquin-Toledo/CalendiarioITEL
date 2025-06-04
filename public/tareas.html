@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=320, initial-scale=1.0" />
+    <title>Tareas</title>
+    <link rel="stylesheet" href="css/panel.css" />
+    <link rel="stylesheet" href="css/tareas.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="panel-container">
+      <nav class="top-navbar">
+        <i class="fa fa-chevron-down nav-icon" id="open-menu"></i>
+        <span class="navbar-title"></span>
+        <i class="fa fa-search nav-icon"></i>
+      </nav>
+      <div class="side-menu-overlay" id="sideMenuOverlay"></div>
+      <aside class="side-menu" id="sideMenu">
+        <button
+          class="side-menu-close"
+          id="sideMenuClose"
+          aria-label="Cerrar menú"
+        >
+          <i class="fa fa-times"></i>
+        </button>
+        <ul>
+          <li><i class="fa fa-house"></i> <span>Inicio</span></li>
+          <li>
+            <i class="fa-regular fa-calendar"></i> <span>Calendario</span>
+          </li>
+          <li>
+            <i class="fa-regular fa-square-check"></i> <span>Tareas</span>
+          </li>
+          <li><i class="fa-regular fa-book"></i> <span>Materias</span></li>
+          <li><i class="fa-regular fa-clock"></i> <span>Pendientes</span></li>
+          <li>
+            <i class="fa-solid fa-chart-simple"></i> <span>Estadísticas</span>
+          </li>
+          <li><i class="fa-regular fa-user"></i> <span>Perfil</span></li>
+          <li class="menu-divider"></li>
+          <li>
+            <i class="fa-regular fa-circle-question"></i> <span>Acerca de</span>
+          </li>
+        </ul>
+      </aside>
+      <div class="tareas-container">
+        <div class="tareas-lista">
+          <!-- Las tareas se renderizan aquí por JS -->
+        </div>
+        <button class="btn-fab" id="agregarTareaBtn" aria-label="Agregar tarea">
+          <i class="fa fa-plus"></i>
+        </button>
+      </div>
+      <div class="tarea-modal" id="tareaModal" style="display:none">
+        <div class="tarea-modal-content">
+          <button
+            class="tarea-modal-close"
+            id="tareaModalClose"
+            aria-label="Cerrar"
+          >
+            <i class="fa fa-times"></i>
+          </button>
+          <h2 class="tarea-modal-title">Crear Tarea</h2>
+          <form class="tarea-form">
+            <input
+              type="text"
+              class="tarea-input nombre-tarea"
+              placeholder="Nombre de tarea..."
+            />
+            <button type="button" class="tarea-btn tarea-btn-sub">
+              + Sub Tarea
+            </button>
+            <textarea
+              class="tarea-input tarea-desc"
+              placeholder="Descripción..."
+            ></textarea>
+            <div class="tarea-form-row">
+              <label>Fecha:</label>
+              <i class="fa-regular fa-calendar"></i>
+              <input type="date" class="tarea-input tarea-fecha" />
+            </div>
+            <div class="tarea-form-row">
+              <label>Hora:</label>
+              <i class="fa-regular fa-clock"></i>
+              <input type="time" class="tarea-input tarea-hora" />
+            </div>
+            <div class="tarea-form-row">
+              <label>Ubicación:</label>
+              <button type="button" class="tarea-btn tarea-btn-ubicacion">
+                ...
+              </button>
+            </div>
+            <div class="tarea-form-row">
+              <label>Tipo de Color:</label>
+              <select class="tarea-input tarea-color-type" id="tareaColorType">
+                <option value="">Seleccionar...</option>
+                <option value="frio">Frío</option>
+                <option value="calido">Cálido</option>
+              </select>
+            </div>
+            <div class="tarea-form-row">
+              <label>Color de la Tarea:</label>
+              <input
+                type="hidden"
+                id="tareaColorPicker"
+                name="tareaColor"
+                value="#cccccc"
+              />
+              <div
+                class="tarea-color-palette-popup"
+                id="tareaColorPalettePopup"
+                style="display: none"
+              >
+                <div class="tarea-palette-frio">
+                  <div class="tarea-color-palette-row">
+                    <button type="button" class="tarea-color-palette-btn" data-color="#c7d2f7" style="background: #c7d2f7"></button>
+                    <button type="button" class="tarea-color-palette-btn" data-color="#9cc2f4" style="background: #9cc2f4"></button>
+                    <button type="button" class="tarea-color-palette-btn" data-color="#86a8f0" style="background: #86a8f0"></button>
+                    <button type="button" class="tarea-color-palette-btn" data-color="#a480f0" style="background: #a480f0"></button>
+                    <button type="button" class="tarea-color-palette-btn" data-color="#cf6bed" style="background: #cf6bed"></button>
+                  </div>
+                  <div class="tarea-color-palette-row">
+                    <button type="button" class="tarea-color-palette-btn" data-color="#ec4fe4" style="background: #ec4fe4"></button>
+                    <button type="button" class="tarea-color-palette-btn" data-color="#6f80d8" style="background: #6f80d8"></button>
+                    <button type="button" class="tarea-color-palette-btn" data-color="#4f62e1" style="background: #4f62e1"></button>
+                    <button type="button" class="tarea-color-palette-btn" data-color="#51b7dd" style="background: #51b7dd"></button>
+                    <button type="button" class="tarea-color-palette-btn" data-color="#3bd87b" style="background: #3bd87b"></button>
+                  </div>
+                  <div class="tarea-color-palette-row">
+                    <button type="button" class="tarea-color-palette-btn" data-color="#7d6fcb" style="background: #7d6fcb"></button>
+                    <button type="button" class="tarea-color-palette-btn" data-color="#5f49a8" style="background: #5f49a8"></button>
+                    <button type="button" class="tarea-color-palette-btn" data-color="#362f88" style="background: #362f88"></button>
+                    <button type="button" class="tarea-color-palette-btn" data-color="#547f8c" style="background: #547f8c"></button>
+                    <button type="button" class="tarea-color-palette-btn" data-color="#3c6763" style="background: #3c6763"></button>
+                  </div>
+                </div>
+                <div class="tarea-palette-calido" style="display: none">
+                  <div class="tarea-color-palette-row">
+                    <button type="button" class="tarea-color-palette-btn" data-color="#ffe7b3" style="background: #ffe7b3"></button>
+                    <button type="button" class="tarea-color-palette-btn" data-color="#ffe07a" style="background: #ffe07a"></button>
+                    <button type="button" class="tarea-color-palette-btn" data-color="#ffcb2d" style="background: #ffcb2d"></button>
+                    <button type="button" class="tarea-color-palette-btn" data-color="#ffc101" style="background: #ffc101"></button>
+                    <button type="button" class="tarea-color-palette-btn" data-color="#f8a527" style="background: #f8a527"></button>
+                  </div>
+                  <div class="tarea-color-palette-row">
+                    <button type="button" class="tarea-color-palette-btn" data-color="#f28500" style="background: #f28500"></button>
+                    <button type="button" class="tarea-color-palette-btn" data-color="#ff5e3a" style="background: #ff5e3a"></button>
+                    <button type="button" class="tarea-color-palette-btn" data-color="#e63b2e" style="background: #e63b2e"></button>
+                    <button type="button" class="tarea-color-palette-btn" data-color="#c3221f" style="background: #c3221f"></button>
+                    <button type="button" class="tarea-color-palette-btn" data-color="#911c1d" style="background: #911c1d"></button>
+                  </div>
+                  <div class="tarea-color-palette-row">
+                    <button type="button" class="tarea-color-palette-btn" data-color="#ab4f33" style="background: #ab4f33"></button>
+                    <button type="button" class="tarea-color-palette-btn" data-color="#9c6236" style="background: #9c6236"></button>
+                    <button type="button" class="tarea-color-palette-btn" data-color="#a4a93c" style="background: #a4a93c"></button>
+                    <button type="button" class="tarea-color-palette-btn" data-color="#718942" style="background: #718942"></button>
+                    <button type="button" class="tarea-color-palette-btn" data-color="#7e9453" style="background: #7e9453"></button>
+                  </div>
+                </div>
+              </div>
+              <button
+                type="button"
+                id="showTareaPaletteBtn"
+                class="tarea-color-preview-btn"
+                style="background: #cccccc"
+              ></button>
+            </div>
+            <div class="tarea-form-actions">
+              <button type="button" class="tarea-btn tarea-btn-cancel">
+                Cancelar
+              </button>
+              <button type="submit" class="tarea-btn tarea-btn-save">
+                Guardar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- Modal de confirmación de borrado -->
+      <div class="modal-eliminar-tarea" id="modalEliminarTarea" style="display:none">
+        <div class="modal-eliminar-tarea-content">
+          <div class="modal-eliminar-tarea-msg" id="modalEliminarTareaMsg">
+            <!-- Mensaje dinámico -->
+          </div>
+          <div class="modal-eliminar-tarea-btns">
+            <button class="modal-eliminar-cancelar" id="modalEliminarCancelar">Cancelar</button>
+            <button class="modal-eliminar-aceptar" id="modalEliminarAceptar">Aceptar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/pages/tareas.js"></script>
+  </body>
+</html>

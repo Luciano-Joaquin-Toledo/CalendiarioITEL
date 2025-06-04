@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=320, initial-scale=1.0" />
+    <title>Estadísticas</title>
+    <link rel="stylesheet" href="css/panel.css" />
+    <link rel="stylesheet" href="css/estadisticas.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="panel-container">
+      <nav class="top-navbar">
+        <i class="fa fa-chevron-down nav-icon" id="open-menu"></i>
+        <span class="navbar-title"></span>
+        <i class="fa fa-search nav-icon"></i>
+      </nav>
+      <div class="side-menu-overlay" id="sideMenuOverlay"></div>
+      <aside class="side-menu" id="sideMenu">
+        <button
+          class="side-menu-close"
+          id="sideMenuClose"
+          aria-label="Cerrar menú"
+        >
+          <i class="fa fa-times"></i>
+        </button>
+        <ul>
+          <li><i class="fa fa-house"></i> <span>Inicio</span></li>
+          <li>
+            <i class="fa-regular fa-calendar"></i> <span>Calendario</span>
+          </li>
+          <li>
+            <i class="fa-regular fa-square-check"></i> <span>Tareas</span>
+          </li>
+          <li><i class="fa-regular fa-book"></i> <span>Materias</span></li>
+          <li><i class="fa-regular fa-clock"></i> <span>Pendientes</span></li>
+          <li>
+            <i class="fa-solid fa-chart-simple"></i> <span>Estadísticas</span>
+          </li>
+          <li><i class="fa-regular fa-user"></i> <span>Perfil</span></li>
+          <li class="menu-divider"></li>
+          <li>
+            <i class="fa-regular fa-circle-question"></i> <span>Acerca de</span>
+          </li>
+        </ul>
+      </aside>
+      <!-- Aquí va el contenido de estadísticas -->
+      <div class="estadisticas-content">
+        <!-- Tabs -->
+        <div class="estadisticas-tabs">
+          <button class="estadisticas-tab active" data-tab="tareas">Tareas</button>
+          <button class="estadisticas-tab" data-tab="eficiencia">Eficiencia</button>
+          <button class="estadisticas-tab" data-tab="productividad">Productividad</button>
+        </div>
+        <!-- Sección de estadísticas tipo barra -->
+        <div class="estadisticas-section estadisticas-section-barras" id="estadisticasBarras">
+          <div class="estadisticas-grafico">
+            <div class="estadisticas-barra">
+              <div class="barra" style="height: 60px; background: #b9a5e2"></div>
+              <span>Día 1</span>
+            </div>
+            <div class="estadisticas-barra">
+              <div class="barra" style="height: 40px; background: #8e44ad"></div>
+              <span>Día 2</span>
+            </div>
+            <div class="estadisticas-barra">
+              <div class="barra" style="height: 90px; background: #4e2e8e"></div>
+              <span>Día 3</span>
+            </div>
+          </div>
+          <table class="estadisticas-tabla">
+            <thead>
+              <tr>
+                <th>Cantidad</th>
+                <th>Día</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="estadisticas-celda estadisticas-celda-cantidad">6</span></td>
+                <td><span class="estadisticas-celda estadisticas-celda-dia">Martes 25/05</span></td>
+              </tr>
+              <tr>
+                <td><span class="estadisticas-celda estadisticas-celda-cantidad">1</span></td>
+                <td><span class="estadisticas-celda estadisticas-celda-dia">Miércoles 26/05</span></td>
+              </tr>
+              <tr>
+                <td><span class="estadisticas-celda estadisticas-celda-cantidad">3</span></td>
+                <td><span class="estadisticas-celda estadisticas-celda-dia">Jueves 27/05</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Sección de estadísticas tipo donut -->
+        <div class="estadisticas-section estadisticas-section-donut" id="estadisticasDonut" style="display:none">
+          <div class="estadisticas-filtros">
+            <button class="estadisticas-dia">LUNES</button>
+            <button class="estadisticas-filtro-btn"><i class="fa fa-filter"></i></button>
+          </div>
+          <div class="estadisticas-donut">
+            <svg viewBox="0 0 120 120">
+              <circle class="donut-bg" cx="60" cy="60" r="48" fill="none" stroke-width="18"/>
+              <circle class="donut-segment1" cx="60" cy="60" r="48" fill="none" stroke-width="18"
+                  stroke-dasharray="40 120" stroke-dashoffset="0"/>
+              <circle class="donut-segment2" cx="60" cy="60" r="48" fill="none" stroke-width="18"
+                  stroke-dasharray="30 120" stroke-dashoffset="-40"/>
+              <circle class="donut-segment3" cx="60" cy="60" r="48" fill="none" stroke-width="18"
+                  stroke-dasharray="50 120" stroke-dashoffset="-70"/>
+              <circle class="donut-center" cx="60" cy="60" r="32"/>
+            </svg>
+            <div class="estadisticas-donut-label">Tareas<br>del día</div>
+          </div>
+          <div class="estadisticas-leyenda">
+            <div class="estadisticas-leyenda-item">
+              <span class="estadisticas-leyenda-dot realizadas"></span>
+              Tareas realizadas
+            </div>
+            <div class="estadisticas-leyenda-item">
+              <span class="estadisticas-leyenda-dot pendientes"></span>
+              Tareas pendientes
+            </div>
+            <div class="estadisticas-leyenda-item">
+              <span class="estadisticas-leyenda-dot no-realizadas"></span>
+              Tareas no realizadas
+            </div>
+          </div>
+        </div>
+        <!-- Sección de estadísticas tipo barras horizontales -->
+        <div class="estadisticas-section estadisticas-section-horas" id="estadisticasHoras" style="display:none">
+          <div class="estadisticas-filtros">
+            <button class="estadisticas-dia">VIERNES</button>
+            <button class="estadisticas-filtro-btn"><i class="fa fa-filter"></i></button>
+          </div>
+          <div class="estadisticas-horas-donut">
+            <svg viewBox="0 0 120 120">
+              <circle class="donut-bg" cx="60" cy="60" r="48" fill="none" stroke-width="18"/>
+              <circle class="donut-segment1" cx="60" cy="60" r="48" fill="none" stroke-width="18"
+                  stroke-dasharray="84 120" stroke-dashoffset="0"/>
+              <circle class="donut-segment2" cx="60" cy="60" r="48" fill="none" stroke-width="18"
+                  stroke-dasharray="36 120" stroke-dashoffset="-84"/>
+              <circle class="donut-center" cx="60" cy="60" r="32"/>
+            </svg>
+            <div class="estadisticas-horas-donut-label">70%</div>
+          </div>
+          <div class="estadisticas-horas-lista">
+            <div class="estadisticas-horas-titulo">Cantidad de horas</div>
+            <div class="estadisticas-horas-bar-row">
+              <span class="estadisticas-horas-label">Nota 1</span>
+              <div class="estadisticas-horas-bar" style="width: 40%"></div>
+            </div>
+            <div class="estadisticas-horas-bar-row">
+              <span class="estadisticas-horas-label">Nota 2</span>
+              <div class="estadisticas-horas-bar" style="width: 20%"></div>
+            </div>
+            <div class="estadisticas-horas-bar-row">
+              <span class="estadisticas-horas-label">Nota 3</span>
+              <div class="estadisticas-horas-bar" style="width: 60%"></div>
+            </div>
+            <div class="estadisticas-horas-bar-row">
+              <span class="estadisticas-horas-label">Nota 4</span>
+              <div class="estadisticas-horas-bar" style="width: 30%"></div>
+            </div>
+            <div class="estadisticas-horas-bar-row">
+              <span class="estadisticas-horas-label">Nota 5</span>
+              <div class="estadisticas-horas-bar" style="width: 80%"></div>
+            </div>
+            <div class="estadisticas-horas-bar-eje">
+              <span>1hr</span><span>2hrs</span><span>3hrs</span><span>4hrs</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/pages/estadisticas.js"></script>
+  </body>
+</html>

@@ -1,0 +1,636 @@
+/* ...navbar y panel-container ya están en panel.css... */
+
+.tareas-container {
+    width: 100%;
+    max-width: 370px;
+    margin: 24px auto 0 auto;
+    background: #f8f8fa;
+    border-radius: 18px;
+    padding: 18px 10px 70px 10px;
+    box-shadow: 0 2px 12px rgba(66,68,76,0.06);
+    min-height: 420px;
+    position: relative;
+}
+
+.tareas-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.tarea-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #ededf6;
+    border-radius: 14px;
+    padding: 8px 12px 8px 8px;
+    box-shadow: 0 1px 4px rgba(66,68,76,0.07);
+    position: relative;
+    animation: fadeInTarea 0.18s;
+}
+@keyframes fadeInTarea {
+    from { opacity: 0; transform: translateY(10px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+
+/* Separador visual entre tareas */
+.tarea-item:not(:last-child) {
+    box-shadow: 0 2px 8px rgba(142,68,173,0.06), 0 1px 0 #e3e6ef;
+}
+
+.tarea-check {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2.5px solid #b9a5e2;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+    margin-right: 4px;
+    transition: border 0.18s, background 0.18s;
+    position: relative;
+}
+.tarea-check.checked {
+    border: 2.5px solid #27ae60;
+    background: #eafaf1;
+}
+.tarea-check.checked::after {
+    content: '';
+    display: block;
+    width: 16px;
+    height: 16px;
+    background: #27ae60;
+    border-radius: 50%;
+}
+.tarea-check::after {
+    content: '';
+    display: none;
+}
+.tarea-check:not(.checked)::after {
+    display: none;
+}
+
+.tarea-nombre {
+    flex: 1;
+    background: #c4c7d4;
+    border-radius: 10px;
+    padding: 8px 0;
+    text-align: center;
+    font-size: 17px;
+    font-weight: 500;
+    color: #222;
+    letter-spacing: 0.5px;
+    font-family: inherit;
+    margin-right: 8px;
+    user-select: none;
+}
+.tarea-nombre:hover, .tarea-nombre:focus {
+    background: #b9a5e2;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+}
+
+/* Indicador de subtareas */
+.tarea-nombre .subtareas-indicador {
+    display: inline-block;
+    background: #fff;
+    color: #8e44ad;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 2px 8px;
+    margin-left: 8px;
+    vertical-align: middle;
+    border: 1px solid #b9a5e2;
+}
+
+.tarea-eliminar {
+    background: none;
+    border: none;
+    color: #8e44ad;
+    font-size: 22px;
+    cursor: pointer;
+    margin-left: 4px;
+    transition: color 0.18s;
+}
+.tarea-eliminar:hover,
+.tarea-eliminar:focus {
+    color: #6d368d;
+}
+
+.btn-fab {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2.5px solid #8e44ad;
+    color: #8e44ad;
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(142,68,173,0.10);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    z-index: 11;
+}
+.btn-fab:hover, .btn-fab:focus {
+    background: #f3eaff;
+    color: #6d368d;
+}
+.btn-fab:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 8px rgba(142,68,173,0.10);
+}
+
+/* Modal Nueva Tarea */
+.modal-tarea-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(30, 30, 40, 0.18);
+    z-index: 400;
+}
+.modal-tarea-overlay.active {
+    display: block;
+}
+.modal-tarea {
+    display: none;
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 32px rgba(66,68,76,0.18);
+    z-index: 410;
+    width: 320px;
+    max-width: 98vw;
+    padding: 18px 12px 18px 12px;
+    min-height: 480px;
+    box-sizing: border-box;
+    animation: modalTareaFadeIn 0.18s;
+}
+@keyframes modalTareaFadeIn {
+    from { opacity: 0; transform: translate(-50%, -40px);}
+    to { opacity: 1; transform: translate(-50%, -50%);}
+}
+.modal-tarea-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.modal-tarea-nombre {
+    font-size: 22px;
+    font-weight: 600;
+    background: #c4c7d4;
+    border: none;
+    border-radius: 10px;
+    padding: 6px 12px;
+    color: #222;
+    margin-bottom: 0;
+    outline: none;
+}
+.modal-tarea-subtarea-btn {
+    background: #c4c7d4;
+    border: none;
+    border-radius: 8px;
+    color: #222;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 6px 0;
+    margin-bottom: 0;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.15s;
+}
+.modal-tarea-subtarea-btn:hover {
+    background: #b9a5e2;
+}
+.modal-tarea-descripcion {
+    width: 100%;
+    min-height: 70px;
+    border-radius: 10px;
+    border: none;
+    background: #f6f6fa;
+    color: #222;
+    font-size: 15px;
+    padding: 10px 12px;
+    resize: vertical;
+    outline: none;
+}
+.modal-tarea-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 0;
+}
+.modal-tarea-label {
+    font-size: 15px;
+    color: #222;
+    font-weight: 500;
+    min-width: 60px;
+}
+.modal-tarea-input {
+    font-size: 15px;
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    padding: 4px 8px;
+    color: #222;
+    outline: none;
+}
+.modal-tarea-ubicacion-btn {
+    background: #b9a5e2;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 2px 12px;
+    cursor: pointer;
+    margin-left: 4px;
+}
+.modal-tarea-color {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid #888;
+    background: #ededed;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 8px;
+    cursor: pointer;
+    transition: border 0.15s;
+}
+.modal-tarea-color-input {
+    opacity: 0;
+    width: 28px;
+    height: 28px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    cursor: pointer;
+}
+.modal-tarea-btns {
+    display: flex;
+    gap: 18px;
+    margin-top: 18px;
+    justify-content: space-between;
+}
+.modal-tarea-cancelar,
+.modal-tarea-guardar {
+    flex: 1;
+    background: #c4c7d4;
+    color: #222;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 0;
+    font-size: 16px;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.18s;
+}
+.modal-tarea-guardar {
+    background: #b9a5e2;
+    color: #222;
+}
+.modal-tarea-cancelar:hover,
+.modal-tarea-cancelar:focus {
+    background: #b9a5e2;
+    color: #fff;
+}
+.modal-tarea-guardar:hover,
+.modal-tarea-guardar:focus {
+    background: #8e44ad;
+    color: #fff;
+}
+
+/* Modal tarea personalizado */
+.tarea-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0; top: 0; right: 0; bottom: 0;
+    background: rgba(30,30,40,0.18);
+    align-items: center;
+    justify-content: center;
+}
+.tarea-modal[style*="block"], .tarea-modal.show {
+    display: flex !important;
+}
+.tarea-modal-content {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 32px rgba(66,68,76,0.18);
+    width: 340px;
+    max-width: 98vw;
+    padding: 18px 12px 18px 12px;
+    min-height: 480px;
+    box-sizing: border-box;
+    position: relative;
+    animation: modalTareaFadeIn 0.18s;
+}
+@keyframes modalTareaFadeIn {
+    from { opacity: 0; transform: translateY(-40px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+.tarea-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    background: none;
+    border: none;
+    color: #8e44ad;
+    font-size: 22px;
+    cursor: pointer;
+    z-index: 2;
+    padding: 4px;
+    transition: color 0.2s;
+}
+.tarea-modal-close:hover,
+.tarea-modal-close:focus {
+    color: #6d368d;
+}
+.tarea-modal-title {
+    margin: 0 0 12px 0;
+    font-size: 22px;
+    color: #4e2e8e;
+    font-weight: 700;
+    text-align: center;
+}
+.tarea-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.tarea-input {
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1.5px solid #b9a5e2;
+    padding: 10px 12px;
+    font-family: inherit;
+    outline: none;
+    background: #f6f6fa;
+    color: #42444c;
+    margin-bottom: 0;
+}
+.tarea-input:focus {
+    border-color: #8e44ad;
+    background: #fff;
+}
+.tarea-btn {
+    background: #c4c7d4;
+    color: #222;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 0;
+    font-size: 15px;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.18s;
+}
+.tarea-btn:hover,
+.tarea-btn:focus {
+    background: #b9a5e2;
+    color: #fff;
+}
+.tarea-btn-save {
+    background: #b9a5e2;
+    color: #222;
+}
+.tarea-btn-save:hover,
+.tarea-btn-save:focus {
+    background: #8e44ad;
+    color: #fff;
+}
+.tarea-form-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 0;
+}
+.tarea-color-preview-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid #888;
+    background: #cccccc;
+    margin-left: 8px;
+    cursor: pointer;
+    transition: border 0.15s;
+    display: inline-block;
+    vertical-align: middle;
+}
+.tarea-color-palette-popup {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(66,68,76,0.18);
+    padding: 10px 8px;
+    margin-top: 6px;
+    z-index: 2000;
+    min-width: 220px;
+}
+.tarea-color-palette-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+.tarea-color-palette-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid #888;
+    cursor: pointer;
+    outline: none;
+    transition: border 0.15s;
+    background: #eee;
+}
+.tarea-color-palette-btn:focus,
+.tarea-color-palette-btn:hover {
+    border: 2px solid #8e44ad;
+}
+.tarea-palette-frio,
+.tarea-palette-calido {
+    display: block;
+}
+.tarea-form-actions {
+    display: flex;
+    gap: 18px;
+    margin-top: 18px;
+    justify-content: space-between;
+}
+.tarea-subtareas-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+.tarea-subtarea-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.tarea-btn-del-sub {
+    background: #e57373;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.18s;
+}
+.tarea-btn-del-sub:hover {
+    background: #c62828;
+}
+
+/* Modal eliminar tarea */
+.modal-eliminar-tarea {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0; top: 0; right: 0; bottom: 0;
+    background: rgba(30,30,40,0.18);
+    align-items: center;
+    justify-content: center;
+}
+.modal-eliminar-tarea.show {
+    display: flex !important;
+}
+.modal-eliminar-tarea-content {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 4px 32px rgba(66,68,76,0.18);
+    width: 90vw;
+    max-width: 320px;
+    padding: 28px 18px 18px 18px;
+    box-sizing: border-box;
+    text-align: center;
+    animation: modalTareaFadeIn 0.18s;
+}
+.modal-eliminar-tarea-msg {
+    font-size: 18px;
+    color: #222;
+    margin-bottom: 22px;
+    font-weight: 500;
+}
+.modal-eliminar-tarea-btns {
+    display: flex;
+    gap: 18px;
+    justify-content: center;
+}
+.modal-eliminar-cancelar,
+.modal-eliminar-aceptar {
+    flex: 1;
+    background: #ededf6;
+    color: #42444c;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 0;
+    font-size: 16px;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s;
+    box-shadow: 0 2px 8px rgba(142,68,173,0.06);
+}
+.modal-eliminar-cancelar:hover,
+.modal-eliminar-cancelar:focus {
+    background: #b9a5e2;
+    color: #fff;
+}
+.modal-eliminar-aceptar {
+    background: #b9a5e2;
+    color: #42444c;
+}
+.modal-eliminar-aceptar:hover,
+.modal-eliminar-aceptar:focus {
+    background: #8e44ad;
+    color: #fff;
+}
+
+@media (max-width: 480px) {
+    .tareas-container {
+        max-width: 98vw;
+        padding: 12px 2vw 70px 2vw;
+    }
+    .tarea-nombre {
+        font-size: 15px;
+        padding: 8px 0;
+    }
+    .btn-fab {
+        right: 12px;
+        bottom: 12px;
+        width: 48px;
+        height: 48px;
+        font-size: 28px;
+    }
+    .modal-tarea {
+        width: 98vw;
+        max-width: 98vw;
+        padding-left: 2vw;
+        padding-right: 2vw;
+    }
+    .tarea-modal-content {
+        width: 98vw;
+        max-width: 98vw;
+        padding-left: 2vw;
+        padding-right: 2vw;
+    }
+    .tarea-modal {
+        background: rgba(30,30,40,0.32);
+    }
+}
+
+/* Menú lateral */
+.side-menu {
+    position: fixed;
+    top: 32px;
+    left: 24px;
+    transform: none;
+    width: 370px;
+    max-width: 96vw;
+    min-width: 220px;
+    height: auto;
+    max-height: calc(100vh - 64px);
+    background: rgba(142,68,173,0.96);
+    border-radius: 24px;
+    box-shadow: 0 0 0 2px #4e2e8e, 0 4px 24px rgba(66,68,76,0.10);
+    z-index: 101;
+    padding: 24px 0 18px 0;
+    display: none;
+    flex-direction: column;
+    animation: menuFadeIn 0.18s;
+    overflow-y: auto;
+}
+.side-menu.active {
+    display: flex;
+}
+@media (max-width: 480px) {
+    .side-menu {
+        left: 2vw;
+        top: 2vw;
+        transform: none;
+        width: 98vw;
+        max-width: 99vw;
+        min-width: 0;
+        height: auto;
+        max-height: calc(100vh - 4vw);
+        border-radius: 18px;
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
