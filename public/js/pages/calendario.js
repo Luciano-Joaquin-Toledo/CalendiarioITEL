@@ -72,7 +72,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- Notas por día ---
     // Estructura simple en memoria: { 'YYYY-MM-DD': [ {titulo, contenido} ] }
-    const notasPorDia = {};
+    let notasPorDia = {};
+
+    // Cargar notas desde localStorage
+    function cargarNotas() {
+        const data = localStorage.getItem('notasPorDia');
+        if (data) {
+            try {
+                notasPorDia = JSON.parse(data);
+            } catch (e) {
+                notasPorDia = {};
+            }
+        }
+    }
+    // Guardar notas en localStorage
+    function guardarNotas() {
+        localStorage.setItem('notasPorDia', JSON.stringify(notasPorDia));
+    }
+
+    cargarNotas();
 
     // Referencias para el panel de notas y modal de nota
     let panelNotas = null;
@@ -82,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let notaModalTitle = null;
     let notaModalBody = null;
 
-    // Crear overlay para el panel de notas
+    // Crear overlay para el panel de notas (ahora visible y animado)
     function crearPanelNotasOverlay() {
         if (document.getElementById('panelNotasDiaOverlay')) return;
         panelNotasOverlay = document.createElement('div');
@@ -115,18 +133,31 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('cerrarPanelNotasDia').onclick = cerrarPanelNotas;
         // Agregar nota
         document.getElementById('agregarNotaDiaBtn').onclick = function() {
-            mostrarFormularioNota();
+            mostrarFormularioNotaModal();
         };
     }
 
+    // Cierra el panel de notas si está abierto
     function cerrarPanelNotas() {
         if (panelNotas) panelNotas.style.display = 'none';
         if (panelNotasOverlay) panelNotasOverlay.classList.remove('active');
+        // Limpia posición para evitar residuos al cambiar de día
+        if (panelNotas) {
+            panelNotas.style.position = '';
+            panelNotas.style.left = '';
+            panelNotas.style.top = '';
+            panelNotas.style.transform = '';
+        }
     }
 
     // Crear modal de nota si no existe
     function crearNotaModal() {
-        if (document.getElementById('notaDiaModal')) return;
+        // Elimina cualquier modal previo para evitar duplicados y bugs visuales
+        const prevModal = document.getElementById('notaDiaModal');
+        const prevOverlay = document.getElementById('notaDiaModalOverlay');
+        if (prevModal) prevModal.remove();
+        if (prevOverlay) prevOverlay.remove();
+
         notaModalOverlay = document.createElement('div');
         notaModalOverlay.className = 'nota-dia-modal-overlay';
         notaModalOverlay.id = 'notaDiaModalOverlay';
@@ -137,7 +168,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="nota-dia-modal-content">
                 <button class="nota-dia-modal-close" id="notaDiaModalClose" aria-label="Cerrar">&times;</button>
                 <h3 id="notaDiaModalTitle"></h3>
-                <div id="notaDiaModalBody"></div>
+                <div id="notaDiaModalBody" class="nota-dia-modal-body"></div>
             </div>
         `;
         document.body.appendChild(notaModalOverlay);
@@ -150,8 +181,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function cerrarNotaModal() {
-        notaModal.style.display = 'none';
-        notaModalOverlay.style.display = 'none';
+        if (notaModal) notaModal.style.display = 'none';
+        if (notaModalOverlay) notaModalOverlay.style.display = 'none';
     }
 
     // Mostrar modal con el contenido de la nota
@@ -163,78 +194,236 @@ document.addEventListener('DOMContentLoaded', function() {
         notaModalOverlay.style.display = 'block';
     }
 
-    // Mostrar formulario para agregar nota (en el modal de notas)
-    function mostrarFormularioNota() {
-        const lista = document.getElementById('panelNotasDiaLista');
-        // Eliminar formularios previos si existen
-        const prevForm = lista.querySelector('.form-agregar-nota-dia');
-        if (prevForm) prevForm.remove();
+    // Modal para formulario de nota
+    let formNotaModal = null;
+    let formNotaModalOverlay = null;
 
-        const form = document.createElement('form');
-        form.className = 'form-agregar-nota-dia';
-        form.innerHTML = `
-            <input type="text" class="input-nota-titulo" placeholder="Título..." required style="margin-bottom:8px;">
-            <textarea class="input-nota-contenido" placeholder="Contenido..." required style="margin-bottom:8px;"></textarea>
-            <div style="display:flex;gap:8px;">
-                <button type="submit" class="btn-guardar-nota-dia">Guardar</button>
-                <button type="button" class="btn-cancelar-nota-dia">Cancelar</button>
+    function crearFormNotaModal() {
+        // Elimina cualquier modal previo para evitar duplicados y bugs visuales
+        const prevModal = document.getElementById('formNotaModal');
+        const prevOverlay = document.getElementById('formNotaModalOverlay');
+        if (prevModal) prevModal.remove();
+        if (prevOverlay) prevOverlay.remove();
+
+        formNotaModalOverlay = document.createElement('div');
+        formNotaModalOverlay.className = 'form-nota-modal-overlay';
+        formNotaModalOverlay.id = 'formNotaModalOverlay';
+        formNotaModal = document.createElement('div');
+        formNotaModal.className = 'form-nota-modal';
+        formNotaModal.id = 'formNotaModal';
+        formNotaModal.innerHTML = `
+            <div class="form-nota-modal-content">
+                <button class="form-nota-modal-close" id="formNotaModalClose" aria-label="Cerrar">&times;</button>
+                <h3 id="formNotaModalTitle"></h3>
+                <form id="formNotaForm">
+                    <input type="text" class="input-nota-titulo" placeholder="Título..." required>
+                    <textarea class="input-nota-contenido" placeholder="Contenido..." required></textarea>
+                    <div style="display:flex;gap:8px;margin-top:12px;">
+                        <button type="submit" class="btn-guardar-nota-dia"></button>
+                        <button type="button" class="btn-cancelar-nota-dia">Cancelar</button>
+                    </div>
+                </form>
             </div>
         `;
-        lista.insertBefore(form, lista.firstChild);
+        document.body.appendChild(formNotaModalOverlay);
+        document.body.appendChild(formNotaModal);
 
-        form.querySelector('.btn-cancelar-nota-dia').onclick = function() {
-            form.remove();
+        // --- Asegura que el modal tenga los estilos correctos al abrir ---
+        formNotaModal.style.display = 'block';
+        formNotaModalOverlay.style.display = 'block';
+        formNotaModal.style.position = 'fixed';
+        formNotaModal.style.top = '50%';
+        formNotaModal.style.left = '50%';
+        formNotaModal.style.transform = 'translate(-50%, -50%)';
+        formNotaModal.style.zIndex = '510';
+
+        formNotaModalOverlay.onclick = cerrarFormNotaModal;
+        document.getElementById('formNotaModalClose').onclick = cerrarFormNotaModal;
+        document.getElementById('formNotaForm').onsubmit = function(e) {
+            e.preventDefault();
+            // Se maneja dinámicamente en mostrarFormularioNotaModal
         };
+        document.querySelector('.btn-cancelar-nota-dia').onclick = cerrarFormNotaModal;
+    }
+
+    // Minimizar/restaurar panel de notas del día
+    function minimizarPanelNotas() {
+        if (panelNotas) panelNotas.classList.add('minimized');
+        if (panelNotasOverlay) panelNotasOverlay.classList.add('blurred');
+    }
+    function restaurarPanelNotas() {
+        if (panelNotas) panelNotas.classList.remove('minimized');
+        if (panelNotasOverlay) panelNotasOverlay.classList.remove('blurred');
+    }
+
+    function cerrarFormNotaModal() {
+        if (formNotaModal) formNotaModal.style.display = 'none';
+        if (formNotaModalOverlay) formNotaModalOverlay.style.display = 'none';
+        restaurarPanelNotas();
+        // Si no hay notas para el día actual, también cierra el panel de notas del día (si existe)
+        const fechaKey = panelNotas ? panelNotas.dataset.fecha : null;
+        if (fechaKey && (!notasPorDia[fechaKey] || notasPorDia[fechaKey].length === 0)) {
+            cerrarPanelNotas();
+        }
+    }
+
+    // Mostrar formulario para agregar o editar nota en modal
+    function mostrarFormularioNotaModal(idxEditar = null) {
+        crearFormNotaModal();
+        // NO minimizar el panel de notas del día, así puedes seguir viendo y abriendo notas
+        // minimizarPanelNotas(); // <-- Elimina o comenta esta línea
+        const form = document.getElementById('formNotaForm');
+        const tituloInput = form.querySelector('.input-nota-titulo');
+        const contenidoInput = form.querySelector('.input-nota-contenido');
+        const btnGuardar = form.querySelector('.btn-guardar-nota-dia');
+        const btnCancelar = form.querySelector('.btn-cancelar-nota-dia');
+        const modalTitle = document.getElementById('formNotaModalTitle');
+        const fechaKey = (panelNotas && panelNotas.dataset.fecha) ? panelNotas.dataset.fecha : diaSeleccionado;
+
+        if (idxEditar !== null) {
+            tituloInput.value = notasPorDia[fechaKey][idxEditar].titulo;
+            contenidoInput.value = notasPorDia[fechaKey][idxEditar].contenido;
+            btnGuardar.textContent = 'Guardar';
+            modalTitle.textContent = 'Editar nota';
+        } else {
+            tituloInput.value = '';
+            contenidoInput.value = '';
+            btnGuardar.textContent = 'Guardar';
+            modalTitle.textContent = 'Nueva nota';
+        }
+        contenidoInput.placeholder = "Escribe aquí el contenido de tu nota...";
+
         form.onsubmit = function(e) {
             e.preventDefault();
-            const titulo = form.querySelector('.input-nota-titulo').value.trim() || 'Sin título';
-            const contenido = form.querySelector('.input-nota-contenido').value.trim() || 'Sin contenido';
-            const fechaKey = panelNotas.dataset.fecha;
+            const titulo = tituloInput.value.trim() || 'Sin título';
+            const contenido = contenidoInput.value.trim() || 'Sin contenido';
             if (!notasPorDia[fechaKey]) notasPorDia[fechaKey] = [];
-            notasPorDia[fechaKey].push({ titulo, contenido });
-            form.remove();
-            renderNotasDia(fechaKey);
-            renderCalendario(mesActual, anioActual); // Actualiza los puntitos
+            if (idxEditar !== null) {
+                notasPorDia[fechaKey][idxEditar] = { titulo, contenido };
+            } else {
+                notasPorDia[fechaKey].push({ titulo, contenido });
+            }
+            guardarNotas();
+            cerrarFormNotaModal();
+            renderCalendario(mesActual, anioActual);
+            // Si después de guardar hay notas, muestra el panel de notas del día
+            if (notasPorDia[fechaKey] && notasPorDia[fechaKey].length > 0) {
+                renderNotasDia(fechaKey);
+            }
         };
+
+        formNotaModal.style.display = 'block';
+        formNotaModalOverlay.style.display = 'block';
+        // No enfocar automáticamente el input
     }
 
     // Renderizar las notas del día seleccionado
-    function renderNotasDia(fechaKey) {
+    function renderNotasDia(fechaKey, triggerEvent) {
+        // Si no hay notas, solo mostrar el modal de crear nota y salir
+        const notas = notasPorDia[fechaKey] || [];
+        if (notas.length === 0) {
+            cerrarPanelNotas();
+            mostrarFormularioNotaModal();
+            return;
+        }
+        // Si hay notas, mostrar el panel de notas del día
+        cerrarPanelNotas();
         crearPanelNotas();
         panelNotas.style.display = 'block';
-        if (panelNotasOverlay) panelNotasOverlay.classList.add('active');
+        if (panelNotasOverlay) {
+            panelNotasOverlay.classList.add('active');
+            panelNotasOverlay.style.display = 'block';
+        }
         panelNotas.dataset.fecha = fechaKey;
         document.getElementById('panelNotasDiaFecha').textContent = fechaKey;
         const lista = document.getElementById('panelNotasDiaLista');
         lista.innerHTML = '';
-        const notas = notasPorDia[fechaKey] || [];
-        if (notas.length === 0) {
-            const vacio = document.createElement('div');
-            vacio.className = 'nota-dia-vacia';
-            vacio.textContent = 'No hay notas para este día.';
-            lista.appendChild(vacio);
-        } else {
-            notas.forEach((nota, idx) => {
-                const div = document.createElement('div');
-                div.className = 'nota-dia-item';
-                div.textContent = nota.titulo;
-                div.onclick = function() {
-                    mostrarNotaModal(nota.titulo, nota.contenido);
-                };
-                lista.appendChild(div);
-            });
+        notas.forEach((nota, idx) => {
+            const div = document.createElement('div');
+            div.className = 'nota-dia-item';
+            div.textContent = nota.titulo;
+            // Botones de editar y eliminar con iconos Font Awesome
+            const btns = document.createElement('span');
+            btns.style.float = 'right';
+            btns.innerHTML = `
+                <button class="btn-editar-nota" title="Editar" style="margin-left:8px;">
+                    <i class="fa fa-pen"></i>
+                </button>
+                <button class="btn-eliminar-nota" title="Eliminar" style="margin-left:4px;">
+                    <i class="fa fa-trash"></i>
+                </button>
+            `;
+            btns.querySelector('.btn-editar-nota').onclick = (e) => {
+                e.stopPropagation();
+                mostrarFormularioNotaModal(idx);
+            };
+            btns.querySelector('.btn-eliminar-nota').onclick = (e) => {
+                e.stopPropagation();
+                if (confirm('¿Eliminar esta nota?')) {
+                    notasPorDia[fechaKey].splice(idx, 1);
+                    if (notasPorDia[fechaKey].length === 0) delete notasPorDia[fechaKey];
+                    guardarNotas();
+                    renderNotasDia(fechaKey);
+                    renderCalendario(mesActual, anioActual);
+                }
+            };
+            div.appendChild(btns);
+            div.onclick = function(e) {
+                // Solo muestra el contenido si NO se hizo click en un botón
+                if (e.target.tagName === 'BUTTON' || e.target.tagName === 'I') return;
+                mostrarNotaModal(nota.titulo, nota.contenido);
+            };
+            lista.appendChild(div);
+        });
+        // Botón para agregar nota solo visible si hay notas
+        const btnAgregar = document.getElementById('agregarNotaDiaBtn');
+        if (btnAgregar) {
+            btnAgregar.style.display = '';
+            btnAgregar.onclick = function() {
+                mostrarFormularioNotaModal();
+            };
+        }
+
+        // Centrar el modal respecto al día seleccionado (solo escritorio)
+        if (triggerEvent && window.innerWidth > 600) {
+            const cell = triggerEvent.target;
+            const rect = cell.getBoundingClientRect();
+            const modal = panelNotas;
+            const modalWidth = modal.offsetWidth || 380;
+            const modalHeight = modal.offsetHeight || 320;
+            let left = rect.left + rect.width / 2 - modalWidth / 2;
+            let top = rect.top + rect.height / 2 - modalHeight / 2;
+            left = Math.max(16, Math.min(left, window.innerWidth - modalWidth - 16));
+            top = Math.max(16, Math.min(top, window.innerHeight - modalHeight - 16));
+            modal.style.position = 'fixed';
+            modal.style.left = left + 'px';
+            modal.style.top = top + 'px';
+            modal.style.transform = 'none';
+        } else if (panelNotas) {
+            panelNotas.style.position = '';
+            panelNotas.style.left = '';
+            panelNotas.style.top = '';
+            panelNotas.style.transform = '';
         }
     }
+
+    // Día seleccionado
+    let diaSeleccionado = null;
 
     // Al tocar un día del calendario
     document.addEventListener('click', function(e) {
         if (e.target.classList.contains('cal-cell') && !e.target.classList.contains('empty')) {
-            // Obtener fecha seleccionada
             const dia = parseInt(e.target.textContent, 10);
             const mes = mesActual + 1;
             const anio = anioActual;
             const fechaKey = `${anio}-${mes.toString().padStart(2, '0')}-${dia.toString().padStart(2, '0')}`;
-            renderNotasDia(fechaKey);
+            diaSeleccionado = fechaKey;
+            renderNotasDia(fechaKey, e);
+            renderCalendario(mesActual, anioActual);
+            if (panelNotasOverlay) {
+                panelNotasOverlay.classList.add('active');
+                panelNotasOverlay.style.display = 'block';
+            }
         }
     });
 
@@ -258,7 +447,7 @@ document.addEventListener('DOMContentLoaded', function() {
         cambiarMes(1);
     });
 
-    // Modificar renderCalendario para marcar días con notas
+    // Modificar renderCalendario para marcar días con notas y resaltar seleccionado
     function renderCalendario(mes, anio) {
         calMes.textContent = `${meses[mes]} ${anio}`;
         calBody.innerHTML = "";
@@ -301,6 +490,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const fechaKey = `${anio}-${(mes+1).toString().padStart(2, '0')}-${dia.toString().padStart(2, '0')}`;
             if (notasPorDia[fechaKey] && notasPorDia[fechaKey].length > 0) {
                 cell.classList.add('has-notes');
+            }
+
+            // Resaltar día seleccionado
+            if (diaSeleccionado === fechaKey) {
+                cell.classList.add('selected');
             }
 
             row.appendChild(cell);

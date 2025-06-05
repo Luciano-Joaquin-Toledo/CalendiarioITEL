@@ -853,26 +853,29 @@ body {
     color: #6d368d;
 }
 
-/* Overlay para el modal de materia (oscurece fondo) */
-#materiaModalOverlay,
-.materia-modal-overlay {
-    display: block;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background: rgba(30, 30, 40, 0.32);
-    z-index: 2100;
+.materia-editar {
+    background: none;
+    border: none;
+    color: #8e44ad;
+    font-size: 20px;
+    cursor: pointer;
+    margin-left: 8px;
+    transition: color 0.18s;
+}
+.materia-editar:hover,
+.materia-editar:focus {
+    color: #6d368d;
 }
 
-/* Oculta el overlay por defecto */
-#materiaModalOverlay:not(.active),
-.materia-modal-overlay:not(.active) {
-    display: none;
-}
-
-/* Asegura que el modal esté por encima del overlay */
-#materiaModal {
-    z-index: 2110;
+/* Buscador de materias */
+input[type="text"][placeholder="Buscar materia..."] {
+    margin-bottom: 8px;
+    border: 1.5px solid #b9a5e2;
+    border-radius: 12px;
+    font-size: 16px;
+    padding: 8px 12px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* Responsive */

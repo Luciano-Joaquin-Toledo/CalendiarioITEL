@@ -18,36 +18,90 @@
   </head>
   <body>
     <div class="panel-container">
-      <nav class="top-navbar">
-        <i class="fa fa-chevron-down nav-icon" id="open-menu"></i>
+      <nav class="top-navbar" role="navigation" aria-label="Barra superior">
+        <i
+          class="fa fa-chevron-down nav-icon"
+          id="open-menu"
+          tabindex="0"
+          aria-label="Abrir menú lateral"
+          role="button"
+        ></i>
         <span class="navbar-title"></span>
-        <i class="fa fa-search nav-icon"></i>
+        <i class="fa fa-search nav-icon" aria-label="Buscar"></i>
       </nav>
-      <div class="side-menu-overlay" id="sideMenuOverlay"></div>
-      <aside class="side-menu" id="sideMenu">
+      <div class="side-menu-overlay" id="sideMenuOverlay" tabindex="-1" aria-hidden="true"></div>
+      <aside class="side-menu" id="sideMenu" role="menu" aria-label="Menú lateral">
         <button
           class="side-menu-close"
           id="sideMenuClose"
           aria-label="Cerrar menú"
+          tabindex="0"
         >
           <i class="fa fa-times"></i>
         </button>
         <ul>
-          <li><i class="fa fa-house"></i> <span>Inicio</span></li>
-          <li>
-            <a href="./calendario.html"><i class="fa-regular fa-calendar"></i> <span>Calendario</span></a>
+          <li
+            onclick="location.href='./panel.html'"
+            style="cursor:pointer;"
+            tabindex="0"
+            role="menuitem"
+            aria-label="Inicio"
+          >
+            <i class="fa fa-house"></i> <span>Inicio</span>
           </li>
-          <li>
+          <li
+            onclick="location.href='./calendario.html'"
+            style="cursor:pointer;"
+            tabindex="0"
+            role="menuitem"
+            aria-label="Calendario"
+          >
+            <i class="fa-regular fa-calendar"></i> <span>Calendario</span>
+          </li>
+          <li
+            onclick="location.href='./tareas.html'"
+            style="cursor:pointer;"
+            tabindex="0"
+            role="menuitem"
+            aria-label="Tareas"
+          >
             <i class="fa-regular fa-square-check"></i> <span>Tareas</span>
           </li>
-          <li><i class="fa-regular fa-book"></i> <span>Materias</span></li>
-          <li><i class="fa-regular fa-clock"></i> <span>Pendientes</span></li>
-          <li>
+          <li
+            onclick="location.href='./materias.html'"
+            style="cursor:pointer;"
+            tabindex="0"
+            role="menuitem"
+            aria-label="Materias"
+          >
+            <i class="fa-regular fa-book"></i> <span>Materias</span>
+          </li>
+          <li
+            onclick="location.href='./estadisticas.html'"
+            style="cursor:pointer;"
+            tabindex="0"
+            role="menuitem"
+            aria-label="Estadísticas"
+          >
             <i class="fa-solid fa-chart-simple"></i> <span>Estadísticas</span>
           </li>
-          <li><i class="fa-regular fa-user"></i> <span>Perfil</span></li>
+          <li
+            onclick="location.href='./perfil.html'"
+            style="cursor:pointer;"
+            tabindex="0"
+            role="menuitem"
+            aria-label="Perfil"
+          >
+            <i class="fa-regular fa-user"></i> <span>Perfil</span>
+          </li>
           <li class="menu-divider"></li>
-          <li>
+          <li
+            onclick="location.href='./acerca.html'"
+            style="cursor:pointer;"
+            tabindex="0"
+            role="menuitem"
+            aria-label="Acerca de"
+          >
             <i class="fa-regular fa-circle-question"></i> <span>Acerca de</span>
           </li>
         </ul>
@@ -60,6 +114,9 @@
             class="nota"
             data-title="Nota 1"
             data-content="Contenido de la nota 1"
+            tabindex="0"
+            role="button"
+            aria-label="Nota 1"
           >
             Nota 1
           </div>
@@ -67,6 +124,9 @@
             class="nota"
             data-title="Nota 2"
             data-content="Contenido de la nota 2"
+            tabindex="0"
+            role="button"
+            aria-label="Nota 2"
           >
             Nota 2
           </div>
@@ -74,6 +134,9 @@
             class="nota"
             data-title="Nota 3"
             data-content="Contenido de la nota 3"
+            tabindex="0"
+            role="button"
+            aria-label="Nota 3"
           >
             Nota 3
           </div>
@@ -100,20 +163,38 @@
           </div>
         </div>
       </div>
-      <button class="btn-fab" title="Agregar nota" id="open-fab-menu">
+      <button
+        class="btn-fab"
+        title="Agregar nota"
+        id="open-fab-menu"
+        aria-label="Agregar nota"
+        tabindex="0"
+      >
         <i class="fa fa-plus"></i>
       </button>
       <div class="fab-menu-overlay" id="fabMenuOverlay"></div>
-      <div class="fab-menu" id="fabMenu">
+      <div class="fab-menu" id="fabMenu" role="menu" aria-label="Menú rápido">
         <ul>
           <li>
-            <button class="fab-action-btn" type="button" id="openMateriaModal">
+            <button
+              class="fab-action-btn"
+              type="button"
+              id="openMateriaModal"
+              aria-label="Crear materia"
+              tabindex="0"
+            >
               <span>Materia</span>
               <i class="fa-regular fa-book"></i>
             </button>
           </li>
           <li>
-            <button class="fab-action-btn" type="button" id="openTareaModal">
+            <button
+              class="fab-action-btn"
+              type="button"
+              id="openTareaModal"
+              aria-label="Crear tarea"
+              tabindex="0"
+            >
               <span>Tarea</span>
               <i class="fa-regular fa-square-check"></i>
             </button>
@@ -123,6 +204,8 @@
               class="fab-action-btn"
               type="button"
               id="openCrearNotaModal"
+              aria-label="Crear nota"
+              tabindex="0"
             >
               <span>Nota</span>
               <i class="fa-regular fa-clipboard"></i>

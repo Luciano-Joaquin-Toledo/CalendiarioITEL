@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', function() {
     openMenu.addEventListener('click', function() {
         sideMenu.classList.add('active');
         overlay.classList.add('active');
+        // Accesibilidad: foco en primer ítem del menú
+        focusFirstInput('#sideMenu');
     });
 
     overlay.addEventListener('click', function() {
@@ -36,6 +38,8 @@ document.addEventListener('DOMContentLoaded', function() {
         fabOverlay.classList.add('active');
         fabBtnIcon.classList.remove('fa-plus');
         fabBtnIcon.classList.add('fa-times');
+        // Accesibilidad: foco en primer botón del menú flotante
+        focusFirstInput('#fabMenu');
     });
 
     function closeFabMenu() {
@@ -55,6 +59,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const notaModalBody = document.getElementById('notaModalBody');
 
     document.querySelectorAll('.nota').forEach(function(nota) {
+        nota.setAttribute('tabindex', '0'); // Accesibilidad: navegable por teclado
+        nota.setAttribute('role', 'button');
+        nota.setAttribute('aria-label', nota.getAttribute('data-title') || nota.textContent);
         nota.addEventListener('click', function(e) {
             e.stopPropagation();
             // Quitar selección previa
@@ -67,6 +74,14 @@ document.addEventListener('DOMContentLoaded', function() {
             notaModalBody.textContent = nota.getAttribute('data-content') || 'Sin contenido';
             notaModal.classList.add('active');
             notaModalOverlay.classList.add('active');
+            focusFirstInput('#notaModal');
+        });
+        // Accesibilidad: abrir modal con Enter/Espacio
+        nota.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                nota.click();
+            }
         });
     });
 
@@ -94,6 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         materiaModal.classList.add('active');
         materiaModalOverlay.classList.add('active');
+        focusFirstInput('#materiaModal');
     });
 
     function closeMateriaModal() {
@@ -118,6 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             tareaModal.classList.add('active');
             tareaModalOverlay.classList.add('active');
+            focusFirstInput('#tareaModal');
         });
     }
 
@@ -142,6 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             crearNotaModal.classList.add('active');
             crearNotaModalOverlay.classList.add('active');
+            focusFirstInput('#crearNotaModal');
         });
     }
 
@@ -193,6 +211,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Selección de color de la paleta (ambas paletas)
     colorPalettePopup.querySelectorAll('.color-palette-btn').forEach(function(btn) {
+        btn.setAttribute('role', 'button');
+        btn.setAttribute('aria-label', 'Seleccionar color ' + btn.getAttribute('data-color'));
         btn.addEventListener('click', function() {
             colorPalettePopup.querySelectorAll('.color-palette-btn').forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
@@ -248,6 +268,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     tareaColorPalettePopup.querySelectorAll('.tarea-color-palette-btn').forEach(function(btn) {
+        btn.setAttribute('role', 'button');
+        btn.setAttribute('aria-label', 'Seleccionar color ' + btn.getAttribute('data-color'));
         btn.addEventListener('click', function() {
             tareaColorPalettePopup.querySelectorAll('.tarea-color-palette-btn').forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
@@ -267,4 +289,41 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     })();
+
+    // Función utilitaria para cerrar cualquier modal/menú con Esc
+    function closeOnEsc(e) {
+        if (e.key === 'Escape') {
+            // Cierra menús/modales activos
+            if (sideMenu.classList.contains('active')) {
+                sideMenu.classList.remove('active');
+                overlay.classList.remove('active');
+            }
+            if (fabMenu.classList.contains('active')) {
+                closeFabMenu();
+            }
+            if (notaModal.classList.contains('active')) {
+                closeNotaModal();
+            }
+            if (materiaModal.classList.contains('active')) {
+                closeMateriaModal();
+            }
+            if (tareaModal && tareaModal.classList.contains('active')) {
+                closeTareaModal();
+            }
+            if (crearNotaModal && crearNotaModal.classList.contains('active')) {
+                closeCrearNotaModal();
+            }
+        }
+    }
+    document.addEventListener('keydown', closeOnEsc);
+
+    // Mejorar accesibilidad: Foco en primer input al abrir cada modal
+    function focusFirstInput(modalSelector) {
+        setTimeout(() => {
+            const modal = document.querySelector(modalSelector);
+            if (!modal) return;
+            const input = modal.querySelector('input, textarea, select, button');
+            if (input) input.focus();
+        }, 100);
+    }
 });

@@ -291,9 +291,31 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.appendChild(modal);
     }
 
+    // --- NUEVO: Persistencia en localStorage ---
+    function guardarMaterias() {
+        localStorage.setItem('materias', JSON.stringify(materias));
+    }
+    function cargarMaterias() {
+        const data = localStorage.getItem('materias');
+        if (data) {
+            try {
+                materias = JSON.parse(data);
+            } catch (e) {}
+        }
+    }
+    cargarMaterias();
+
+    // --- NUEVO: Buscador de materias ---
+    let filtroBusqueda = '';
     function renderMaterias() {
         materiasLista.innerHTML = '';
-        materias.forEach((materia, idx) => {
+        let lista = materias;
+        if (filtroBusqueda.trim() !== '') {
+            lista = materias.filter(m =>
+                m.nombre.toLowerCase().includes(filtroBusqueda.trim().toLowerCase())
+            );
+        }
+        lista.forEach((materia, idx) => {
             const card = document.createElement('div');
             card.className = 'materia-card';
             card.style.background = materia.color || '#ededf6';
@@ -301,6 +323,15 @@ document.addEventListener('DOMContentLoaded', function() {
             const nombre = document.createElement('div');
             nombre.className = 'materia-nombre';
             nombre.textContent = materia.nombre;
+
+            // Editar
+            const editar = document.createElement('button');
+            editar.className = 'materia-editar';
+            editar.innerHTML = '<i class="fa fa-pen"></i>';
+            editar.onclick = (e) => {
+                e.stopPropagation();
+                abrirCrearMateriaModal(materia, idx);
+            };
 
             // Eliminar
             const eliminar = document.createElement('button');
@@ -312,6 +343,7 @@ document.addEventListener('DOMContentLoaded', function() {
             };
 
             card.appendChild(nombre);
+            card.appendChild(editar);
             card.appendChild(eliminar);
 
             // Al hacer click en la tarjeta, abrir detalle
@@ -323,15 +355,31 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Mostrar modal para crear materia con overlay oscuro
-    function abrirCrearMateriaModal() {
-        // Elimina overlays/modales previos
-        let oldOverlay = document.getElementById('materiaModalOverlay');
-        if (oldOverlay) oldOverlay.remove();
-        let modal = document.getElementById('materiaModal');
-        if (modal) modal.remove();
+    // --- NUEVO: Buscador en la UI ---
+    // Insertar buscador arriba de la lista
+    const buscador = document.createElement('input');
+    buscador.type = 'text';
+    buscador.placeholder = 'Buscar materia...';
+    buscador.style.width = '100%';
+    buscador.style.margin = '10px 0 0 0';
+    buscador.style.padding = '8px 12px';
+    buscador.style.borderRadius = '12px';
+    buscador.style.border = '1.5px solid #b9a5e2';
+    buscador.style.fontSize = '16px';
+    buscador.style.boxSizing = 'border-box';
+    buscador.addEventListener('input', function() {
+        filtroBusqueda = buscador.value;
+        renderMaterias();
+    });
+    materiasLista.parentNode.insertBefore(buscador, materiasLista);
 
-        // Overlay oscuro
+    // Mostrar modal para crear o editar materia with overlay oscuro
+    function abrirCrearMateriaModal(materiaEditar = null, idxEditar = null) {
+        // Elimina cualquier modal/overlay previo
+        document.querySelectorAll('.materia-modal, #materiaModalOverlay').forEach(e => e.remove());
+        document.body.style.overflow = 'hidden';
+
+        // Overlay
         const overlay = document.createElement('div');
         overlay.id = 'materiaModalOverlay';
         overlay.style.position = 'fixed';
@@ -341,75 +389,94 @@ document.addEventListener('DOMContentLoaded', function() {
         overlay.style.height = '100vh';
         overlay.style.background = 'rgba(30,30,40,0.32)';
         overlay.style.zIndex = 2100;
-        overlay.onclick = function(e) {
-            if (e.target === overlay) {
-                overlay.remove();
-                if (modal) modal.remove();
-            }
-        };
+        overlay.style.transition = 'opacity 0.18s';
+        overlay.style.opacity = '0';
 
         // Modal
-        modal = document.createElement('div');
+        const modal = document.createElement('div');
         modal.className = 'materia-modal';
         modal.id = 'materiaModal';
-        modal.style.display = 'flex';
+        modal.style.position = 'fixed';
+        modal.style.top = '50%';
+        modal.style.left = '50%';
+        modal.style.transform = 'translate(-50%, -50%) scale(0.98)';
+        modal.style.background = '#fff';
+        modal.style.borderRadius = '18px';
+        modal.style.boxShadow = '0 4px 32px rgba(66,68,76,0.18)';
         modal.style.zIndex = 2110;
+        modal.style.width = '95vw';
+        modal.style.maxWidth = '370px';
+        modal.style.padding = '28px 22px 22px 22px';
+        modal.style.display = 'block';
+        modal.style.transition = 'transform 0.18s, opacity 0.18s';
+        modal.style.opacity = '0';
+
+        // Valores iniciales
+        const nombreVal = materiaEditar ? materiaEditar.nombre.replace(/"/g,'&quot;') : '';
+        const descVal = materiaEditar && materiaEditar.descripcion ? materiaEditar.descripcion : '';
+        const colorVal = materiaEditar ? materiaEditar.color : '#c7d2f7';
+        // Detecta tipo de color
+        const frioColors = [
+            "#c7d2f7","#9cc2f4","#86a8f0","#a480f0","#cf6bed","#ec4fe4","#6f80d8","#4f62e1","#51b7dd","#3bd87b","#7d6fcb","#5f49a8","#362f88","#547f8c","#3c6763"
+        ];
+        const calidoColors = [
+            "#ffe7b3","#ffe07a","#ffcb2d","#ffc101","#f8a527","#f28500","#ff5e3a","#e63b2e","#c3221f","#911c1d","#ab4f33","#9c6236","#a4a93c","#718942","#7e9453"
+        ];
+        let tipoColor = '';
+        if (frioColors.includes(colorVal)) tipoColor = 'frio';
+        else if (calidoColors.includes(colorVal)) tipoColor = 'calido';
+
         modal.innerHTML = `
-      <div class="materia-modal-content">
+      <div class="materia-modal-content" style="padding:0;">
         <button
           class="materia-modal-close"
           id="materiaModalClose"
           aria-label="Cerrar"
+          style="position:absolute;top:12px;right:14px;background:none;border:none;font-size:22px;color:#8e44ad;cursor:pointer;z-index:2;"
         >
           <i class="fa fa-times"></i>
         </button>
-        <h2 class="materia-modal-title">Crear de Materia</h2>
-        <form class="materia-form">
+        <h2 class="materia-modal-title" style="margin:0 0 18px 0;text-align:center;font-size:22px;color:#4e2e8e;">
+            ${materiaEditar ? 'Editar Materia' : 'Crear Materia'}
+        </h2>
+        <form class="materia-form" autocomplete="off" style="display:flex;flex-direction:column;gap:12px;">
           <input
             type="text"
             class="materia-input nombre-materia"
             placeholder="Nombre de Materia ..."
             required
+            maxlength="32"
+            value="${nombreVal}"
+            style="font-size:17px;padding:10px 12px;border-radius:10px;border:1.5px solid #b9a5e2;"
           />
           <hr class="materia-divider" />
           <textarea
             class="materia-input materia-desc"
             placeholder="Descripción..."
-          ></textarea>
-          <div class="materia-form-row">
-            <label>Imagen:</label>
-            <button type="button" class="materia-btn materia-btn-sm">
-              ...
-            </button>
+            maxlength="120"
+            style="font-size:15px;padding:10px 12px;border-radius:10px;border:1.5px solid #b9a5e2;min-height:48px;resize:vertical;"
+          >${descVal}</textarea>
+          <div class="materia-form-row" style="display:flex;align-items:center;gap:10px;">
+            <label style="font-size:15px;">Imagen:</label>
+            <button type="button" class="materia-btn materia-btn-sm" tabindex="-1" style="pointer-events:none;opacity:.5;">...</button>
           </div>
-          <div class="materia-form-row">
-            <label>Ubicación:</label>
-            <button type="button" class="materia-btn materia-btn-sm">
-              ...
-            </button>
+          <div class="materia-form-row" style="display:flex;align-items:center;gap:10px;">
+            <label style="font-size:15px;">Ubicación:</label>
+            <button type="button" class="materia-btn materia-btn-sm" tabindex="-1" style="pointer-events:none;opacity:.5;">...</button>
           </div>
-          <div class="materia-form-row">
-            <label>Tipo de Color:</label>
-            <select class="materia-input materia-color-type" id="materiaColorType">
+          <div class="materia-form-row" style="display:flex;align-items:center;gap:10px;">
+            <label style="font-size:15px;">Tipo de Color:</label>
+            <select class="materia-input materia-color-type" id="materiaColorType" style="flex:1;">
               <option value="">Seleccionar...</option>
-              <option value="frio">Frío</option>
-              <option value="calido">Cálido</option>
+              <option value="frio" ${tipoColor==='frio'?'selected':''}>Frío</option>
+              <option value="calido" ${tipoColor==='calido'?'selected':''}>Cálido</option>
             </select>
           </div>
-          <div class="materia-form-row">
-            <label>Color de la Materia:</label>
-            <input
-              type="hidden"
-              id="materiaColorPicker"
-              name="materiaColor"
-              value="#c7d2f7"
-            />
-            <div
-              class="color-palette-popup"
-              id="colorPalettePopup"
-              style="display: none"
-            >
-              <div class="palette-frio">
+          <div class="materia-form-row" style="flex-direction:column;align-items:flex-start;gap:6px;">
+            <label style="font-size:15px;">Color de la Materia:</label>
+            <input type="hidden" id="materiaColorPicker" name="materiaColor" value="${colorVal}" />
+            <div class="color-palette-popup" id="colorPalettePopup" style="display:none;">
+              <div class="palette-frio" style="display:${tipoColor==='frio'?'block':'none'};">
                 <div class="color-palette-row">
                   <button type="button" class="color-palette-btn" data-color="#c7d2f7" style="background: #c7d2f7"></button>
                   <button type="button" class="color-palette-btn" data-color="#9cc2f4" style="background: #9cc2f4"></button>
@@ -432,7 +499,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   <button type="button" class="color-palette-btn" data-color="#3c6763" style="background: #3c6763"></button>
                 </div>
               </div>
-              <div class="palette-calido" style="display: none">
+              <div class="palette-calido" style="display:${tipoColor==='calido'?'block':'none'};">
                 <div class="color-palette-row">
                   <button type="button" class="color-palette-btn" data-color="#ffe7b3" style="background: #ffe7b3"></button>
                   <button type="button" class="color-palette-btn" data-color="#ffe07a" style="background: #ffe07a"></button>
@@ -456,35 +523,34 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
               </div>
             </div>
-            <button
-              type="button"
-              id="showPaletteBtn"
-              class="color-preview-btn"
-              style="background: #c7d2f7"
-            ></button>
+            <button type="button" id="showPaletteBtn" class="color-preview-btn" style="background:${colorVal};width:36px;height:36px;border-radius:50%;border:2px solid #b9a5e2;box-shadow:0 1px 4px #b9a5e2;vertical-align:middle;margin-top:4px;"></button>
           </div>
-          <div class="materia-form-actions">
-            <button type="button" class="materia-btn materia-btn-cancel">
+          <div class="materia-form-actions" style="display:flex;gap:12px;margin-top:8px;">
+            <button type="button" class="materia-btn materia-btn-cancel"
+              style="flex:1;background:#ededf6;color:#42444c;border:none;border-radius:10px;padding:10px 0;font-size:16px;font-weight:600;cursor:pointer;transition:background 0.18s;">
               Cancelar
             </button>
-            <button type="submit" class="materia-btn materia-btn-save">
+            <button type="submit" class="materia-btn materia-btn-save"
+              style="flex:1;background:#b9a5e2;color:#4e2e8e;border:none;border-radius:10px;padding:10px 0;font-size:16px;font-weight:600;cursor:pointer;transition:background 0.18s;">
               Guardar
             </button>
           </div>
+          <div class="materia-form-error" style="color:#c3221f;font-size:14px;margin-top:2px;display:none;min-height:18px;transition:opacity 0.18s;"></div>
         </form>
       </div>
     `;
 
+        // Inserta overlay y modal al DOM antes de asignar eventos
         document.body.appendChild(overlay);
         document.body.appendChild(modal);
 
-        // Cierre modal y overlay
-        modal.querySelector('#materiaModalClose').onclick = () => { modal.remove(); overlay.remove(); };
-        modal.querySelector('.materia-btn-cancel').onclick = () => { modal.remove(); overlay.remove(); };
-        overlay.onclick = function(e) { if (e.target === overlay) { modal.remove(); overlay.remove(); } };
-        modal.onclick = function(e) { if (e.target === modal) { modal.remove(); overlay.remove(); } };
+        setTimeout(() => {
+            overlay.style.opacity = '1';
+            modal.style.transform = 'translate(-50%, -50%) scale(1)';
+            modal.style.opacity = '1';
+        }, 10);
 
-        // Paleta de colores
+        // Paleta de colores y eventos
         const colorType = modal.querySelector('#materiaColorType');
         const palettePopup = modal.querySelector('#colorPalettePopup');
         const btnShowPalette = modal.querySelector('#showPaletteBtn');
@@ -524,23 +590,106 @@ document.addEventListener('DOMContentLoaded', function() {
             };
         });
 
+        // Cierre modal y overlay
+        function cerrarModalAnimado() {
+            modal.style.opacity = '0';
+            modal.style.transform = 'translate(-50%, -50%) scale(0.98)';
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                modal.remove();
+                overlay.remove();
+                document.body.style.overflow = '';
+            }, 180);
+        }
+        modal.querySelector('#materiaModalClose').onclick = cerrarModalAnimado;
+        modal.querySelector('.materia-btn-cancel').onclick = cerrarModalAnimado;
+        overlay.onclick = function(e) { if (e.target === overlay) cerrarModalAnimado(); };
+        modal.onclick = function(e) { if (e.target === modal) cerrarModalAnimado(); };
+
+        // Cerrar con Escape
+        function escListener(ev) {
+            if (ev.key === 'Escape') cerrarModalAnimado();
+        }
+        setTimeout(() => document.addEventListener('keydown', escListener), 50);
+
+        // Limpieza de eventos al cerrar
+        overlay.addEventListener('transitionend', function limpiar() {
+            document.removeEventListener('keydown', escListener);
+            overlay.removeEventListener('transitionend', limpiar);
+        });
+
         // Guardar materia
         modal.querySelector('.materia-form').onsubmit = function(e) {
             e.preventDefault();
             const nombre = modal.querySelector('.nombre-materia').value.trim();
             const descripcion = modal.querySelector('.materia-desc').value.trim();
             const color = colorInput.value;
-            materias.push({
-                nombre,
-                color,
-                descripcion,
-                tareas: [],
-                notas: []
-            });
-            modal.remove();
-            overlay.remove();
+            const errorDiv = modal.querySelector('.materia-form-error');
+            // Validación: nombre vacío
+            if (!nombre) {
+                errorDiv.textContent = 'El nombre es obligatorio.';
+                errorDiv.style.display = 'block';
+                errorDiv.style.opacity = '1';
+                return;
+            }
+            // Validación: nombre duplicado
+            const existe = materias.some((m, i) =>
+                m.nombre.toLowerCase() === nombre.toLowerCase() &&
+                (materiaEditar ? i !== idxEditar : true)
+            );
+            if (existe) {
+                errorDiv.textContent = 'Ya existe una materia con ese nombre.';
+                errorDiv.style.display = 'block';
+                errorDiv.style.opacity = '1';
+                return;
+            }
+            errorDiv.style.opacity = '0';
+            setTimeout(() => { errorDiv.style.display = 'none'; }, 180);
+            if (materiaEditar) {
+                materias[idxEditar].nombre = nombre;
+                materias[idxEditar].color = color;
+                materias[idxEditar].descripcion = descripcion;
+                mostrarMensaje('Materia editada con éxito');
+            } else {
+                materias.push({
+                    nombre,
+                    color,
+                    descripcion,
+                    tareas: [],
+                    notas: []
+                });
+                mostrarMensaje('Materia creada con éxito');
+            }
+            guardarMaterias();
+            cerrarModalAnimado();
             renderMaterias();
         };
+
+        // Enfoque automático en nombre
+        setTimeout(() => {
+            const input = modal.querySelector('.nombre-materia');
+            if (input) input.focus();
+        }, 100);
+    }
+
+    // --- NUEVO: Mensaje de éxito ---
+    function mostrarMensaje(msg) {
+        const div = document.createElement('div');
+        div.textContent = msg;
+        div.style.position = 'fixed';
+        div.style.bottom = '32px';
+        div.style.left = '50%';
+        div.style.transform = 'translateX(-50%)';
+        div.style.background = '#8e44ad';
+        div.style.color = '#fff';
+        div.style.padding = '12px 28px';
+        div.style.borderRadius = '16px';
+        div.style.fontSize = '16px';
+        div.style.fontWeight = '600';
+        div.style.zIndex = 9999;
+        div.style.boxShadow = '0 2px 12px rgba(66,68,76,0.10)';
+        document.body.appendChild(div);
+        setTimeout(() => { div.remove(); }, 1800);
     }
 
     if (agregarMateriaBtn) {
@@ -550,7 +699,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     renderMaterias();
-    // ...resto de la lógica...
+    // ...existing code...
 
     function mostrarModalEliminarMateria(nombre, idx) {
         // Elimina cualquier modal previo
@@ -640,8 +789,10 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         btnAceptar.onclick = function() {
             materias.splice(idx, 1);
+            guardarMaterias();
             renderMaterias();
             overlay.remove();
+            mostrarMensaje('Materia eliminada');
         };
 
         btns.appendChild(btnCancelar);

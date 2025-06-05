@@ -357,6 +357,7 @@
     color: #fff;
     font-weight: 700;
     border: 2px solid #8e44ad;
+    box-shadow: 0 0 0 2px #8e44ad33;
 }
 .cal-cell.event {
     border-bottom: 3px solid #27ae60;
@@ -387,33 +388,37 @@
     position: fixed;
     top: 50%;
     left: 50%;
-    right: auto;
-    bottom: auto;
     transform: translate(-50%, -50%);
-    max-width: 95vw;
-    width: 99vw;
+    max-width: 420px;
+    width: 98vw;
     min-width: 0;
     background: #fff;
-    border-radius: 18px;
-    box-shadow: 0 4px 32px rgba(66,68,76,0.18);
+    border-radius: 22px;
+    box-shadow: 0 12px 40px rgba(66,68,76,0.22);
     z-index: 300;
-    padding: 4vw 2vw 4vw 2vw;
+    padding: 0;
     display: none;
-    animation: panelNotasDiaFadeIn 0.18s;
+    animation: panelNotasDiaFadeIn 0.22s cubic-bezier(.4,1.4,.6,1);
+    border: 1.5px solid #e3e6ef;
+    overflow: hidden;
+    transition: left 0.18s, top 0.18s, transform 0.18s, box-shadow 0.18s;
 }
 @keyframes panelNotasDiaFadeIn {
-    from { opacity: 0; transform: translate(-50%, -40px);}
-    to { opacity: 1; transform: translate(-50%, -50%);}
+    from { opacity: 0; transform: translate(-50%, -60%) scale(0.93);}
+    to { opacity: 1; transform: translate(-50%, -50%) scale(1);}
 }
 .panel-notas-dia-header {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    font-size: 16px;
-    font-weight: 600;
-    color: #8e44ad;
-    margin-bottom: 8px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #7d3bb7;
+    background: #f3eaff;
+    border-radius: 22px 22px 0 0;
+    padding: 18px 22px 14px 22px;
     gap: 12px;
+    border-bottom: 1.5px solid #e3e6ef;
 }
 .panel-notas-dia-cerrar {
     background: none;
@@ -421,26 +426,32 @@
     color: #8e44ad;
     font-size: 22px;
     cursor: pointer;
-    padding: 2px 8px;
+    padding: 2px 10px;
     border-radius: 8px;
-    transition: background 0.15s;
+    transition: background 0.15s, color 0.15s;
     margin-left: auto;
 }
 .panel-notas-dia-cerrar:hover,
 .panel-notas-dia-cerrar:focus {
-    background: #f3eaff;
+    background: #e3e6ef;
+    color: #6d368d;
 }
 .panel-notas-dia-lista {
     display: flex;
     flex-direction: column;
     gap: 14px;
     min-height: 60px;
-    margin-bottom: 14px;
-    max-height: 220px;
+    max-height: 260px;
+    margin: 0;
+    padding: 18px 22px 0 22px;
     overflow-y: auto;
+    background: #fff;
+    /* Mejora para móvil: más espacio y scroll suave */
+    scrollbar-width: thin;
+    scrollbar-color: #b9a5e2 #f3eaff;
 }
 .nota-dia-item {
-    background: #c4c7d4;
+    background: #f3eaff;
     border-radius: 10px;
     padding: 14px 14px;
     font-size: 17px;
@@ -449,91 +460,253 @@
     cursor: pointer;
     transition: background 0.15s, color 0.15s;
     box-shadow: 0 1px 4px rgba(66,68,76,0.07);
+    position: relative;
+    padding-right: 70px;
+    word-break: break-word;
 }
 .nota-dia-item:hover,
 .nota-dia-item:focus {
     background: #b9a5e2;
     color: #fff;
 }
+.nota-dia-item span {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: flex;
+    gap: 4px;
+}
 .nota-dia-vacia {
     color: #888;
-    font-size: 14px;
+    font-size: 15px;
     text-align: center;
-    padding: 12px 0;
+    padding: 18px 0;
 }
 .panel-notas-dia-agregar {
     width: 100%;
-    background: #b9a5e2;
-    color: #42444c;
+    background: linear-gradient(90deg,#8e44ad 60%,#b9a5e2 100%);
+    color: #fff;
     border: none;
-    border-radius: 8px;
-    padding: 12px 0;
+    border-radius: 0 0 22px 22px;
+    padding: 16px 0 14px 0;
     font-size: 18px;
     font-family: inherit;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
-    transition: background 0.2s;
-    margin-top: 0;
-    margin-bottom: 12px;
-    position: static;
-    bottom: auto;
-    z-index: 2;
+    transition: background 0.2s, color 0.2s;
+    margin: 0;
+    box-shadow: 0 -1px 8px #b9a5e222;
+    letter-spacing: 0.5px;
 }
-.form-agregar-nota-dia {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 12px;
-}
-.input-nota-titulo,
-.input-nota-contenido {
-    width: 100%;
-    border-radius: 8px;
-    border: 1.5px solid #b9a5e2;
-    font-size: 16px;
-    padding: 10px 12px;
-    font-family: inherit;
-    margin-bottom: 0;
-    outline: none;
-    background: #f6f6fa;
-    color: #42444c;
-}
-.input-nota-titulo:focus,
-.input-nota-contenido:focus {
-    border-color: #8e44ad;
-    background: #fff;
-}
-.btn-guardar-nota-dia,
-.btn-cancelar-nota-dia {
-    flex: 1;
-    background: #e3e6ef;
-    color: #222;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 0;
-    font-size: 15px;
-    font-family: inherit;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
-    margin-right: 4px;
-}
-.btn-guardar-nota-dia {
-    background: #b9a5e2;
-    color: #222;
-}
-.btn-guardar-nota-dia:hover,
-.btn-guardar-nota-dia:focus {
-    background: #8e44ad;
-    color: #fff;
-}
-.btn-cancelar-nota-dia:hover,
-.btn-cancelar-nota-dia:focus {
-    background: #b9a5e2;
+.panel-notas-dia-agregar:hover,
+.panel-notas-dia-agregar:focus {
+    background: linear-gradient(90deg,#6d368d 60%,#b9a5e2 100%);
     color: #fff;
 }
 
-/* Modal de nota del día */
+/* --- MODAL CREAR/EDITAR NOTA --- */
+.form-nota-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(30, 30, 40, 0.88);
+    z-index: 500;
+    transition: background 0.25s;
+}
+.form-nota-modal {
+    display: none;
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 22px;
+    box-shadow: 0 12px 40px rgba(66,68,76,0.22);
+    z-index: 510;
+    min-width: 240px;
+    max-width: 98vw;
+    width: 340px;
+    padding: 0;
+    animation: modalFadeIn 0.22s cubic-bezier(.4,1.4,.6,1);
+    border: 1.5px solid #e3e6ef;
+}
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translate(-50%, -60%) scale(0.93);}
+    to { opacity: 1; transform: translate(-50%, -50%) scale(1);}
+}
+.form-nota-modal-content {
+    padding: 30px 24px 22px 24px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.form-nota-modal h3 {
+    margin: 0 0 12px 0;
+    font-size: 22px;
+    color: #7d3bb7;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+.form-nota-modal .input-nota-titulo,
+.form-nota-modal .input-nota-contenido {
+    width: 100%;
+    border-radius: 10px;
+    border: 1.5px solid #b9a5e2;
+    font-size: 17px;
+    padding: 13px 15px;
+    font-family: inherit;
+    outline: none;
+    background: #f8f7fc;
+    color: #42444c;
+    margin-bottom: 0;
+    box-sizing: border-box;
+    transition: border 0.18s, background 0.18s;
+    margin-top: 0;
+}
+.form-nota-modal .input-nota-titulo:focus,
+.form-nota-modal .input-nota-contenido:focus {
+    border-color: #8e44ad;
+    background: #f3eaff;
+}
+.form-nota-modal .input-nota-titulo {
+    font-weight: 600;
+    letter-spacing: 0.2px;
+}
+.form-nota-modal .input-nota-contenido {
+    min-height: 80px;
+    resize: vertical;
+}
+.form-nota-modal-content form > div {
+    display: flex;
+    flex-direction: row;
+    gap: 14px;
+    margin-top: 18px;
+    justify-content: center;
+}
+.form-nota-modal .btn-guardar-nota-dia,
+.form-nota-modal .btn-cancelar-nota-dia {
+    flex: 1;
+    background: #b9a5e2;
+    color: #4e2e8e;
+    border: none;
+    border-radius: 8px;
+    padding: 13px 0;
+    font-size: 17px;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, box-shadow 0.18s;
+    margin: 0;
+    box-shadow: 0 1px 4px rgba(142,68,173,0.07);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+}
+.form-nota-modal .btn-guardar-nota-dia {
+    background: linear-gradient(90deg,#8e44ad 60%,#b9a5e2 100%);
+    color: #fff;
+}
+.form-nota-modal .btn-guardar-nota-dia:hover,
+.form-nota-modal .btn-guardar-nota-dia:focus {
+    background: linear-gradient(90deg,#6d368d 60%,#b9a5e2 100%);
+    color: #fff;
+    box-shadow: 0 2px 8px #b9a5e255;
+}
+.form-nota-modal .btn-cancelar-nota-dia {
+    background: #e3e6ef;
+    color: #8e44ad;
+}
+.form-nota-modal .btn-cancelar-nota-dia:hover,
+.form-nota-modal .btn-cancelar-nota-dia:focus {
+    background: #b9a5e2;
+    color: #fff;
+}
+.form-nota-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    background: none;
+    border: none;
+    color: #8e44ad;
+    font-size: 22px;
+    cursor: pointer;
+    z-index: 2;
+    padding: 4px;
+    transition: color 0.2s, background 0.18s;
+    border-radius: 50%;
+}
+.form-nota-modal-close:hover,
+.form-nota-modal-close:focus {
+    color: #fff;
+    background: #b9a5e2;
+}
+.form-nota-modal .btn-guardar-nota-dia::before {
+    content: "💾";
+    margin-right: 6px;
+    font-size: 17px;
+}
+.form-nota-modal .btn-cancelar-nota-dia::before {
+    content: "✖️";
+    margin-right: 6px;
+    font-size: 17px;
+}
+@media (max-width: 600px) {
+    .panel-notas-dia {
+        left: 50% !important;
+        top: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        position: fixed !important;
+        width: 99vw;
+        max-width: 99vw;
+        min-width: 0;
+        border-radius: 16px;
+        box-shadow: 0 6px 24px rgba(66,68,76,0.18);
+    }
+    .panel-notas-dia-header {
+        padding: 14px 6vw 10px 6vw;
+        font-size: 16px;
+        border-radius: 16px 16px 0 0;
+    }
+    .panel-notas-dia-lista {
+        padding: 12px 6vw 0 6vw;
+        max-height: 180px;
+        gap: 10px;
+    }
+    .panel-notas-dia-agregar {
+        font-size: 16px;
+        padding: 13px 0 11px 0;
+        border-radius: 0 0 16px 16px;
+    }
+    .nota-dia-item {
+        font-size: 15px;
+        padding: 11px 10px;
+        border-radius: 8px;
+    }
+    .form-nota-modal {
+        width: 99vw;
+        min-width: 0;
+        max-width: 99vw;
+        padding: 0;
+        border-radius: 16px;
+    }
+    .form-nota-modal-content {
+        padding: 18px 4vw 14px 4vw;
+        gap: 12px;
+    }
+    .form-nota-modal .btn-guardar-nota-dia,
+    .form-nota-modal .btn-cancelar-nota-dia {
+        font-size: 16px;
+        padding: 11px 0;
+    }
+    .form-nota-modal .input-nota-contenido {
+        min-height: 60px;
+    }
+}
+
+/* Modal de nota del día (ver nota) */
 .nota-dia-modal-overlay {
     display: none;
     position: fixed;
@@ -587,75 +760,30 @@
     color: #42444c;
     font-size: 16px;
     margin-bottom: 0;
+    white-space: pre-line;
+    word-break: break-word;
 }
-@media (max-width: 480px) {
-    .fab-menu {
-        right: 8px;
-        min-width: 120px;
-        max-width: 90vw;
-    }
-    .side-menu {
-        left: 2vw;
-        top: 2vw;
-        transform: none;
-        width: 98vw;
-        max-width: 99vw;
-        min-width: 0;
-        height: auto;
-        max-height: calc(100vh - 4vw);
-        border-radius: 18px;
-        padding-left: 0;
-        padding-right: 0;
-    }
-    .calendario-widget,
-    .calendario-header,
-    .calendario-grid {
-        max-width: 100vw;
-        width: 100vw;
-        margin-left: auto;
-        margin-right: auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .cal-row,
-    .cal-header-row {
-        width: 98vw;
-        min-width: 0;
-        max-width: 100vw;
-    }
-    .cal-cell,
-    .cal-header-row .cal-cell {
-        min-width: 13vw;
-        max-width: 13vw;
-        width: 13vw;
-        height: 13vw;
-        max-height: 13vw;
-        font-size: 5vw;
-    }
-    .cal-header-row .cal-cell {
-        height: 7vw;
-        font-size: 3.5vw;
-    }
-    .panel-notas-dia {
-        width: 98vw;
-        max-width: 98vw;
-        min-width: 0;
-        padding-left: 2vw;
-        padding-right: 2vw;
-    }
+.btn-editar-nota,
+.btn-eliminar-nota {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 5px;
+    transition: background 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-@media (max-width: 800px) {
-    .panel-notas-dia {
-        width: 99vw;
-        max-width: 99vw;
-        min-width: 0;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        padding-left: 2vw;
-        padding-right: 2vw;
-        padding-top: 4vw;
-        padding-bottom: 4vw;
-    }
+.btn-editar-nota i,
+.btn-eliminar-nota i {
+    font-size: 16px;
+    pointer-events: none;
+}
+.btn-editar-nota:hover {
+    background: #e3e6ef;
+}
+.btn-eliminar-nota:hover {
+    background: #ffeaea;
 }

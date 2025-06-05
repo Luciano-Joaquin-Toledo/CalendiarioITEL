@@ -34,32 +34,39 @@
           <i class="fa fa-times"></i>
         </button>
         <ul>
-          <li><i class="fa fa-house"></i> <span>Inicio</span></li>
-          <li>
+          <li onclick="location.href='./panel.html'" style="cursor:pointer;">
+            <i class="fa fa-house"></i> <span>Inicio</span>
+          </li>
+          <li onclick="location.href='./calendario.html'" style="cursor:pointer;">
             <i class="fa-regular fa-calendar"></i> <span>Calendario</span>
           </li>
-          <li>
+          <li onclick="location.href='./tareas.html'" style="cursor:pointer;">
             <i class="fa-regular fa-square-check"></i> <span>Tareas</span>
           </li>
-          <li><i class="fa-regular fa-book"></i> <span>Materias</span></li>
-          <li><i class="fa-regular fa-clock"></i> <span>Pendientes</span></li>
-          <li>
+          <li onclick="location.href='./materias.html'" style="cursor:pointer;">
+            <i class="fa-regular fa-book"></i> <span>Materias</span>
+          </li>
+          <li onclick="location.href='./estadisticas.html'" style="cursor:pointer;">
             <i class="fa-solid fa-chart-simple"></i> <span>Estadísticas</span>
           </li>
-          <li><i class="fa-regular fa-user"></i> <span>Perfil</span></li>
+          <li onclick="location.href='./perfil.html'" style="cursor:pointer;">
+            <i class="fa-regular fa-user"></i> <span>Perfil</span>
+          </li>
           <li class="menu-divider"></li>
-          <li>
+          <li onclick="location.href='./acerca.html'" style="cursor:pointer;">
             <i class="fa-regular fa-circle-question"></i> <span>Acerca de</span>
           </li>
         </ul>
       </aside>
       <div class="tareas-container">
-        <div class="tareas-lista">
+        <div class="tareas-lista" aria-live="polite">
           <!-- Las tareas se renderizan aquí por JS -->
         </div>
         <button class="btn-fab" id="agregarTareaBtn" aria-label="Agregar tarea">
           <i class="fa fa-plus"></i>
         </button>
+        <!-- Contenedor para mensajes visuales -->
+        <div id="mensajeTarea" style="display:none"></div>
       </div>
       <div class="tarea-modal" id="tareaModal" style="display:none">
         <div class="tarea-modal-content">

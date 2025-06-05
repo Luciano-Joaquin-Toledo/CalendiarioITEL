@@ -1,21 +1,35 @@
 document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        alert('Login enviado (demo)');
-    });
+    const form = document.getElementById('loginForm');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            if (!username || !password) {
+                alert('Completa usuario y contraseña');
+                return;
+            }
+            // Aquí iría la lógica real de login
+            // Simulación de login exitoso
+            window.location.href = 'panel.html';
+        });
+    }
 
-    document.getElementById('forgot-username').addEventListener('click', function(e) {
+    // Ejemplo de enlaces de ayuda
+    document.getElementById('forgot-username')?.addEventListener('click', function(e) {
         e.preventDefault();
-        alert('Recuperar usuario (demo)');
+        alert('Funcionalidad para recuperar usuario próximamente.');
     });
-
-    document.getElementById('forgot-password').addEventListener('click', function(e) {
+    document.getElementById('forgot-password')?.addEventListener('click', function(e) {
         e.preventDefault();
-        alert('Recuperar contraseña (demo)');
+        alert('Funcionalidad para recuperar contraseña próximamente.');
     });
-
-    document.querySelector('.google-btn').addEventListener('click', function(e) {
+    document.querySelector('.register-link')?.addEventListener('click', function(e) {
         e.preventDefault();
-        alert('Login con Google (demo)');
+        alert('Funcionalidad de registro próximamente.');
+    });
+    document.querySelector('.help-link')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        alert('Centro de ayuda próximamente.');
     });
 });

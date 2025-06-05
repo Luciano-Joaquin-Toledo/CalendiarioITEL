@@ -1,9 +1,9 @@
 body {
     font-family: 'Poppins', sans-serif;
-    background: #c4c7d4; /* color original */
+    background: #e6e6f2; /* color más claro para contraste */
     margin: 0;
     padding: 0;
-    color: #42444c;
+    color: #222; /* texto más oscuro */
 }
 
 .panel-container {
@@ -286,7 +286,7 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(30, 30, 40, 0.75); /* Mucho más oscuro y opaco */
+    background: rgba(30, 30, 40, 0.85) !important; /* Mejor contraste para overlays */
     z-index: 100;
 }
 
@@ -368,10 +368,10 @@ body {
     background: none;
     border: none;
     color: #ede7f6;
-    font-size: 22px;
+    font-size: 28px; /* Botones de cerrar más grandes y accesibles */
     cursor: pointer;
     z-index: 2;
-    padding: 4px;
+    padding: 8px;
     transition: color 0.2s;
 }
 
@@ -492,7 +492,7 @@ body {
     position: fixed;
     top: 0; left: 0;
     width: 100vw; height: 100vh;
-    background: rgba(30, 30, 40, 0.75);
+    background: rgba(30, 30, 40, 0.85) !important; /* Mejor contraste para overlays */
     z-index: 200;
 }
 
@@ -523,7 +523,7 @@ body {
     background: none;
     border: none;
     color: #8e44ad;
-    font-size: 22px;
+    font-size: 28px; /* Botones de cerrar más grandes y accesibles */
     cursor: pointer;
     z-index: 2;
     padding: 4px;
@@ -810,7 +810,7 @@ body {
     background: none;
     border: none;
     color: #8e44ad;
-    font-size: 22px;
+    font-size: 28px; /* Botones de cerrar más grandes y accesibles */
     cursor: pointer;
     z-index: 2;
     padding: 4px;
@@ -1129,7 +1129,7 @@ body {
     background: none;
     border: none;
     color: #8e44ad;
-    font-size: 22px;
+    font-size: 28px; /* Botones de cerrar más grandes y accesibles */
     cursor: pointer;
     z-index: 2;
     padding: 4px;
@@ -1354,7 +1354,7 @@ body {
     background: none;
     border: none;
     color: #8e44ad;
-    font-size: 22px;
+    font-size: 28px; /* Botones de cerrar más grandes y accesibles */
     cursor: pointer;
     z-index: 2;
     padding: 4px;
