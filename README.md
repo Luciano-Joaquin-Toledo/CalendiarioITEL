@@ -37,64 +37,51 @@
 
 ```bash
 calendiario/
-├── api/                            # Backend PHP expuesto como endpoints
-│   ├── auth/                       # Autenticación (Google, sesiones)
-│   ├── tasks/                      # Endpoints de tareas (GET, POST, PUT, DELETE)
-│   ├── notes/                      # Endpoints de notas
-│   ├── calendar/                   # Endpoints de calendario/eventos
-│   ├── utils/                      # Funciones auxiliares PHP
-│   └── db.php                      # Conexión a base de datos SQL (modo producción)
+├── api/                            # Backend PHP (modo producción)
+│   └── db.php                      # Conexión a base de datos
 │
-├── data/                           # JSONs simulando datos (modo desarrollo)
-│   ├── tasks.json
-│   ├── notes.json
+├── config/                         # Configuración general
+│   └── config.php                  # Constantes globales
+│
+├── data/                           # Datos simulados en modo desarrollo (JSON)
 │   ├── calendar.json
+│   ├── notes.json
+│   ├── tasks.json
 │   └── users.json
 │
-├── public/                         # Carpeta servida públicamente
-│   ├── index.html                  # Página principal (dashboard o redirección)
-│   ├── login.html                  # Página de login
-│   ├── panel.html                  # Panel de usuario
-│   ├── estadisticas.html          # Vista de estadísticas
+├── public/                         # Archivos servidos públicamente
+│   ├── login.html                  # Inicio de sesión
+│   ├── registro.html               # Registro de usuario
+│   ├── panel.html                  # Panel de control principal
+│   ├── tareas.html                 # Gestión de tareas
+│   ├── calendario.html             # Gestión de eventos/calendario
+│   ├── estadisticas.html          # Análisis y estadísticas
 │   ├── perfil.html                # Perfil del usuario
+│   ├── materias.html              # Gestión de materias
 │
-│   ├── css/                        # Estilos por componente/página
-│   │   ├── base.css                # Estilos globales, variables, resets
-│   │   ├── layout.css              # Grid, flexbox, layout general
-│   │   ├── animations.css          # Animaciones generales
+│   ├── css/                        # Estilos CSS por página
 │   │   ├── login.css               # Estilos para login y registro
+│   │   ├── registro.css            
 │   │   ├── panel.css               # Estilos para la vista del panel
+│   │   ├── tareas.css              # Estilos para tareas
+│   │   ├── calendario.css          # Estilos para calendario
 │   │   ├── estadisticas.css        # Estilos para estadísticas
 │   │   ├── perfil.css              # Estilos para el perfil de usuario
-│   │   ├── tasks.css               # Estilos para tareas
-│   │   ├── notes.css               # Estilos para notas
-│   │   └── calendar.css            # Estilos para calendario
+│   │   └── materias.css
 │
-│   ├── js/                         # Lógica del frontend modular
-│   │   ├── app.js                  # Inicializador general / lógica común
-│   │   ├── auth.js                 # Manejo de Google Auth
-│   │   ├── ui/                     # Componentes de UI (modales, animaciones)
-│   │   │   ├── navbar.js
-│   │   │   └── modal.js
-│   │   ├── api/                    # Requests a `/api`
-│   │   │   ├── tasksApi.js
-│   │   │   ├── notesApi.js
-│   │   │   └── calendarApi.js
-│   │   ├── pages/                  # JS específicos por vista/página
-│   │   │   ├── login.js
-│   │   │   ├── panel.js
-│   │   │   ├── estadisticas.js
-│   │   │   ├── perfil.js
-│   │   │   └── principal.js
+│   ├── js/                         # Lógica frontend modular
+│   │   └── pages/                  # Scripts por vista
+│   │       ├── login.js
+│   │       ├── registro.js
+│   │       ├── panel.js
+│   │       ├── tareas.js
+│   │       ├── calendario.js
+│   │       ├── estadisticas.js
+│   │       ├── perfil.js
+│   │       └── materias.js
 │
-│   └── assets/                     # Imágenes, íconos, fuentes
-│       ├── img/
-│       ├── icons/
-│       └── fonts/
-│
-├── config/                         # Configuración general del proyecto
-│   ├── config.php                  # Constantes globales (paths, flags, etc.)
-│   └── .env                        # Variables de entorno (Google API Key, DB)
+├── Documentation/                 # Documentación técnica
+│   └── Integracion_Login_Google_Web.docx
 │
 ├── .gitignore
 ├── README.md
