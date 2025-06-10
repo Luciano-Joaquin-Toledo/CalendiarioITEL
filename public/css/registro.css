@@ -1,259 +1,103 @@
 body {
-    font-family: 'Poppins', sans-serif;
-    background: #fff;
-    margin: 0;
-    padding: 0;
-    color: #232336;
-    min-height: 100vh;
-    width: 100vw;
-    overflow-x: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  font-family: "Montserrat", Arial, sans-serif;
+  background: #fff;
 }
-
 .register-container {
-    width: 100vw;
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
-    background: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
+  width: 100%;
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 32px 24px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);
+  text-align: center;
 }
-
-.logo-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 0;
-    margin-bottom: 4vw;
-    width: 100%;
-    max-width: 100vw;
+.register-logo {
+  max-width: 72px;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 2px 8px #a259c633);
 }
-
-.logo-img {
-    width: 24vw;
-    height: 24vw;
-    min-width: 72px;
-    min-height: 72px;
-    max-width: 120px;
-    max-height: 120px;
-    border-radius: 18px;
-    background: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10vw;
-    color: #232336;
-    margin-bottom: 2vw;
-    border: 2.5px solid #7d3cff;
-    margin-left: auto;
-    margin-right: auto;
-    box-shadow: 0 2px 12px rgba(125,60,255,0.08);
-}
-
-.logo-text {
-    font-weight: 700;
-    color: #232336;
-    font-size: 5vw;
-    letter-spacing: 1px;
-    margin-bottom: 2vw;
-    text-align: center;
-    width: 100%;
-}
-
 .register-title {
-    font-size: 8vw;
-    font-weight: 800;
-    color: #232336;
-    margin: 0 0 2vw 0;
-    text-align: center;
-    letter-spacing: 0.5px;
+  font-weight: 700;
+  font-size: 2rem;
+  color: #37394a;
+  margin-bottom: 8px;
 }
-
 .register-subtitle {
-    font-size: 4vw;
-    color: #232336;
-    font-weight: 600;
-    text-align: center;
-    margin-bottom: 5vw;
-    opacity: 0.85;
+  font-size: 1.05rem;
+  color: #37394a;
+  font-weight: 500;
+  margin-bottom: 24px;
 }
-
-.register-form {
-    width: 100%;
-    max-width: 420px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 5vw;
-    align-items: center;
-    justify-content: center;
+.form-control {
+  border: 1.5px solid #a259c6;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #fff;
+  margin-bottom: 16px;
 }
-
-.input-group {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 0;
-    align-items: center;
-    width: 100%;
+.form-control:focus {
+  border-color: #7d4baa;
+  box-shadow: 0 0 0 2px #a259c633;
 }
-
-.input-group input[type="text"],
-.input-group input[type="email"],
-.input-group input[type="tel"],
-.input-group input[type="password"] {
-    width: 100%;
-    padding: 4vw 4vw;
-    border: 2px solid #7d3cff;
-    border-radius: 12px;
-    font-size: 5vw;
-    font-family: inherit;
-    outline: none;
-    transition: border 0.2s, box-shadow 0.2s;
-    background: #fff;
-    color: #232336;
-    text-align: center;
-    box-shadow: 0 1px 6px rgba(125,60,255,0.04);
+.form-check-input {
+  border: 1.5px solid #a259c6;
+  border-radius: 4px;
 }
-
-.input-group input:focus {
-    border-color: #7d3cff;
-    background: #fff;
-    box-shadow: 0 0 0 2px #e5d8fa;
+.form-check-label {
+  font-size: 0.97rem;
+  color: #a259c6;
+  font-weight: 600;
+  margin-left: 6px;
 }
-
-.terms-group {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 3.5vw;
-    margin-top: 4px;
-    width: 100%;
-    justify-content: center;
+.form-check-label a {
+  color: #7d4baa;
+  text-decoration: none;
+  font-weight: 700;
 }
-
-.terms-group input[type="checkbox"] {
-    accent-color: #7d3cff;
-    width: 18px;
-    height: 18px;
-    margin: 0;
+.form-check-label a:hover {
+  text-decoration: underline;
 }
-
-.terms-link {
-    color: #7d3cff;
-    font-weight: 600;
-    text-decoration: none;
-}
-
-.terms-link:hover {
-    text-decoration: underline;
-}
-
 .register-btn {
-    width: 100%;
-    background: linear-gradient(90deg, #7d3cff 0%, #b39afd 100%);
-    color: #fff;
-    border: none;
-    border-radius: 12px;
-    padding: 4vw 0;
-    font-size: 5vw;
-    font-weight: 800;
-    cursor: pointer;
-    margin-top: 0;
-    transition: background 0.2s;
-    box-shadow: 0 2px 8px rgba(125,60,255,0.08);
-    letter-spacing: 0.5px;
+  background: #a259c6;
+  color: #fff;
+  font-weight: 700;
+  border-radius: 8px;
+  border: none;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 18px;
+  padding: 12px 0;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 8px #a259c633;
+  transition: background 0.2s, box-shadow 0.2s;
 }
-
-.register-btn:hover,
-.register-btn:focus {
-    background: linear-gradient(90deg, #5f2bb6 0%, #7d3cff 100%);
+.register-btn:hover {
+  background: #7d4baa;
+  box-shadow: 0 4px 16px #a259c655;
 }
-
-.help-section {
-    text-align: center;
-    font-size: 3.5vw;
-    color: #232336;
-    margin-bottom: 4vw;
-    margin-top: 8vw;
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-}
-
 .help-link {
-    color: #7d3cff;
-    font-weight: 700;
-    text-decoration: none;
+  color: #a259c6;
+  font-weight: 700;
+  text-decoration: none;
 }
-
 .help-link:hover {
-    text-decoration: underline;
+  color: #7d4baa;
+  text-decoration: underline;
 }
-
-@media (min-width: 480px) {
-    body {
-        align-items: flex-start;
-        justify-content: flex-start;
-    }
-    .register-container {
-        max-width: 420px;
-        min-height: 540px;
-        margin: 0 auto;
-        border-radius: 18px 18px 0 0;
-        box-shadow: 0 4px 24px rgba(66,68,76,0.08);
-        justify-content: flex-start;
-        position: static;
-        height: auto;
-        padding-left: 0;
-        padding-right: 0;
-    }
-    .logo-section {
-        margin-top: 36px;
-        margin-bottom: 18px;
-    }
-    .logo-img {
-        width: 100px;
-        height: 100px;
-        font-size: 54px;
-    }
-    .logo-text {
-        font-size: 18px;
-    }
-    .register-title {
-        font-size: 32px;
-    }
-    .register-subtitle {
-        font-size: 16px;
-    }
-    .register-form {
-        max-width: 340px;
-        width: 100%;
-        gap: 18px;
-    }
-    .input-group input[type="text"],
-    .input-group input[type="email"],
-    .input-group input[type="tel"],
-    .input-group input[type="password"] {
-        font-size: 16px;
-        padding: 12px 14px;
-    }
-    .terms-group {
-        font-size: 15px;
-    }
-    .register-btn {
-        font-size: 17px;
-        padding: 13px 0;
-    }
-    .help-section {
-        font-size: 15px;
-        margin-top: 24px;
-    }
+.extra-links {
+  font-size: 0.98rem;
+  margin-bottom: 4px;
+}
+@media (max-width: 500px) {
+  .register-container {
+    padding: 16px 3vw 18px 3vw;
+    border-radius: 10px;
+  }
+  .register-title {
+    font-size: 1.4rem;
+  }
+  .register-logo {
+    max-width: 48px;
+  }
 }

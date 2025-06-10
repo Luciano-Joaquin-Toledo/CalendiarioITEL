@@ -1,75 +1,124 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=320, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Materias</title>
-    <link rel="stylesheet" href="css/panel.css" />
-    <link rel="stylesheet" href="css/materias.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-    />
-  </head>
-  <body>
-    <div class="panel-container">
-      <nav class="top-navbar">
-        <i class="fa fa-chevron-down nav-icon" id="open-menu"></i>
-        <span class="navbar-title"></span>
-        <i class="fa fa-search nav-icon"></i>
-      </nav>
-      <div class="side-menu-overlay" id="sideMenuOverlay"></div>
-      <aside class="side-menu" id="sideMenu">
-        <button
-          class="side-menu-close"
-          id="sideMenuClose"
-          aria-label="Cerrar menú"
-        >
-          <i class="fa fa-times"></i>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="./css/materias.css">
+</head> 
+<body>
+    <!-- Agrega el menú lateral y overlay si no están -->
+    <div class="side-menu-overlay" id="sideMenuOverlay" style="display:none;"></div>
+    <nav class="side-menu" id="sideMenu" tabindex="-1" aria-label="Menú principal" style="display:none;">
+        <button class="close-btn" id="closeSideMenu" aria-label="Cerrar menú">
+            <span class="material-icons">close</span> a
+        
+        
         </button>
-        <ul>
-          <li onclick="location.href='./panel.html'" style="cursor:pointer;">
-            <i class="fa fa-house"></i> <span>Inicio</span>
-          </li>
-          <li onclick="location.href='./calendario.html'" style="cursor:pointer;">
-            <i class="fa-regular fa-calendar"></i> <span>Calendario</span>
-          </li>
-          <li onclick="location.href='./tareas.html'" style="cursor:pointer;">
-            <i class="fa-regular fa-square-check"></i> <span>Tareas</span>
-          </li>
-          <li onclick="location.href='./materias.html'" style="cursor:pointer;">
-            <i class="fa-regular fa-book"></i> <span>Materias</span>
-          </li>
-          <li onclick="location.href='./estadisticas.html'" style="cursor:pointer;">
-            <i class="fa-solid fa-chart-simple"></i> <span>Estadísticas</span>
-          </li>
-          <li onclick="location.href='./perfil.html'" style="cursor:pointer;">
-            <i class="fa-regular fa-user"></i> <span>Perfil</span>
-          </li>
-          <li class="menu-divider"></li>
-          <li onclick="location.href='./acerca.html'" style="cursor:pointer;">
-            <i class="fa-regular fa-circle-question"></i> <span>Acerca de</span>
-          </li>
-        </ul>
-      </aside>
-      <div class="panel-header">
-        <h1>Materias</h1>
-      </div>
-      <div class="panel-section">
-        <div id="materiasLista" class="materias-lista">
-          <!-- Renderizado por JS -->
+        <div class="menu-section-title">Inicio</div>
+        <div class="menu-list">
+            <a href="panel.html" class="menu-item"><span class="material-icons">home</span>Inicio</a>
+            <a href="calendario.html" class="menu-item"><span class="material-icons">calendar_month</span>Calendario</a>
+            <a href="tareas.html" class="menu-item"><span class="material-icons">assignment</span>Tareas</a>
+            <a href="materias.html" class="menu-item"><span class="material-icons">menu_book</span>Materias</a>
+            <a href="pendientes.html" class="menu-item"><span class="material-icons">pending_actions</span>Pendientes</a>
+            <a href="estadisticas.html" class="menu-item"><span class="material-icons">bar_chart</span>Estadísticas</a>
         </div>
-        <button class="btn-fab" id="agregarMateriaBtn" aria-label="Agregar materia">
-          <i class="fa fa-plus"></i>
-        </button>
+        <div class="menu-section-title">Perfil</div>
+        <div class="menu-list">
+            <a href="perfil.html" class="menu-item"><span class="material-icons">person</span>Perfil</a>
+        </div>
+        <div class="menu-divider"></div>
+        <div class="menu-bottom">
+            <a href="nosotros.html" class="menu-item"><span class="material-icons">info</span>Acerca de</a>
+        </div>
+    </nav>
+    <div class="container">
+        <!-- Search bar -->
+        <div class="search-bar mt-3">
+            <span class="material-icons" id="openSideMenuBtn" style="cursor:pointer;">expand_more</span>
+            <input type="text" placeholder="Buscar materia..." id="mainSearch" aria-label="Buscar materia">
+            <span class="material-icons" style="color:#a7a7b7;">search</span>
+        </div>
+        <!-- Lista de materias -->
+        <div class="materias-list-container" id="materiasListContainer">
+            <!-- Las materias se renderizan aquí -->
+        </div>
+    </div>
+    <!-- Botón flotante para añadir materia -->
+    <button class="add-materia-btn" id="addMateriaBtn" title="Agregar materia">
+        <span class="material-icons">add</span>
+    </button>
+    <!-- Modal Crear Materia (Bootstrap) -->
+    <div class="modal fade" id="modalCreateSubject" tabindex="-1" aria-labelledby="modalSubjectTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background:#f8f8fb;border-radius:22px;box-shadow:0 4px 24px 0 rgba(116,64,140,0.13);border:none;">
+          <div class="modal-header" style="border-bottom:none;display:flex;align-items:center;justify-content:space-between;">
+            <div style="display:flex;align-items:center;gap:0.7rem;">
+              <span class="material-icons" style="color:#74408c;font-size:2rem;opacity:0.93;">menu_book</span>
+              <h5 class="modal-title" id="modalSubjectTitleLabel" style="color:#222;font-size:1.18rem;font-weight:600;margin:0;">Nueva Materia</h5>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" style="filter:invert(0.7);margin-left:auto;width:2.2rem;height:2.2rem;"></button>
+          </div>
+          <div class="modal-body" style="padding-top:0.3rem;">
+            <input class="form-control mb-2" id="subjectName" placeholder="Nombre de Materia ..." maxlength="60"
+              style="font-size:1.18rem;font-weight:600;border-radius:10px;border:1.5px solid #bfc3d9;background:#e7e7ef;color:#222;"/>
+            <textarea class="form-control mb-2" id="subjectDesc" placeholder="Descripción..." rows="2"
+              style="border-radius:10px;border:1.5px solid #bfc3d9;background:#fff;color:#222;font-size:1.05rem;"></textarea>
+            <div class="mb-2 d-flex align-items-center">
+              <span style="font-size:1.01rem;color:#222;width:110px;">Tipo de Color:</span>
+              <select id="subjectColorType" class="form-select"
+                style="width:auto;min-width:110px;border-radius:8px;border:1.5px solid #bfc3d9;background:#e7e7ef;color:#74408c;font-size:1.01rem;">
+                <option value="">Frío/Cálido</option>
+                <option value="frio">Frío</option>
+                <option value="calido">Cálido</option>
+              </select>
+            </div>
+            <div class="mb-2 d-flex align-items-center">
+              <span style="font-size:1.01rem;color:#222;width:110px;">Color de la Materia:</span>
+              <div id="subjectColorCarte"
+                style="margin-left:0;width:2.3rem;height:2.3rem;border-radius:50%;border:2.5px solid #b393c8;background:#c7d2fa;box-shadow:0 2px 8px 0 rgba(116,64,140,0.10);cursor:pointer;position:relative;"
+                tabindex="0"></div>
+              <input type="hidden" id="subjectColor" value="#c7d2fa">
+            </div>
+          </div>
+          <div class="modal-footer" style="border-top:none;display:flex;justify-content:flex-end;gap:0.7rem;">
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal"
+              style="background:#fff;color:#222;border:1.5px solid #cfd0db;border-radius:10px;padding:0.5rem 1.2rem;font-size:1.08rem;">
+              Cancelar
+            </button>
+            <button type="button" class="btn btn-dark" id="modalSubjectSaveBtn"
+              style="border-radius:10px;padding:0.5rem 1.2rem;font-size:1.08rem;">
+              Guardar
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-    <script src="js/pages/materias.js"></script>
-  </body>
+    <!-- Modal Ver Notas de Materia -->
+    <div class="modal fade" id="modalViewSubjectNotes" tabindex="-1" aria-labelledby="modalViewSubjectNotesTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background:#fff;border-radius:18px;box-shadow:0 4px 24px 0 rgba(116,64,140,0.13);border:none;">
+          <div class="modal-header" style="border-bottom:none;">
+            <h5 class="modal-title" id="modalViewSubjectNotesTitle" style="color:#74408c;font-size:1.15rem;font-weight:700;margin:0;">Notas de la materia</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body" id="modalViewSubjectNotesBody" style="padding-top:0.3rem;">
+            <!-- Las notas se renderizan aquí -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Paleta Popover -->
+    <div id="colorPalettePopover" style="display:none;position:absolute;z-index:2000;background:#e0dfe3;border-radius:12px;box-shadow:0 4px 18px 0 rgba(116,64,140,0.13);padding:0.7rem 0.7rem 0.5rem 0.7rem;">
+      <div id="colorPaletteGrid" style="display:grid;grid-template-columns:repeat(5,1.8rem);gap:0.5rem 0.7rem;"></div>
+    </div>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/materias.js"></script>
+</body>
 </html>
+

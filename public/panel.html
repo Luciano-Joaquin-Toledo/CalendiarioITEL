@@ -1,821 +1,276 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=320, initial-scale=1.0" />
-    <title>Panel</title>
-    <link rel="stylesheet" href="css/panel.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-    />
-  </head>
-  <body>
-    <div class="panel-container">
-      <nav class="top-navbar" role="navigation" aria-label="Barra superior">
-        <i
-          class="fa fa-chevron-down nav-icon"
-          id="open-menu"
-          tabindex="0"
-          aria-label="Abrir menú lateral"
-          role="button"
-        ></i>
-        <span class="navbar-title"></span>
-        <i class="fa fa-search nav-icon" aria-label="Buscar"></i>
-      </nav>
-      <div class="side-menu-overlay" id="sideMenuOverlay" tabindex="-1" aria-hidden="true"></div>
-      <aside class="side-menu" id="sideMenu" role="menu" aria-label="Menú lateral">
-        <button
-          class="side-menu-close"
-          id="sideMenuClose"
-          aria-label="Cerrar menú"
-          tabindex="0"
-        >
-          <i class="fa fa-times"></i>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anotaciones</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts (Poppins) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="./css/panel.css">
+</head>
+<body>
+    <!-- Side Menu Overlay & Menu -->
+    <div class="side-menu-overlay" id="sideMenuOverlay"></div>
+    <nav class="side-menu" id="sideMenu" tabindex="-1" aria-label="Menú principal" style="display:none;">
+        <button class="close-btn" id="closeSideMenu" aria-label="Cerrar menú">
+            <span class="material-icons">close</span>
         </button>
-        <ul>
-          <li
-            onclick="location.href='./panel.html'"
-            style="cursor:pointer;"
-            tabindex="0"
-            role="menuitem"
-            aria-label="Inicio"
-          >
-            <i class="fa fa-house"></i> <span>Inicio</span>
-          </li>
-          <li
-            onclick="location.href='./calendario.html'"
-            style="cursor:pointer;"
-            tabindex="0"
-            role="menuitem"
-            aria-label="Calendario"
-          >
-            <i class="fa-regular fa-calendar"></i> <span>Calendario</span>
-          </li>
-          <li
-            onclick="location.href='./tareas.html'"
-            style="cursor:pointer;"
-            tabindex="0"
-            role="menuitem"
-            aria-label="Tareas"
-          >
-            <i class="fa-regular fa-square-check"></i> <span>Tareas</span>
-          </li>
-          <li
-            onclick="location.href='./materias.html'"
-            style="cursor:pointer;"
-            tabindex="0"
-            role="menuitem"
-            aria-label="Materias"
-          >
-            <i class="fa-regular fa-book"></i> <span>Materias</span>
-          </li>
-          <li
-            onclick="location.href='./estadisticas.html'"
-            style="cursor:pointer;"
-            tabindex="0"
-            role="menuitem"
-            aria-label="Estadísticas"
-          >
-            <i class="fa-solid fa-chart-simple"></i> <span>Estadísticas</span>
-          </li>
-          <li
-            onclick="location.href='./perfil.html'"
-            style="cursor:pointer;"
-            tabindex="0"
-            role="menuitem"
-            aria-label="Perfil"
-          >
-            <i class="fa-regular fa-user"></i> <span>Perfil</span>
-          </li>
-          <li class="menu-divider"></li>
-          <li
-            onclick="location.href='./acerca.html'"
-            style="cursor:pointer;"
-            tabindex="0"
-            role="menuitem"
-            aria-label="Acerca de"
-          >
-            <i class="fa-regular fa-circle-question"></i> <span>Acerca de</span>
-          </li>
-        </ul>
-      </aside>
-      <div class="panel-section">
-        <div class="panel-date-title">Hoy - 24 de Mayo</div>
-        <div class="panel-subtitle">Anotaciones</div>
-        <div class="panel-notas">
-          <div
-            class="nota"
-            data-title="Nota 1"
-            data-content="Contenido de la nota 1"
-            tabindex="0"
-            role="button"
-            aria-label="Nota 1"
-          >
-            Nota 1
-          </div>
-          <div
-            class="nota"
-            data-title="Nota 2"
-            data-content="Contenido de la nota 2"
-            tabindex="0"
-            role="button"
-            aria-label="Nota 2"
-          >
-            Nota 2
-          </div>
-          <div
-            class="nota"
-            data-title="Nota 3"
-            data-content="Contenido de la nota 3"
-            tabindex="0"
-            role="button"
-            aria-label="Nota 3"
-          >
-            Nota 3
-          </div>
+        <div class="menu-section-title">Inicio</div>
+        <div class="menu-list">
+            <a href="panel.html" class="menu-item"><span class="material-icons">home</span>Inicio</a>
+            <a href="calendario.html" class="menu-item"><span class="material-icons">calendar_month</span>Calendario</a>
+            <a href="tareas.html" class="menu-item"><span class="material-icons">assignment</span>Tareas</a>
+            <a href="materias.html" class="menu-item"><span class="material-icons">menu_book</span>Materias</a>
+            <a href="pendientes.html" class="menu-item"><span class="material-icons">pending_actions</span>Pendientes</a>
+            <a href="estadisticas.html" class="menu-item"><span class="material-icons">bar_chart</span>Estadísticas</a>
         </div>
-      </div>
-      <hr class="panel-divider" />
-      <div class="panel-section">
-        <div class="panel-date-title">25 de Mayo</div>
-        <div class="panel-subtitle">Anotaciones</div>
-        <div class="panel-notas">
-          <div
-            class="nota"
-            data-title="Nota 1"
-            data-content="Contenido de la nota 1"
-          >
-            Nota 1
-          </div>
-          <div
-            class="nota nota-activa"
-            data-title="Nota 2"
-            data-content="Contenido de la nota 2"
-          >
-            Nota 2
-          </div>
+        <div class="menu-section-title">Perfil</div>
+        <div class="menu-list">
+            <a href="perfil.html" class="menu-item"><span class="material-icons">person</span>Perfil</a>
         </div>
-      </div>
-      <button
-        class="btn-fab"
-        title="Agregar nota"
-        id="open-fab-menu"
-        aria-label="Agregar nota"
-        tabindex="0"
-      >
-        <i class="fa fa-plus"></i>
-      </button>
-      <div class="fab-menu-overlay" id="fabMenuOverlay"></div>
-      <div class="fab-menu" id="fabMenu" role="menu" aria-label="Menú rápido">
-        <ul>
-          <li>
-            <button
-              class="fab-action-btn"
-              type="button"
-              id="openMateriaModal"
-              aria-label="Crear materia"
-              tabindex="0"
-            >
-              <span>Materia</span>
-              <i class="fa-regular fa-book"></i>
+        <div class="menu-divider"></div>
+        <div class="menu-bottom">
+            <a href="nosotros.html" class="menu-item"><span class="material-icons">info</span>Acerca de</a>
+        </div>
+    </nav>
+    <div class="container">
+        <!-- Search bar -->
+        <div class="search-bar mt-3">
+            <span class="material-icons" id="openSideMenuBtn" style="cursor:pointer;">expand_more</span>
+            <input type="text" placeholder="Buscar..." id="mainSearch" aria-label="Buscar">
+            <span class="material-icons">search</span>
+        </div>
+
+        <!-- Encabezado dinámico de fecha -->
+        <div id="todayHeader" style="margin-top:1.2rem;">
+          <div id="todayTitle" style="font-size:1.25rem;font-weight:600;color:#222;"></div>
+          <div class="subtitle" style="color:#74408c;">Anotaciones</div>
+        </div>
+
+        <!-- Solo sección de Notas -->
+        <div id="notasSection">
+          <!-- Aquí se mostrarán las notas agrupadas por fecha -->
+          <div id="notasList"></div>
+        </div>
+    </div>
+
+    <!-- FAB Menu -->
+    <div class="fab-menu" id="fabMenu">
+        <div class="fab-menu-option" tabindex="0">
+            Materia
+            <span class="material-icons">calendar_month</span>
+        </div>
+        <div class="fab-menu-option" tabindex="0">
+            Tarea
+            <span class="material-icons">assignment</span>
+        </div>
+        <div class="fab-menu-option" tabindex="0">
+            Nota
+            <span class="material-icons">edit_note</span>
+        </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <button class="fab" id="fabBtn" aria-label="Agregar nota">
+        <span class="material-icons" id="fabIcon">add</span>
+    </button>
+
+    <!-- Modal Crear Nota (Bootstrap) -->
+    <div class="modal fade" id="modalCreateNote" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="background:rgba(156,101,183,0.97);border-radius:22px;box-shadow:0 4px 24px 0 rgba(116,64,140,0.18);border:none;">
+      <div class="modal-header" style="border-bottom:none;display:flex;align-items:center;justify-content:space-between;padding-bottom:0.2rem;">
+            <div style="display:flex;align-items:center;gap:0.7rem;">
+              <span class="material-icons" style="color:#fff;font-size:2rem;opacity:0.93;">edit_note</span>
+              <h5 class="modal-title" id="modalTitleLabel" style="color:#fff;font-size:1.18rem;font-weight:600;margin:0;">Nueva Nota</h5>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" style="filter:invert(1);margin-left:auto;width:2.2rem;height:2.2rem;"></button>
+          </div>
+          <div class="modal-body" style="padding-top:0.3rem;">
+            <input class="modal-title-input" id="modalTitle" placeholder="Título de la nota..." maxlength="60"
+              style="width:100%;border:none;background:transparent;border-bottom:2px solid #fff;color:#fff;font-size:1.13rem;font-weight:600;margin-bottom:0.7rem;padding:0.3rem 0.1rem;outline:none;transition:border-color 0.2s;"
+            />
+            <!-- Campo Materia opcional -->
+            <label class="modal-label" for="modalMateria" style="color:#fff;font-size:0.98rem;font-weight:500;margin-bottom:0.1rem;">Materia (opcional)</label>
+            <input class="form-control mb-2" id="modalMateria" placeholder="Materia..." maxlength="40"
+              style="border-radius:10px;border:1.5px solid #bfc3d9;background:#f3eaff;color:#74408c;font-size:1.05rem;margin-bottom:0.7rem;">
+            <label class="modal-label" for="modalNota" style="color:#fff;font-size:0.98rem;font-weight:500;margin-bottom:0.1rem;">Nota</label>
+            <textarea class="modal-textarea" id="modalNota" placeholder="Escribe tu nota..."
+              style="width:100%;border-radius:10px;border:none;padding:0.55rem 0.7rem;font-size:1.08rem;margin-bottom:0.7rem;background:#f3eaff;color:#74408c;font-family:'Poppins',sans-serif;font-weight:500;outline:none;min-height:70px;resize:vertical;transition:box-shadow 0.2s;"></textarea>
+          </div>
+          <div class="modal-footer" style="border-top:none;display:flex;justify-content:flex-end;gap:0.7rem;">
+            <button type="button" class="modal-btn modal-btn-cancel btn" data-bs-dismiss="modal"
+              style="background:#fff;color:#74408c;border:1.5px solid #b393c8;border-radius:10px;padding:0.5rem 1.2rem;font-size:1.08rem;font-family:'Poppins',sans-serif;font-weight:500;transition:background 0.15s,color 0.15s;">
+              Cancelar
             </button>
-          </li>
-          <li>
-            <button
-              class="fab-action-btn"
-              type="button"
-              id="openTareaModal"
-              aria-label="Crear tarea"
-              tabindex="0"
-            >
-              <span>Tarea</span>
-              <i class="fa-regular fa-square-check"></i>
+            <button type="button" class="modal-btn modal-btn-save btn" id="modalSaveBtn"
+              style="background:linear-gradient(135deg,#74408c 60%,#9c65b7 100%);color:#fff;border:1.5px solid #b393c8;border-radius:10px;padding:0.5rem 1.2rem;font-size:1.08rem;font-family:'Poppins',sans-serif;font-weight:500;transition:background 0.15s,color 0.15s;display:flex;align-items:center;gap:0.5rem;">
+              <span id="modalSaveBtnText">Guardar</span>
+              <span id="modalSaveSpinner" class="spinner-border spinner-border-sm" style="display:none;" role="status" aria-hidden="true"></span>
             </button>
-          </li>
-          <li>
-            <button
-              class="fab-action-btn"
-              type="button"
-              id="openCrearNotaModal"
-              aria-label="Crear nota"
-              tabindex="0"
-            >
-              <span>Nota</span>
-              <i class="fa-regular fa-clipboard"></i>
-            </button>
-          </li>
-        </ul>
-      </div>
-      <div class="modal-overlay" id="notaModalOverlay"></div>
-      <div class="nota-modal" id="notaModal">
-        <div class="nota-modal-content">
-          <button
-            class="nota-modal-close"
-            id="notaModalClose"
-            aria-label="Cerrar"
-          >
-            <i class="fa fa-times"></i>
-          </button>
-          <h3 id="notaModalTitle"></h3>
-          <div id="notaModalBody"></div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="materia-modal-overlay" id="materiaModalOverlay"></div>
-    <div class="materia-modal" id="materiaModal">
-      <div class="materia-modal-content">
-        <button
-          class="materia-modal-close"
-          id="materiaModalClose"
-          aria-label="Cerrar"
-        >
-          <i class="fa fa-times"></i>
-        </button>
-        <h2 class="materia-modal-title">Crear de Materia</h2>
-        <form class="materia-form">
-          <input
-            type="text"
-            class="materia-input nombre-materia"
-            placeholder="Nombre de Materia ..."
-          />
-          <hr class="materia-divider" />
-          <textarea
-            class="materia-input materia-desc"
-            placeholder="Descripción..."
-          ></textarea>
-          <div class="materia-form-row">
-            <label>Imagen:</label>
-            <button type="button" class="materia-btn materia-btn-sm">
-              ...
-            </button>
+
+    <!-- Modal Crear Tarea (Bootstrap) -->
+    <div class="modal fade" id="modalCreateTask" tabindex="-1" aria-labelledby="modalTaskTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background:#f8f8fb;border-radius:22px;box-shadow:0 4px 24px 0 rgba(116,64,140,0.13);border:none;">
+          <div class="modal-header" style="border-bottom:none;display:flex;align-items:center;justify-content:space-between;padding-bottom:0.2rem;">
+            <div style="display:flex;align-items:center;gap:0.7rem;">
+              <span class="material-icons" style="color:#74408c;font-size:2rem;opacity:0.93;">assignment</span>
+              <h5 class="modal-title" id="modalTaskTitleLabel" style="color:#222;font-size:1.18rem;font-weight:600;margin:0;">Nueva Tarea</h5>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" style="filter:invert(0.7);margin-left:auto;width:2.2rem;height:2.2rem;"></button>
           </div>
-          <div class="materia-form-row">
-            <label>Ubicación:</label>
-            <button type="button" class="materia-btn materia-btn-sm">
-              ...
-            </button>
-          </div>
-          <div class="materia-form-row">
-            <label>Tipo de Color:</label>
-            <select class="materia-input materia-color-type">
-              <option value="">Seleccionar...</option>
-              <option value="frio">Frío</option>
-              <option value="calido">Cálido</option>
-            </select>
-          </div>
-          <div class="materia-form-row">
-            <label>Color de la Materia:</label>
-            <input
-              type="hidden"
-              id="materiaColorPicker"
-              name="materiaColor"
-              value="#c7d2f7"
-            />
-            <div
-              class="color-palette-popup"
-              id="colorPalettePopup"
-              style="display: none"
-            >
-              <!-- Paleta Frío -->
-              <div class="palette-frio">
-                <div class="color-palette-row">
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#c7d2f7"
-                    style="background: #c7d2f7"
-                  ></button>
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#9cc2f4"
-                    style="background: #9cc2f4"
-                  ></button>
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#86a8f0"
-                    style="background: #86a8f0"
-                  ></button>
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#a480f0"
-                    style="background: #a480f0"
-                  ></button>
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#cf6bed"
-                    style="background: #cf6bed"
-                  ></button>
-                </div>
-                <div class="color-palette-row">
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#ec4fe4"
-                    style="background: #ec4fe4"
-                  ></button>
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#6f80d8"
-                    style="background: #6f80d8"
-                  ></button>
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#4f62e1"
-                    style="background: #4f62e1"
-                  ></button>
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#51b7dd"
-                    style="background: #51b7dd"
-                  ></button>
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#3bd87b"
-                    style="background: #3bd87b"
-                  ></button>
-                </div>
-                <div class="color-palette-row">
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#7d6fcb"
-                    style="background: #7d6fcb"
-                  ></button>
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#5f49a8"
-                    style="background: #5f49a8"
-                  ></button>
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#362f88"
-                    style="background: #362f88"
-                  ></button>
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#547f8c"
-                    style="background: #547f8c"
-                  ></button>
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#3c6763"
-                    style="background: #3c6763"
-                  ></button>
-                </div>
+          <div class="modal-body" style="padding-top:0.3rem;">
+            <input class="form-control" id="taskName" placeholder="Nombre de tarea..." maxlength="60"
+              style="font-size:1.18rem;font-weight:600;margin-bottom:0.7rem;border-radius:10px;border:1.5px solid #cfd0db;background:#fff;color:#222;"/>
+            <div id="subTasksContainer"></div>
+            <textarea class="form-control" id="taskDesc" placeholder="Descripción..." rows="3"
+              style="margin-bottom:0.7rem;border-radius:10px;border:1.5px solid #cfd0db;background:#fff;color:#222;font-size:1.05rem;"></textarea>
+            <div class="row g-2 align-items-center mb-2">
+              <div class="col-4 d-flex align-items-center">
+                <span style="font-size:1.01rem;color:#222;">Fecha:</span>
+                <span class="material-icons ms-1" style="font-size:1.2rem;color:#74408c;">calendar_today</span>
               </div>
-              <!-- Paleta Cálido -->
-              <div class="palette-calido" style="display: none">
-                <div class="color-palette-row">
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#ffe7b3"
-                    style="background: #ffe7b3"
-                  ></button>
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#ffe07a"
-                    style="background: #ffe07a"
-                  ></button>
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#ffcb2d"
-                    style="background: #ffcb2d"
-                  ></button>
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#ffc101"
-                    style="background: #ffc101"
-                  ></button>
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#f8a527"
-                    style="background: #f8a527"
-                  ></button>
-                </div>
-                <div class="color-palette-row">
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#f28500"
-                    style="background: #f28500"
-                  ></button>
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#ff5e3a"
-                    style="background: #ff5e3a"
-                  ></button>
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#e63b2e"
-                    style="background: #e63b2e"
-                  ></button>
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#c3221f"
-                    style="background: #c3221f"
-                  ></button>
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#911c1d"
-                    style="background: #911c1d"
-                  ></button>
-                </div>
-                <div class="color-palette-row">
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#ab4f33"
-                    style="background: #ab4f33"
-                  ></button>
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#9c6236"
-                    style="background: #9c6236"
-                  ></button>
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#a4a93c"
-                    style="background: #a4a93c"
-                  ></button>
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#718942"
-                    style="background: #718942"
-                  ></button>
-                  <button
-                    type="button"
-                    class="color-palette-btn"
-                    data-color="#7e9453"
-                    style="background: #7e9453"
-                  ></button>
-                </div>
+              <div class="col-8">
+                <input type="date" class="form-control" id="taskDate" style="border-radius:8px;border:1.5px solid #cfd0db;font-size:1rem;">
               </div>
             </div>
-            <button
-              type="button"
-              id="showPaletteBtn"
-              class="color-preview-btn"
-              style="background: #c7d2f7"
-            ></button>
-          </div>
-          <div class="materia-form-actions">
-            <button type="button" class="materia-btn materia-btn-cancel">
-              Cancelar
-            </button>
-            <button type="submit" class="materia-btn materia-btn-save">
-              Guardar
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-    <div class="tarea-modal-overlay" id="tareaModalOverlay"></div>
-    <div class="tarea-modal" id="tareaModal">
-      <div class="tarea-modal-content">
-        <button
-          class="tarea-modal-close"
-          id="tareaModalClose"
-          aria-label="Cerrar"
-        >
-          <i class="fa fa-times"></i>
-        </button>
-        <h2 class="tarea-modal-title">Crear Tarea</h2>
-        <form class="tarea-form">
-          <input
-            type="text"
-            class="tarea-input nombre-tarea"
-            placeholder="Nombre de tarea..."
-          />
-          <button type="button" class="tarea-btn tarea-btn-sub">
-            + Sub Tarea
-          </button>
-          <textarea
-            class="tarea-input tarea-desc"
-            placeholder="Descripción..."
-          ></textarea>
-          <div class="tarea-form-row">
-            <label>Fecha:</label>
-            <i class="fa-regular fa-calendar"></i>
-            <input type="date" class="tarea-input tarea-fecha" />
-          </div>
-          <div class="tarea-form-row">
-            <label>Hora:</label>
-            <i class="fa-regular fa-clock"></i>
-            <input type="time" class="tarea-input tarea-hora" />
-          </div>
-          <div class="tarea-form-row">
-            <label>Ubicación:</label>
-            <button type="button" class="tarea-btn tarea-btn-ubicacion">
-              ...
-            </button>
-          </div>
-          <div class="tarea-form-row">
-            <label>Tipo de Color:</label>
-            <select class="tarea-input tarea-color-type" id="tareaColorType">
-              <option value="">Seleccionar...</option>
-              <option value="frio">Frío</option>
-              <option value="calido">Cálido</option>
-            </select>
-          </div>
-          <div class="tarea-form-row">
-            <label>Color de la Tarea:</label>
-            <input
-              type="hidden"
-              id="tareaColorPicker"
-              name="tareaColor"
-              value="#cccccc"
-            />
-            <div
-              class="tarea-color-palette-popup"
-              id="tareaColorPalettePopup"
-              style="display: none"
-            >
-              <div class="tarea-palette-frio">
-                <div class="tarea-color-palette-row">
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#c7d2f7"
-                    style="background: #c7d2f7"
-                  ></button>
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#9cc2f4"
-                    style="background: #9cc2f4"
-                  ></button>
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#86a8f0"
-                    style="background: #86a8f0"
-                  ></button>
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#a480f0"
-                    style="background: #a480f0"
-                  ></button>
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#cf6bed"
-                    style="background: #cf6bed"
-                  ></button>
-                </div>
-                <div class="tarea-color-palette-row">
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#ec4fe4"
-                    style="background: #ec4fe4"
-                  ></button>
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#6f80d8"
-                    style="background: #6f80d8"
-                  ></button>
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#4f62e1"
-                    style="background: #4f62e1"
-                  ></button>
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#51b7dd"
-                    style="background: #51b7dd"
-                  ></button>
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#3bd87b"
-                    style="background: #3bd87b"
-                  ></button>
-                </div>
-                <div class="tarea-color-palette-row">
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#7d6fcb"
-                    style="background: #7d6fcb"
-                  ></button>
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#5f49a8"
-                    style="background: #5f49a8"
-                  ></button>
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#362f88"
-                    style="background: #362f88"
-                  ></button>
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#547f8c"
-                    style="background: #547f8c"
-                  ></button>
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#3c6763"
-                    style="background: #3c6763"
-                  ></button>
-                </div>
+            <div class="row g-2 align-items-center mb-2">
+              <div class="col-4 d-flex align-items-center">
+                <span style="font-size:1.01rem;color:#222;">Hora:</span>
+                <span class="material-icons ms-1" style="font-size:1.2rem;color:#74408c;">schedule</span>
               </div>
-              <div class="tarea-palette-calido" style="display: none">
-                <div class="tarea-color-palette-row">
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#ffe7b3"
-                    style="background: #ffe7b3"
-                  ></button>
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#ffe07a"
-                    style="background: #ffe07a"
-                  ></button>
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#ffcb2d"
-                    style="background: #ffcb2d"
-                  ></button>
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#ffc101"
-                    style="background: #ffc101"
-                  ></button>
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#f8a527"
-                    style="background: #f8a527"
-                  ></button>
-                </div>
-                <div class="tarea-color-palette-row">
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#f28500"
-                    style="background: #f28500"
-                  ></button>
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#ff5e3a"
-                    style="background: #ff5e3a"
-                  ></button>
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#e63b2e"
-                    style="background: #e63b2e"
-                  ></button>
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#c3221f"
-                    style="background: #c3221f"
-                  ></button>
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#911c1d"
-                    style="background: #911c1d"
-                  ></button>
-                </div>
-                <div class="tarea-color-palette-row">
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#ab4f33"
-                    style="background: #ab4f33"
-                  ></button>
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#9c6236"
-                    style="background: #9c6236"
-                  ></button>
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#a4a93c"
-                    style="background: #a4a93c"
-                  ></button>
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#718942"
-                    style="background: #718942"
-                  ></button>
-                  <button
-                    type="button"
-                    class="tarea-color-palette-btn"
-                    data-color="#7e9453"
-                    style="background: #7e9453"
-                  ></button>
-                </div>
+              <div class="col-8">
+                <input type="time" class="form-control" id="taskTime" style="border-radius:8px;border:1.5px solid #cfd0db;font-size:1rem;">
               </div>
             </div>
-            <button
-              type="button"
-              id="showTareaPaletteBtn"
-              class="tarea-color-preview-btn"
-              style="background: #cccccc"
-            ></button>
+            <div class="row g-2 align-items-center mb-2">
+              <div class="col-4 d-flex align-items-center">
+                <span style="font-size:1.01rem;color:#222;">Ubicación:</span>
+              </div>
+              <div class="col-8">
+                <input type="text" class="form-control" id="taskLocation" placeholder="..." maxlength="40"
+                  style="border-radius:8px;border:1.5px solid #cfd0db;font-size:1rem;background:#ede7f6;color:#74408c;">
+              </div>
+            </div>
+            <div class="row g-2 align-items-center mb-2">
+              <div class="col-7 d-flex align-items-center">
+                <span style="font-size:1.01rem;color:#222;">Color de la Tarea:</span>
+              </div>
+              <div class="col-5">
+                <input type="color" class="form-control form-control-color" id="taskColor"
+                  value="#cfd0db" title="Elige color"
+                  style="width:2.2rem;height:2.2rem;border-radius:50%;border:1.5px solid #b393c8;background:#fff;padding:0;">
+              </div>
+            </div>
           </div>
-          <div class="tarea-form-actions">
-            <button type="button" class="tarea-btn tarea-btn-cancel">
+          <div class="modal-footer" style="border-top:none;display:flex;justify-content:flex-end;gap:0.7rem;">
+            <button type="button" class="modal-btn modal-btn-cancel btn" data-bs-dismiss="modal"
+              style="background:#fff;color:#222;border:1.5px solid #cfd0db;border-radius:10px;padding:0.5rem 1.2rem;font-size:1.08rem;font-family:'Poppins',sans-serif;font-weight:500;">
               Cancelar
             </button>
-            <button type="submit" class="tarea-btn tarea-btn-save">
+            <button type="button" class="modal-btn modal-btn-save btn" id="modalTaskSaveBtn"
+              style="background:#222;color:#fff;border:1.5px solid #b393c8;border-radius:10px;padding:0.5rem 1.2rem;font-size:1.08rem;font-family:'Poppins',sans-serif;font-weight:500;display:flex;align-items:center;gap:0.5rem;">
+              <span id="modalTaskSaveBtnText">Guardar</span>
+              <span id="modalTaskSaveSpinner" class="spinner-border spinner-border-sm" style="display:none;" role="status" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Crear Materia (Bootstrap) -->
+    <div class="modal fade" id="modalCreateSubject" tabindex="-1" aria-labelledby="modalSubjectTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background:#f8f8fb;border-radius:22px;box-shadow:0 4px 24px 0 rgba(116,64,140,0.13);border:none;">
+          <div class="modal-header" style="border-bottom:none;display:flex;align-items:center;justify-content:space-between;">
+            <div style="display:flex;align-items:center;gap:0.7rem;">
+              <span class="material-icons" style="color:#74408c;font-size:2rem;opacity:0.93;">menu_book</span>
+              <h5 class="modal-title" id="modalSubjectTitleLabel" style="color:#222;font-size:1.18rem;font-weight:600;margin:0;">Nueva Materia</h5>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" style="filter:invert(0.7);margin-left:auto;width:2.2rem;height:2.2rem;"></button>
+          </div>
+          <div class="modal-body" style="padding-top:0.3rem;">
+            <input class="form-control mb-2" id="subjectName" placeholder="Nombre de Materia ..." maxlength="60"
+              style="font-size:1.18rem;font-weight:600;border-radius:10px;border:1.5px solid #bfc3d9;background:#e7e7ef;color:#222;"/>
+            <textarea class="form-control mb-2" id="subjectDesc" placeholder="Descripción..." rows="2"
+              style="border-radius:10px;border:1.5px solid #bfc3d9;background:#fff;color:#222;font-size:1.05rem;"></textarea>
+            <div class="mb-2 d-flex align-items-center">
+              <span style="font-size:1.01rem;color:#222;width:110px;">Tipo de Color:</span>
+              <select id="subjectColorType" class="form-select"
+                style="width:auto;min-width:110px;border-radius:8px;border:1.5px solid #bfc3d9;background:#e7e7ef;color:#74408c;font-size:1.01rem;">
+                <option value="">Frío/Cálido</option>
+                <option value="frio">Frío</option>
+                <option value="calido">Cálido</option>
+              </select>
+            </div>
+            <div class="mb-2 d-flex align-items-center">
+              <span style="font-size:1.01rem;color:#222;width:110px;">Color de la Materia:</span>
+              <div id="subjectColorCarte"
+                style="margin-left:0;width:2.3rem;height:2.3rem;border-radius:50%;border:2.5px solid #b393c8;background:#c7d2fa;box-shadow:0 2px 8px 0 rgba(116,64,140,0.10);cursor:pointer;position:relative;"
+                tabindex="0"></div>
+              <input type="hidden" id="subjectColor" value="#c7d2fa">
+            </div>
+          </div>
+          <div class="modal-footer" style="border-top:none;display:flex;justify-content:flex-end;gap:0.7rem;">
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal"
+              style="background:#fff;color:#222;border:1.5px solid #cfd0db;border-radius:10px;padding:0.5rem 1.2rem;font-size:1.08rem;">
+              Cancelar
+            </button>
+            <button type="button" class="btn btn-dark" id="modalSubjectSaveBtn"
+              style="border-radius:10px;padding:0.5rem 1.2rem;font-size:1.08rem;">
               Guardar
             </button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
-    <!-- Agrega el modal para crear nota antes del cierre de </body> -->
-    <div class="crear-nota-modal-overlay" id="crearNotaModalOverlay"></div>
-    <div class="crear-nota-modal" id="crearNotaModal">
-      <div class="crear-nota-modal-content">
-        <button
-          class="crear-nota-modal-close"
-          id="crearNotaModalClose"
-          aria-label="Cerrar"
-        >
-          <i class="fa fa-times"></i>
-        </button>
-        <h2 class="crear-nota-modal-title">Crear Nota</h2>
-        <form class="crear-nota-form">
-          <input
-            type="text"
-            class="crear-nota-input nombre-nota"
-            placeholder="Título de la nota..."
-          />
-          <div class="crear-nota-form-row">
-            <label>Materia:</label>
-            <select class="crear-nota-input select-materia">
-              <option value="">Seleccionar...</option>
-              <!-- Opciones dinámicas -->
-            </select>
-          </div>
-          <textarea
-            class="crear-nota-input nota-desc"
-            placeholder="Nota..."
-          ></textarea>
-          <div class="crear-nota-form-actions">
-            <button type="button" class="crear-nota-btn crear-nota-btn-cancel">
-              Cancelar
-            </button>
-            <button type="submit" class="crear-nota-btn crear-nota-btn-save">
-              Guardar
-            </button>
-          </div>
-        </form>
+
+    <!-- Paleta Popover -->
+    <div id="colorPalettePopover" style="display:none;position:absolute;z-index:2000;background:#e0dfe3;border-radius:12px;box-shadow:0 4px 18px 0 rgba(116,64,140,0.13);padding:0.7rem 0.7rem 0.5rem 0.7rem;">
+      <div id="colorPaletteGrid" style="display:grid;grid-template-columns:repeat(5,1.8rem);gap:0.5rem 0.7rem;"></div>
+    </div>
+
+    <!-- Toasts Bootstrap -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 3000">
+      <div id="mainToast" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+          <div class="toast-body" id="mainToastBody"></div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar"></button>
+        </div>
       </div>
     </div>
-    <script src="js/pages/panel.js"></script>
-  </body>
+
+    <!-- Modal Ver Nota -->
+    <div class="modal fade" id="modalViewNote" tabindex="-1" aria-labelledby="modalViewNoteTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="background:rgba(255,255,255,0.98);border-radius:22px;box-shadow:0 4px 24px 0 rgba(116,64,140,0.18);border:none;">
+      <div class="modal-header" style="border-bottom:none;">
+        <div style="display:flex;align-items:center;gap:0.7rem;">
+          <span class="material-icons" style="color:#74408c;font-size:2rem;opacity:0.93;">edit_note</span>
+          <h5 class="modal-title" id="modalViewNoteTitle" style="color:#74408c;font-size:1.18rem;font-weight:600;margin:0;"></h5>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body" style="padding-top:0.3rem;">
+        <div id="modalViewNoteMateria" style="color:#8e44ad;font-size:1.01rem;font-weight:500;margin-bottom:0.4rem;display:none;"></div>
+        <div id="modalViewNoteText" style="color:#222;font-size:1.09rem;margin-bottom:0.7rem;white-space:pre-line;"></div>
+        <div id="modalViewNoteFecha" style="color:#74408c;font-size:0.97rem;text-align:right;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/panel.js"></script>
+</body>
 </html>

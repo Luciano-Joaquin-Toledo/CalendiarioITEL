@@ -1,85 +1,108 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=320, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calendario</title>
-    <link rel="stylesheet" href="css/panel.css" />
-    <link rel="stylesheet" href="css/calendario.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-    />
-  </head>
-  <body>
-    <div class="panel-container">
-      <nav class="top-navbar">
-        <i class="fa fa-chevron-down nav-icon" id="open-menu"></i>
-        <span class="navbar-title"></span>
-        <i class="fa fa-search nav-icon"></i>
-      </nav>
-      <div class="side-menu-overlay" id="sideMenuOverlay"></div>
-      <aside class="side-menu" id="sideMenu">
-        <button
-          class="side-menu-close"
-          id="sideMenuClose"
-          aria-label="Cerrar menú"
-        >
-          <i class="fa fa-times"></i>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="./css/calendario.css">
+</head>
+<body>
+    <!-- Side Menu Overlay & Menu -->
+    <div class="side-menu-overlay" id="sideMenuOverlay"></div>
+    <nav class="side-menu" id="sideMenu" tabindex="-1" aria-label="Menú principal" style="display:none;">
+        <button class="close-btn" id="closeSideMenu" aria-label="Cerrar menú">
+            <span class="material-icons">close</span>
         </button>
-        <ul>
-          <li onclick="location.href='./panel.html'" style="cursor:pointer;">
-            <i class="fa fa-house"></i> <span>Inicio</span>
-          </li>
-          <li onclick="location.href='./calendario.html'" style="cursor:pointer;">
-            <i class="fa-regular fa-calendar"></i> <span>Calendario</span>
-          </li>
-          <li onclick="location.href='./tareas.html'" style="cursor:pointer;">
-            <i class="fa-regular fa-square-check"></i> <span>Tareas</span>
-          </li>
-          <li onclick="location.href='./materias.html'" style="cursor:pointer;">
-            <i class="fa-regular fa-book"></i> <span>Materias</span>
-          </li>
-          <li onclick="location.href='./estadisticas.html'" style="cursor:pointer;">
-            <i class="fa-solid fa-chart-simple"></i> <span>Estadísticas</span>
-          </li>
-          <li onclick="location.href='./perfil.html'" style="cursor:pointer;">
-            <i class="fa-regular fa-user"></i> <span>Perfil</span>
-          </li>
-          <li class="menu-divider"></li>
-          <li onclick="location.href='./acerca.html'" style="cursor:pointer;">
-            <i class="fa-regular fa-circle-question"></i> <span>Acerca de</span>
-          </li>
-        </ul>
-      </aside>
-      <!-- Contenido principal vacío aquí -->
-      <div class="calendario-widget" id="calendarioWidget">
-        <div class="calendario-header">
-          <button class="cal-btn" id="prevMonthBtn">&lt;</button>
-          <span class="calendario-mes" id="calMes"></span>
-          <button class="cal-btn" id="nextMonthBtn">&gt;</button>
+        <div class="menu-section-title">Inicio</div>
+        <div class="menu-list">
+            <a href="panel.html" class="menu-item"><span class="material-icons">home</span>Inicio</a>
+            <a href="calendario.html" class="menu-item"><span class="material-icons">calendar_month</span>Calendario</a>
+            <a href="tareas.html" class="menu-item"><span class="material-icons">assignment</span>Tareas</a>
+            <a href="materias.html" class="menu-item"><span class="material-icons">menu_book</span>Materias</a>
+            <a href="pendientes.html" class="menu-item"><span class="material-icons">pending_actions</span>Pendientes</a>
+            <a href="estadisticas.html" class="menu-item"><span class="material-icons">bar_chart</span>Estadísticas</a>
         </div>
-        <div class="calendario-grid">
-          <div class="cal-row cal-header-row">
-            <div class="cal-cell">Lun</div>
-            <div class="cal-cell">Mar</div>
-            <div class="cal-cell">Mié</div>
-            <div class="cal-cell">Jue</div>
-            <div class="cal-cell">Vie</div>
-            <div class="cal-cell">Sáb</div>
-            <div class="cal-cell">Dom</div>
+        <div class="menu-section-title">Perfil</div>
+        <div class="menu-list">
+            <a href="perfil.html" class="menu-item"><span class="material-icons">person</span>Perfil</a>
+        </div>
+        <div class="menu-divider"></div>
+        <div class="menu-bottom">
+            <a href="nosotros.html" class="menu-item"><span class="material-icons">info</span>Acerca de</a>
+        </div>
+    </nav>
+    <div class="container">
+        <!-- Search bar -->
+        <div class="search-bar mt-3">
+            <span class="material-icons" id="openSideMenuBtn" style="cursor:pointer;">expand_more</span>
+            <input type="text" placeholder="Buscar..." id="mainSearch" aria-label="Buscar">
+            <span class="material-icons">search</span>
+        </div>
+
+        <!-- Indicador de recordatorios -->
+        <div id="reminderCountBox" style="text-align:center; margin-bottom:1rem; font-size:1.08rem; color:var(--color-2); font-weight:600;">
+            <!-- Se actualiza por JS -->
+        </div>
+
+        <!-- Calendario -->
+        <div class="calendar-container">
+            <div class="calendar-header">
+                <button class="month-btn" id="prevMonthBtn"><span class="material-icons">chevron_left</span></button>
+                <span class="month-title" id="monthTitle"></span>
+                <button class="month-btn" id="nextMonthBtn"><span class="material-icons">chevron_right</span></button>
+            </div>
+            <table class="calendar-table" id="calendarTable">
+                <!-- Calendar will be rendered here -->
+            </table>
+        </div>
+
+        <!-- Resumen de próximos recordatorios -->
+        <div id="reminderSummaryBox" style="margin:1.2rem auto 0 auto; max-width:370px;"></div>
+    </div>
+    <!-- Modal personalizado para añadir/ver/editar recordatorio -->
+    <div id="reminderModalCustom" class="custom-modal-overlay" style="display:none;" aria-modal="true" role="dialog">
+      <div class="custom-modal" role="document">
+        <form id="reminderForm" autocomplete="off">
+          <div class="custom-modal-header">
+            <span class="custom-modal-title" id="reminderModalTitle">Añadir recordatorio</span>
+            <button type="button" class="custom-modal-close" id="closeReminderModal" aria-label="Cerrar">&times;</button>
           </div>
-          <div id="calBody"></div>
-        </div>
+          <div class="custom-modal-body" id="reminderModalBody">
+            <!-- Añadir/Editar -->
+            <div class="mb-3" id="reminderInputBox">
+              <label for="reminderText" class="form-label">Recordatorio</label>
+              <input type="text" class="form-control" id="reminderText" required aria-label="Texto del recordatorio">
+              <label for="reminderCategory" class="form-label mt-2">Categoría</label>
+              <select id="reminderCategory" class="form-select" aria-label="Categoría">
+                <option value="tarea" style="color:var(--color-tarea)">Tarea</option>
+                <option value="examen" style="color:var(--color-examen)">Examen</option>
+                <option value="evento" style="color:var(--color-evento)">Evento</option>
+              </select>
+              <input type="hidden" id="reminderEditIndex">
+            </div>
+            <!-- Lista de recordatorios del día -->
+            <div id="reminderListBox" style="margin-bottom:0.7rem;display:none;">
+              <div style="font-size:1.08rem; color:var(--color-1); margin-bottom:0.5rem;">
+                <span class="material-icons" style="vertical-align:middle;font-size:1.3em;">event_note</span>
+                Recordatorios del día:
+              </div>
+              <ul id="reminderList" class="list-group"></ul>
+            </div>
+            <input type="hidden" id="reminderDate">
+          </div>
+          <div class="custom-modal-footer" id="reminderModalFooter">
+            <button type="button" class="btn btn-secondary" id="cancelReminderBtn">Cancelar</button>
+            <button type="submit" class="btn btn-primary" id="saveReminderBtn">Guardar</button>
+            <button type="button" class="btn btn-danger" id="deleteReminderBtn" style="display:none;">Eliminar</button>
+            <button type="button" class="btn btn-success" id="addNewReminderBtn" style="display:none;">Nuevo</button>
+          </div>
+        </form>
       </div>
     </div>
-    <!-- No hay cambios necesarios en el HTML, los modales y overlays se crean por JS -->
-    <script src="js/pages/calendario.js"></script>
-  </body>
+<script src="./js/calendario.js"></script>
+</body>
 </html>
+
