@@ -1,5 +1,13 @@
 <?php
 Require ("../config/config.php");
+session_start();
+if (isset($_SESSION['user_id'])) {
+    header("Location: panel.php");
+    exit();
+}
+
+$error_login = $_SESSION['error_login'] ?? '';
+unset($_SESSION['error_login']);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -20,19 +28,22 @@ Require ("../config/config.php");
         <!-- Título -->
         <div class="login-title mb-2">Iniciar sesión</div>
         <div class="login-subtitle mb-3">Ingresa tu usuario y contraseña para acceder</div>
+        <?php if ($error_login): ?>
+    <div class="alert alert-danger text-center"><?php echo $error_login; ?></div>
+<?php endif; ?>
         <!-- Formulario -->
-        <form action="..\data\log.php" method="post">
+        <form action="../data/log.php" method="post">
             <div class="input-group">
                 <span class="input-group-text">
                     <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M16 16c0-2.2-2.7-4-6-4s-6 1.8-6 4"/></svg>
                 </span>
-                <input type="text" class="form-control" placeholder="Usuario" required aria-label="Usuario">
+                <input type="text" name="nombre_usuario" class="form-control" placeholder="Usuario" required aria-label="Usuario">
             </div>
             <div class="input-group mb-1">
                 <span class="input-group-text">
                     <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                 </span>
-                <input type="password" class="form-control" placeholder="Contraseña" required aria-label="Contraseña">
+                <input type="password" name="contrasena" class="form-control" placeholder="Contraseña" required aria-label="Contraseña">
             </div>
             <a href="#" class="forgot-link">¿Olvidaste tu contraseña?</a>
             <button type="submit" class="login-btn">Entrar</button>
@@ -52,7 +63,7 @@ Require ("../config/config.php");
         </button>
         <div class="extra-links mb-2">
             ¿No tienes una cuenta?
-            <a href="#" class="register-link">Regístrate</a>
+            <a href="./registro.php" class="register-link">Regístrate</a>
         </div>
         <div class="extra-links">
             ¿Necesitas ayuda? Visita nuestro

@@ -1,9 +1,8 @@
 <?php
-Require ("../config/config.php");
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +13,7 @@ Require ("../config/config.php");
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/registro.css">
 </head>
+
 <body>
     <div class="register-container">
         <!-- Logo -->
@@ -37,11 +37,11 @@ Require ("../config/config.php");
             <button type="submit" class="register-btn">Siguiente</button>
         </form>
         <div class="extra-links mt-3">
-            ¿Necesitas ayuda? Visita nuestro
-            <a href="#" class="help-link">centro de ayuda</a>
+            <a href="login.php" class="help-link">Inicia sesión aquí</a>
         </div>
     </div>
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
